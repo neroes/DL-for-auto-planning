@@ -1,0 +1,3 @@
+javac searchclient/*.java
+
+pause
