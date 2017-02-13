@@ -10,7 +10,6 @@ import searchclient.Command.Type;
 
 public class Node {
 	private static final Random RND = new Random(1);
-	public int age = 0;
 
 	public int MAX_ROW;
 	public int MAX_COL;
@@ -29,8 +28,8 @@ public class Node {
 	//
 
 	public boolean[][] walls;
-	public char[][] boxes;
-	public char[][] goals;
+	public byte[][] boxes;
+	public byte[][] goals;
 
 	public Node parent;
 	public Command action;
@@ -43,7 +42,7 @@ public class Node {
 		this.MAX_ROW = mrow;
 		this.MAX_COL = mcol;
 		this.parent = parent;
-		this.boxes = new char[mrow][mcol];
+		this.boxes = new byte[mrow][mcol];
 		if (parent == null) {
 			this.g = 0;
 		} else {
@@ -62,9 +61,8 @@ public class Node {
 	public boolean isGoalState() {
 		for (int row = 1; row < MAX_ROW - 1; row++) {
 			for (int col = 1; col < MAX_COL - 1; col++) {
-				char g = goals[row][col];
-				char b = Character.toLowerCase(boxes[row][col]);
-				if (g > 0 && b != g) {
+				byte g = goals[row][col];
+				if (g > 0 && boxes[row][col] != g) {
 					return false;
 				}
 			}
@@ -76,9 +74,8 @@ public class Node {
 		int i = 0;
 		for (int row = 1; row < MAX_ROW - 1; row++) {
 			for (int col = 1; col < MAX_COL - 1; col++) {
-				char h = goals[row][col];
-				char b = Character.toLowerCase(boxes[row][col]);
-				if (h > 0 && b != h) {
+				byte g = goals[row][col];
+				if (g > 0 && boxes[row][col] != g) {
 					i++;
 				}
 			}

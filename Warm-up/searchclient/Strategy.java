@@ -142,12 +142,14 @@ public abstract class Strategy {
 	public static class StrategyBestFirst extends Strategy {
 		private Heuristic heuristic;
 		private TreeSet<Node> frontier;
+		private int nodeCount;
 		private HashSet<Node> frontierSet;
 
 		public StrategyBestFirst(Heuristic h) {
 			super();
 			this.heuristic = h;
 			frontier = new TreeSet<Node>(this.heuristic);
+			this.nodeCount = 0;
 			frontierSet = new HashSet<Node>();
 		}
 
@@ -160,10 +162,8 @@ public abstract class Strategy {
 
 		@Override
 		public void addToFrontier(Node n) {
-			System.err.println("!");
-			System.err.println(this.heuristic.f(n));
+			n.age = this.nodeCount++;
 			frontier.add(n);
-			System.err.println(this.heuristic.f(frontier.first()));
 			frontierSet.add(n);
 		}
 

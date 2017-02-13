@@ -12,18 +12,17 @@ public abstract class Heuristic implements Comparator<Node> {
 
 	public int h(Node n) {
 		return n.notInGoal();
-		// Not done
-		// Distance between two nodes.
-		// Box distance from goals?
-		// Player distance from something?
-		// Distance from player to box to goal. Weigh distance to box.
 	}
 
 	public abstract int f(Node n);
 
 	@Override
 	public int compare(Node n1, Node n2) {
-		return this.f(n1) - this.f(n2);
+		int res = this.f(n1) - this.f(n2);
+		if (res == 0){
+			return Integer.compare(n1.age, n2.age);
+		}
+		return res;
 	}
 
 	public static class AStar extends Heuristic {
