@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import searchclient.Memory;
 import searchclient.Strategy.*;
@@ -14,73 +16,71 @@ public class SearchClient {
 
 	public SearchClient(BufferedReader serverMessages) throws Exception {
 		// Read lines specifying colors
+		ArrayList<String> lines = new ArrayList<String>(70);
 		String line = serverMessages.readLine();
-		if (line.matches("^[a-z]+:\\s*[0-9A-Z](\\s*,\\s*[0-9A-Z])*\\s*$")) {
+
+		int MAX_COL = 0;
+
+		while (!line.equals("")) {
+			lines.add(line);
+			MAX_COL = Math.max(MAX_COL, line.length());
+			line = serverMessages.readLine();
+		}
+
+		int MAX_ROW = lines.size();
+
+		if (lines.get(0).matches("^[a-z]+:\\s*[0-9A-Z](\\s*,\\s*[0-9A-Z])*\\s*$")) {
 			System.err.println("Error, client does not support colors.");
 			System.exit(1);
 		}
 
-		int MAX_ROW = 70;
-		int MAX_COL = 70;
-
-		int row = 0;
 		boolean agentFound = false;
-		int maxlinelength = 0;
 		int arow = 0;
 		int acol = 0;
 
-		boolean[][] walls = new boolean[MAX_ROW][MAX_COL];
-		char[][] goals = new char[MAX_ROW][MAX_COL];
-		char[][] boxes = new char[MAX_ROW][MAX_COL];
+		this.initialState = new Node(null, MAX_ROW, MAX_COL, 0);
 
-		while (!line.equals("")) {
-			for (int col = 0; col < line.length(); col++) {
-				char chr = line.charAt(col);
+		this.initialState.walls = new boolean[MAX_ROW][MAX_COL];
+		this.initialState.goals = new HashMap<Byte, ObjectPos>(1);
+		this.initialState.boxes = new HashMap<Byte, ObjectPos>(1);
 
+		for (int row = 0; row < MAX_ROW; row++){
+			for (int col = 0; col < lines.get(row).length(); col++) {
+				char chr = lines.get(row).charAt(col);
 				if (chr == '+') { // Wall.
-					walls[row][col] = true;
+					this.initialState.walls[row][col] = true;
 				} else if ('0' <= chr && chr <= '9') { // Agent.
 					if (agentFound) {
 						System.err.println("Error, not a single agent level");
 						System.exit(1);
 					}
 					agentFound = true;
-					arow = row;
-					acol = col;
+					this.initialState.agentRow = row;
+					this.initialState.agentCol = col;
 				} else if ('A' <= chr && chr <= 'Z') { // Box.
-					boxes[row][col] = chr;
+					byte b = (byte) Character.toLowerCase(chr);
+					ObjectPos val = new ObjectPos(row, col);
+					if (this.initialState.boxes.containsKey(b)){
+						val = this.initialState.boxes.remove(b);
+						val.addPos(row, col);
+					}
+					this.initialState.boxes.put(b, val);
 				} else if ('a' <= chr && chr <= 'z') { // Goal.
-					goals[row][col] = chr;
+					byte g = (byte) chr;
+					ObjectPos val = new ObjectPos(row, col);
+					if (this.initialState.goals.containsKey(g)){
+						val = this.initialState.goals.remove(g);
+						val.addPos(row, col);
+					}
+					this.initialState.goals.put(g, val);
 				} else if (chr == ' ') {
 					// Free space.
 				} else {
 					System.err.println("Error, read invalid level character: " + (int) chr);
 					System.exit(1);
 				}
-
-				if (maxlinelength < line.length())
-					maxlinelength = line.length();
 			}
-			line = serverMessages.readLine();
-			row++;
 		}
-
-		this.initialState = new Node(null, row, maxlinelength);
-
-		this.initialState.agentRow = arow;
-		this.initialState.agentCol = acol;
-
-		boolean[][] rwalls = new boolean[row][maxlinelength];
-		char[][] rgoals = new char[row][maxlinelength];
-
-		for (int r = 0; r < row; r++) {
-			System.arraycopy(walls[r], 0, rwalls[r], 0, maxlinelength);
-			System.arraycopy(goals[r], 0, rgoals[r], 0, maxlinelength);
-			System.arraycopy(boxes[r], 0, this.initialState.boxes[r], 0, maxlinelength);
-		}
-
-		this.initialState.walls = rwalls;
-		this.initialState.goals = rgoals;
 	}
 
 	public LinkedList<Node> Search(Strategy strategy) throws IOException {
@@ -105,6 +105,7 @@ public class SearchClient {
 			}
 
 			strategy.addToExplored(leafNode);
+
 			for (Node n : leafNode.getExpandedNodes()) { // The list of expanded nodes is shuffled randomly; see Node.java.
 				if (!strategy.isExplored(n) && !strategy.inFrontier(n)) {
 					strategy.addToFrontier(n);
@@ -167,7 +168,6 @@ public class SearchClient {
 			System.err.println("\nSummary for " + strategy.toString());
 			System.err.println("Found solution of length " + solution.size());
 			System.err.println(strategy.searchStatus());
-
 			for (Node n : solution) {
 				String act = n.action.toString();
 				System.out.println(act);

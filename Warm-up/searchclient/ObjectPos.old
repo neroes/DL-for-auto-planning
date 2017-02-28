@@ -1,0 +1,105 @@
+package searchclient;
+
+import java.util.HashSet;
+import java.awt.Point;
+
+public class ObjectPos {
+	public HashSet<Point> points;
+	private int _hash = 0;
+	private boolean changed = false;
+
+	public ObjectPos(int row, int col) {
+		points = new HashSet<Point>(1);
+		if (row >= 0 && col >= 0)
+			this.addPos(row, col);
+	}
+
+	public ObjectPos(HashSet<Point> plist) {
+		this.points = plist;
+	}
+
+	public void addPos(int row, int col) {
+		points.add(new Point(row, col));
+		changed = true;
+	}
+
+	public ObjectPos clone() {
+		HashSet<Point> newpoints = new HashSet<Point>(this.points.size(), 1);
+		for (Point point : this.points){
+			newpoints.add(point.getLocation());
+		}
+		return new ObjectPos(newpoints);
+	}
+
+	public HashSet<Point> getPoints() {
+		return points;
+	}
+
+	@Override
+	public int hashCode() {
+		if (this._hash == 0 || changed) {
+			int x = 1;
+			int y = 1;
+			int wprod = 1;
+			for (Point point : this.points) {
+				x = x * (point.x + 2);
+				y = y * (point.y + 2);
+				wprod = wprod + powx(point.x, 12) * powx(point.y, 2);
+			}
+			this._hash = 101 * x + 31 * y + 73 * wprod;
+		}
+		return this._hash;
+	}
+
+	public int powx(int in, int iter) {
+		int out = in;
+		for (int i = 0; i < iter; i++) {
+			out = out * in;
+		}
+		return out;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (this.getClass() != obj.getClass())
+			return false;
+		ObjectPos other = (ObjectPos) obj;
+		if (!this.points.equals(other.getPoints()))
+			return false;
+		return true;
+	}
+
+	public boolean containsAll(HashSet<Point> req) {
+		return points.containsAll(req);
+	}
+
+	public boolean contains(int row, int col) {
+		return points.contains(new Point(row, col));
+	}
+
+	public void moveBox(int oldrow, int oldcol, int newrow, int newcol) {
+		//Point point = new Point(oldrow, oldcol);
+		//points.remove(point);
+		for (Point point : this.points) {
+			if (point.x == oldrow && point.y == oldcol) {
+				points.remove(point);
+				point.setLocation(newrow, newcol);
+				points.add(point);
+				break;
+			}
+		}
+		//point.setLocation(newrow, newcol);
+
+		//points.add(point);
+		changed = true;
+	}
+
+	@Override
+	public String toString() {
+		return this.points.toString();
+	}
+}

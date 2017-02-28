@@ -2,18 +2,16 @@ package searchclient;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 import searchclient.Memory;
-import searchclient.NotImplementedException;
 
 public abstract class Strategy {
 	private HashSet<Node> explored;
 	private final long startTime;
 
 	public Strategy() {
-		this.explored = new HashSet<Node>();
+		this.explored = new HashSet<Node>(2000000);
 		this.startTime = System.currentTimeMillis();
 	}
 
@@ -56,8 +54,8 @@ public abstract class Strategy {
 
 		public StrategyBFS() {
 			super();
-			frontier = new ArrayDeque<Node>();
-			frontierSet = new HashSet<Node>();
+			frontier = new ArrayDeque<Node>(500000);
+			frontierSet = new HashSet<Node>(500000);
 		}
 
 		@Override
@@ -100,8 +98,8 @@ public abstract class Strategy {
 
 		public StrategyDFS() {
 			super();
-			frontier = new ArrayDeque<Node>();
-			frontierSet = new HashSet<Node>();
+			frontier = new ArrayDeque<Node>(500000);
+			frontierSet = new HashSet<Node>(500000);
 		}
 
 		@Override
@@ -142,15 +140,13 @@ public abstract class Strategy {
 	public static class StrategyBestFirst extends Strategy {
 		private Heuristic heuristic;
 		private TreeSet<Node> frontier;
-		private int nodeCount;
 		private HashSet<Node> frontierSet;
-
+		
 		public StrategyBestFirst(Heuristic h) {
 			super();
 			this.heuristic = h;
 			frontier = new TreeSet<Node>(this.heuristic);
-			this.nodeCount = 0;
-			frontierSet = new HashSet<Node>();
+			frontierSet = new HashSet<Node>(500000);
 		}
 
 		@Override
@@ -162,7 +158,6 @@ public abstract class Strategy {
 
 		@Override
 		public void addToFrontier(Node n) {
-			n.age = this.nodeCount++;
 			frontier.add(n);
 			frontierSet.add(n);
 		}
