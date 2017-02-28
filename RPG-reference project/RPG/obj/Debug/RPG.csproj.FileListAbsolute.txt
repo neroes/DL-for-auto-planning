@@ -161,3 +161,6 @@ C:\Users\Daniel\Dropbox\Windows Programming\RPG\RPG\bin\Debug\Data\Level 3.xml
 D:\Dropbox\Windows Programming\RPG\RPG\bin\Debug\RPG.exe.config
 D:\Dropbox\Windows Programming\RPG\RPG\obj\Debug\RPG.exe
 D:\Dropbox\Windows Programming\RPG\RPG\obj\Debug\RPG.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPG.exe.config
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.exe
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.pdb

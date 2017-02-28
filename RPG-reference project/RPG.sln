@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPG", "RPG\RPG.csproj", "{2D0FD56E-066C-49E0-9697-2009FC645607}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPG.Model", "RPGModel\RPG.Model.csproj", "{2B68F27E-2EB5-4CB7-A30C-7DAF0D226681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agent.model", "Agent.model\Agent.model.csproj", "{9C7F01F6-2A17-4153-BD6E-B95AB16FE957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2B68F27E-2EB5-4CB7-A30C-7DAF0D226681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B68F27E-2EB5-4CB7-A30C-7DAF0D226681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B68F27E-2EB5-4CB7-A30C-7DAF0D226681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C7F01F6-2A17-4153-BD6E-B95AB16FE957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7F01F6-2A17-4153-BD6E-B95AB16FE957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C7F01F6-2A17-4153-BD6E-B95AB16FE957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C7F01F6-2A17-4153-BD6E-B95AB16FE957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
