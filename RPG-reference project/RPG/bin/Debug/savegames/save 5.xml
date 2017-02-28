@@ -1,0 +1,36 @@
+<SOAP-ENV:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<a1:SaveData id="ref-1" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/RPGModel/RPGModel%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull">
+<Level>1</Level>
+<Player_x0020_stasts_x0020_and_x0020_pos. href="#ref-3"/>
+<Monster_x0020_stats_x0020__x0026__x0020_pos. href="#ref-4"/>
+<item_x0020_used href="#ref-5"/>
+</a1:SaveData>
+<SOAP-ENC:Array id="ref-3" SOAP-ENC:arrayType="xsd:int[8]">
+<item>0</item>
+<item>2</item>
+<item>70</item>
+<item>1</item>
+<item>2</item>
+<item>0</item>
+<item>0</item>
+<item>0</item>
+</SOAP-ENC:Array>
+<SOAP-ENC:Array id="ref-4" SOAP-ENC:arrayType="xsd:int[2,6]">
+<item>1</item>
+<item>2</item>
+<item>9</item>
+<item>4</item>
+<item>5</item>
+<item>6</item>
+<item>3</item>
+<item>3</item>
+<item>2</item>
+<item>4</item>
+<item>2</item>
+<item>3</item>
+</SOAP-ENC:Array>
+<SOAP-ENC:Array id="ref-5" SOAP-ENC:arrayType="xsd:int[0]">
+</SOAP-ENC:Array>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

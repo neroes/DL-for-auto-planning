@@ -1,0 +1,126 @@
+﻿<Window x:Class="RPG.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Model="clr-namespace:RPGModel;assembly=RPGModel"
+        xmlns:View="clr-namespace:RPG.View"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+        ResizeMode="NoResize"
+        Title="RPG" Height="697" Width="616">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type Model:Tile}">
+            <Canvas>
+                <View:TileUserControl/>
+            </Canvas>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type Model:Entity}">
+            <Canvas>
+                <View:EntityUserControl/>
+            </Canvas>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type Model:PlayerEntity}">
+            <Canvas>
+                <View:PlayerEntityUserControl/>
+            </Canvas>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type Model:TriggerEntity}">
+            <Canvas>
+                <View:TriggerEntityUserControl/>
+            </Canvas>
+        </DataTemplate>
+    </Window.Resources>
+
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
+                    Executed="shutdown"
+                    CanExecute="canShutdown"
+                    />
+    </Window.CommandBindings>
+    
+    <DockPanel>
+        <Grid Margin="0,18,0,-18">
+            <ItemsControl ItemsSource="{Binding map}"/>
+            <ContentControl Content="{Binding nextLevelTrigger}"/>
+            <ItemsControl ItemsSource="{Binding triggers}"/>
+            <ItemsControl ItemsSource="{Binding monsters}"/>
+            <ItemsControl ItemsSource="{Binding items}"/>
+            <ContentControl Content="{Binding player}"/>
+        </Grid>
+        
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New Game" Command="{Binding StartGameCommand}">
+                    <MenuItem.CommandParameter><sys:Int32>1</sys:Int32></MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Header="Save Game">
+                    <MenuItem Header="Slot 1" Command="{Binding SaveGameCommand}" CommandParameter="1"/>
+                    <MenuItem Header="Slot 2" Command="{Binding SaveGameCommand}" CommandParameter="2"/>
+                    <MenuItem Header="Slot 3" Command="{Binding SaveGameCommand}" CommandParameter="3"/>
+                    <MenuItem Header="Slot 4" Command="{Binding SaveGameCommand}" CommandParameter="4"/>
+                    <MenuItem Header="Slot 5" Command="{Binding SaveGameCommand}" CommandParameter="5"/>
+                </MenuItem>
+                <MenuItem Header="Load Game">
+                    <MenuItem Header="Slot 1" Command="{Binding StartGameCommand}" >
+                        <MenuItem.CommandParameter><sys:Int32>-1</sys:Int32></MenuItem.CommandParameter>
+                    </MenuItem>
+
+                    <MenuItem Header="Slot 2" Command="{Binding StartGameCommand}">
+                        <MenuItem.CommandParameter><sys:Int32>-2</sys:Int32></MenuItem.CommandParameter>
+                    </MenuItem>
+
+                    <MenuItem Header="Slot 3" Command="{Binding StartGameCommand}">
+                        <MenuItem.CommandParameter><sys:Int32>-3</sys:Int32></MenuItem.CommandParameter>
+                    </MenuItem>
+
+                    <MenuItem Header="Slot 4" Command="{Binding StartGameCommand}">
+                        <MenuItem.CommandParameter><sys:Int32>-4</sys:Int32></MenuItem.CommandParameter>
+                    </MenuItem>
+
+                    <MenuItem Header="Slot 5" Command="{Binding StartGameCommand}">
+                        <MenuItem.CommandParameter><sys:Int32>-5</sys:Int32></MenuItem.CommandParameter>
+                    </MenuItem>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Undo" Command="{Binding UndoCommand}" />
+                <MenuItem Header="Redo" Command="{Binding RedoCommand}"/>
+                <Separator/>
+                <MenuItem Header="Main Menu" Command="{Binding StartGameCommand}">
+                    <MenuItem.CommandParameter><sys:Int32>0</sys:Int32></MenuItem.CommandParameter>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Exit" Command="ApplicationCommands.Close" />
+            </MenuItem>
+        </Menu>
+        
+        <Grid DockPanel.Dock="Bottom" Height="40">
+            <Image Source="..\Sprites\Bar.png" />
+            <StackPanel Orientation="Horizontal">
+                
+                <Image Source="..\Sprites\Heart.png"/>
+                <TextBlock Text="{Binding player.hp}" Width="50" FontSize="30"/>
+                <Image Source="..\Sprites\Entities\item 2.png"/>
+                <TextBlock Text="{Binding player.defence}" Width="50" FontSize="30"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding statusMessage}" Width="100" FontSize="30"/>
+                <TextBlock Text="{Binding monsterFocus.hp}" Width="50" FontSize="30"/>
+                <Image Source="..\Sprites\Monsterheart.png"/>
+            </StackPanel>
+        </Grid>
+        
+        <Grid></Grid>
+    </DockPanel>
+
+    <Window.InputBindings>
+        <KeyBinding  Key="Down" Command="{Binding ArrowKeyActionCommand}" CommandParameter="{x:Static Model:Entity+Direction.DOWN}"/>
+        <KeyBinding  Key="Up" Command="{Binding ArrowKeyActionCommand}" CommandParameter="{x:Static Model:Entity+Direction.UP}"/>
+        <KeyBinding  Key="Left" Command="{Binding ArrowKeyActionCommand}" CommandParameter="{x:Static Model:Entity+Direction.LEFT}" />
+        <KeyBinding  Key="Right" Command="{Binding ArrowKeyActionCommand}" CommandParameter="{x:Static Model:Entity+Direction.RIGHT}"/>
+        <KeyBinding  Key="Z" Modifiers="Control" Command="{Binding UndoCommand}"/>
+        <KeyBinding  Key="Y" Modifiers="Control" Command="{Binding RedoCommand}"/>
+    </Window.InputBindings>
+    
+</Window>
