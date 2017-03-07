@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Agent.model
 {
-    class Node
+    public class Node
     {
         public int x;
         public int y;

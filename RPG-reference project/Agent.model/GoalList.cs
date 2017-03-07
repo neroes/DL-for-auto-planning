@@ -6,7 +6,8 @@ namespace Agent.model
 {
     class GoalList
     {
-        public Dictionary<char,GoalGroup> goalgroups;
+        Dictionary<char,GoalGroup> goalgroups;
+        
         public GoalList()
         {
             goalgroups = new Dictionary<char,GoalGroup>();

@@ -26,6 +26,7 @@ namespace Agent.model
             colordict[actor.getColor()].Add(actor);
         }
 
+        public Collection<Actor> getAllActors() { return actors; }
         public Actor this[char c]{ get { return namedict[c]; } }
         public Collection<Actor> this[Color c] { get { return colordict[c]; } }
     }

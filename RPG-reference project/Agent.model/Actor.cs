@@ -11,8 +11,8 @@ namespace Agent.model
     {
         Color color;
         char name;
-        int x;
-        int y;
+        public int x;
+        public int y;
         public enum Actions { UP, DOWN, LEFT, RIGHT, NONE,
                               UPUP, UPLEFT, UPRIGHT, UPDOWN,
                               DOWNUP, DOWNLEFT, DOWNRIGHT, DOWNDOWN,

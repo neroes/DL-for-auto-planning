@@ -23,7 +23,10 @@ namespace Agent.model
             boxes = new BoxList();
             goals = new GoalList();
         }
-
+        public Map (Map map)
+        {
+            this = map;
+        }
         public void setwall(int x, int y)
         {
             wallMap[x, y] = true;
@@ -61,14 +64,30 @@ namespace Agent.model
         }
 
 
-        internal bool isBox(int x, int v, Color color)
+        internal bool isBox(int x, int y, Color color)
         {
-            throw new NotImplementedException();
+            Collection<Node> checklist = boxes.getBoxesOfColor(color);
+            foreach (Node n in checklist)
+            {
+                if (n.x == x && n.y == y) { return true; }
+            }
+            return false;
+            
         }
 
-        internal bool isEmptySpace(int x, int v)
+        internal bool isEmptySpace(int x, int y)
         {
-            throw new NotImplementedException();
+            Collection<Node> checklist = boxes.getAllBoxes();
+            foreach (Node n in checklist)
+            {
+                if (n.x == x && n.y == y) { return false; }
+            }
+            Collection<Actor> checklist2 = actors.getAllActors();
+            foreach (Actor n in checklist2)
+            {
+                if (n.x == x && n.y == y) { return false; }
+            }
+            return true;
         }
 
         public bool isWall(int x, int y) { return wallMap[x, y]; }
