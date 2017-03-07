@@ -164,3 +164,42 @@ D:\Dropbox\Windows Programming\RPG\RPG\obj\Debug\RPG.pdb
 C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPG.exe.config
 C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.exe
 C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Data\Level 1.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Data\Level 2.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Data\Level Dead.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Data\Level 3.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Data\Level Win.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPG.exe
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPG.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.dll
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\GalaSoft.MvvmLight.WPF45.dll
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPGModel.dll
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\System.Windows.Interactivity.dll
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPGModel.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\GalaSoft.MvvmLight.WPF45.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\GalaSoft.MvvmLight.WPF45.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\System.Windows.Interactivity.xml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.csprojResolveAssemblyReference.cache
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\PlayerEntityUserControl.baml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\EntityUserControl.baml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\TileUserControl.baml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\TriggerEntityUserControl.baml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\PlayerEntityUserControl.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\EntityUserControl.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\MainWindow.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\TileUserControl.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\TriggerEntityUserControl.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\App.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG_MarkupCompile.cache
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG_MarkupCompile.lref
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\App.baml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\MainWindow.baml
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.g.resources
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.Properties.Resources.resources
+C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.csproj.GenerateResource.Cache

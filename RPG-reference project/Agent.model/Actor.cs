@@ -3,20 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Agent.model
 {
-    class Actor : Node
+    class Actor
     {
+        Color color;
+        char name;
+        int x;
+        int y;
         public enum Actions { UP, DOWN, LEFT, RIGHT, NONE,
                               UPUP, UPLEFT, UPRIGHT, UPDOWN,
                               DOWNUP, DOWNLEFT, DOWNRIGHT, DOWNDOWN,
                               LEFTUP, LEFTLEFT, LEFTRIGHT, LEFTDOWN,
                               RIGHTUP, RIGHTLEFT, RIGHTRIGHT, RIGHTDOWN};
 
-        public Actor (int x, int y, char color)
+        public Actor (int x, int y, char name)
         {
-            
+            this.x = x;
+            this.y = y;
+            this.color = Color.FromKnownColor(KnownColor.DarkGray);
+            this.name = name;
+        }
+        public Actor (Color color, char name)
+        {
+            this.color = color;
+            this.name = name;
+        }
+        public void addPos(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
         }
         public List<Actions> getActions(Map currentMap)
         {

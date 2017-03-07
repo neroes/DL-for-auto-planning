@@ -47,9 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor.cs" />
-    <Compile Include="Box.cs" />
-    <Compile Include="Goal.cs" />
+    <Compile Include="BoxList.cs" />
+    <Compile Include="GoalList.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapLoad.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

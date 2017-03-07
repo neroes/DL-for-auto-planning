@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Agent.model
 {
-    abstract class Node
+    class Node
     {
         public int x;
         public int y;
-        public char color;
-        
+        public Node (int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 }

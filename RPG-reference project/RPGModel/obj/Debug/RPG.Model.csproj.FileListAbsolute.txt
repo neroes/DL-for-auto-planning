@@ -62,3 +62,19 @@ C:\Users\Soren\Desktop\RPG\RPGModel\obj\Debug\RPG.Model.csprojResolveAssemblyRef
 C:\Users\Soren\Desktop\RPG\RPGModel\obj\Debug\RPGModel.dll
 C:\Users\Soren\Desktop\RPG\RPGModel\obj\Debug\RPGModel.pdb
 C:\Users\Daniel\Dropbox\Windows Programming\RPG\RPGModel\obj\Debug\RPG.Model.csprojResolveAssemblyReference.cache
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\RPGModel.dll
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\RPGModel.pdb
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.dll
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\GalaSoft.MvvmLight.WPF45.dll
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\System.Windows.Interactivity.dll
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.pdb
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.xml
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\GalaSoft.MvvmLight.WPF45.pdb
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\GalaSoft.MvvmLight.WPF45.xml
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\Github\AI-MAS\RPG-reference project\RPGModel\bin\Debug\System.Windows.Interactivity.xml
+C:\Github\AI-MAS\RPG-reference project\RPGModel\obj\Debug\RPG.Model.csprojResolveAssemblyReference.cache
+C:\Github\AI-MAS\RPG-reference project\RPGModel\obj\Debug\RPGModel.dll
+C:\Github\AI-MAS\RPG-reference project\RPGModel\obj\Debug\RPGModel.pdb
