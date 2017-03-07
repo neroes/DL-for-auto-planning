@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Agent.model
 {
-    class Actor
+    public class Actor
     {
         Color color;
         char name;
@@ -26,6 +26,17 @@ namespace Agent.model
             this.color = Color.FromKnownColor(KnownColor.DarkGray);
             this.name = name;
         }
+
+        internal Color getColor()
+        {
+            return color;
+        }
+
+        internal char getName()
+        {
+            return name;
+        }
+
         public Actor (Color color, char name)
         {
             this.color = color;

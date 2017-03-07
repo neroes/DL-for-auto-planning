@@ -6,28 +6,27 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Drawing;
-using System;
 
 namespace Agent.model
 {
     public class Map
     {
         static bool[,] wallMap;
-        Collection<Actor> actors;
+        ActorList actors;
         BoxList boxes;
         GoalList goals;
 
         public Map (int x, int y)
         {
             wallMap = new bool[x, y];
-            actors = new Collection<Actor>();
+            actors = new ActorList();
             boxes = new BoxList();
             goals = new GoalList();
         }
 
         public void setwall(int x, int y)
         {
-            map[x, y] = true;
+            wallMap[x, y] = true;
         }
         public void addGoal(int x, int y, char name)
         {
@@ -45,20 +44,20 @@ namespace Agent.model
 
         public void addBox(int x, int y, char name)
         {
-            boxes.Add(new Box(x, y),name);
+            boxes.Add(x, y, name);
         }
         public void addBox(Color color, char name)
         {
             boxes.setColor(color, name);
         }
 
-        public Box getBox(char name)
+        public BoxGroup getBoxGroup(char name)
         {
-            return boxes.getBox(name);
+            return boxes.getBoxGroup(name);
         }
         public Actor getActor(char name)
         {
-            return actors.getActor(name);
+            return actors[name];
         }
 
 
@@ -72,6 +71,6 @@ namespace Agent.model
             throw new NotImplementedException();
         }
 
-        public bool isWall(int x, int y) { return map[x, y]; }
+        public bool isWall(int x, int y) { return wallMap[x, y]; }
     }
 }

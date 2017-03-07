@@ -203,3 +203,6 @@ C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\View\MainWindow.baml
 C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.g.resources
 C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.Properties.Resources.resources
 C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.csproj.GenerateResource.Cache
+F:\Github\AI-MAS\RPG-reference project\RPG\bin\Debug\RPG.exe.config
+F:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.exe
+F:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\RPG.pdb

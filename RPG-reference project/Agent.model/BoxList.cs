@@ -11,7 +11,7 @@ namespace Agent.model
         {
             boxgroups = new Dictionary<char, BoxGroup>();
         }
-        public void addBox(int x, int y, char name)
+        public void Add(int x, int y, char name)
         {
             if (!boxgroups.ContainsKey(name)) { boxgroups[name] = new BoxGroup(name); }
             boxgroups[name].addbox(x, y);
@@ -21,25 +21,34 @@ namespace Agent.model
             boxgroups[name] = new BoxGroup(name);
             boxgroups[name].setColor(color);
         }
-        public class BoxGroup
+        public void setColor(Color color, char name)
         {
-            char name;
-            Color color;
-            Collection<Node> boxes;
-            public BoxGroup(char name)
-            {
-                this.name = name;
-                boxes = new Collection<Node>();
-                color = Color.FromKnownColor(KnownColor.Blue);
-            }
-            public void setColor (Color color)
-            {
-                this.color = color;
-            }
-            public void addbox(int x, int y)
-            {
-                boxes.Add(new Node(x, y));
-            }
+            boxgroups[name].setColor(color);
+        }
+        public BoxGroup getBoxGroup (char name)
+        {
+            return boxgroups[name];
+        }
+        
+    }
+    public class BoxGroup
+    {
+        char name;
+        Color color;
+        Collection<Node> boxes;
+        public BoxGroup(char name)
+        {
+            this.name = name;
+            boxes = new Collection<Node>();
+            color = Color.FromKnownColor(KnownColor.Blue);
+        }
+        public void setColor(Color color)
+        {
+            this.color = color;
+        }
+        public void addbox(int x, int y)
+        {
+            boxes.Add(new Node(x, y));
         }
     }
 }

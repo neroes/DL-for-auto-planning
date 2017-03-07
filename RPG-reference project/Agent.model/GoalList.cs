@@ -11,7 +11,7 @@ namespace Agent.model
         {
             goalgroups = new Dictionary<char,GoalGroup>();
         }
-        public void addgoal(int x, int y, char name)
+        public void Add(int x, int y, char name)
         {
             if (!goalgroups.ContainsKey(name)) { goalgroups[name] = new GoalGroup(name); }
             goalgroups[name].addgoal(x, y);
