@@ -9,9 +9,9 @@ namespace Agent.model
 {
     public class Node
     {
-        public int x;
-        public int y;
-        public Node (int x, int y)
+        public Byte x;
+        public Byte y;
+        public Node (Byte x, Byte y)
         {
             this.x = x;
             this.y = y;

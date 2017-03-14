@@ -11,22 +11,28 @@ namespace Agent.model
     {
         Color color;
         char name;
-        public int x;
-        public int y;
+        public Byte x;
+        public Byte y;
         public enum Actions { UP, DOWN, LEFT, RIGHT, NONE,
                               UPUP, UPLEFT, UPRIGHT, UPDOWN,
                               DOWNUP, DOWNLEFT, DOWNRIGHT, DOWNDOWN,
                               LEFTUP, LEFTLEFT, LEFTRIGHT, LEFTDOWN,
                               RIGHTUP, RIGHTLEFT, RIGHTRIGHT, RIGHTDOWN};
 
-        public Actor (int x, int y, char name)
+        public Actor (Byte x, Byte y, char name)
         {
             this.x = x;
             this.y = y;
             this.color = Color.FromKnownColor(KnownColor.DarkGray);
             this.name = name;
         }
-
+        public Actor(Byte x, Byte y, Color color, char name)
+        {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.name = name;
+        }
         internal Color getColor()
         {
             return color;
@@ -42,7 +48,7 @@ namespace Agent.model
             this.color = color;
             this.name = name;
         }
-        public void addPos(int x, int y)
+        public void addPos(Byte x, Byte y)
         {
             this.x = x;
             this.y = y;

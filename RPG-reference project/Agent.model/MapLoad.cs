@@ -5,62 +5,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections.ObjectModel;
+
 namespace Agent.model
 {
     class MapLoad
     {
         public void loadMap(string filename, Map map)
         {
-            int filerows = getfilesize(filename);
-            bool mapCreated = false;
-            int mapstartline = 0;
+            int colcount = 0, rowcount = 0;
+            getfilesize(filename, colcount, rowcount);
+            Collection<Box> newboxes = new Collection<Box>();
+            Collection<Actor> newactors = new Collection<Actor>();
+            Collection<Node> newgoals = new Collection<Node>();
+            Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
+            bool[,] newwallmap = new bool[colcount,rowcount];
             foreach (string line in File.ReadLines(@filename))
             {
-                int j = 0; // row count
+                Byte j = 0; // row count
                 if (line.Contains("+"))
                 {
-                    if (!mapCreated)
-                    {
-                        mapCreated = true;
-                        int colcount = line.Length;
-                        int rowcount = filerows - mapstartline;
-                        map = new Map(colcount, rowcount);
-                    }
                     
 
-                    int i = 0; // col count
+                    Byte i = 0; // col count
                     //map construction
                     foreach (char c in line)
                     {
-                        if (c == '+') { map.setwall(i, j); }
-                        else if (Char.IsLower(c)) { map.addGoal(i, j, c); } // i,j is goal
-                        else if (Char.IsDigit(c)) { map.addActor(i, j, c); } // i,j is actor
-                        else if (Char.IsUpper(c)) { map.addBox(i, j, c); } // i,j is box
+                        if (c == '+') { newwallmap[i, j] = true; }
+                        else if (Char.IsLower(c)) { newgoals.Add(new Node(i, j));  } // i,j is goal
+                        else if (Char.IsDigit(c)) {// i,j is actor
+                            if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,colorDict[c], c)); }
+                        } 
+                        else if (Char.IsUpper(c)) {
+                            if (colorDict.ContainsKey(c)) { newboxes.Add(new Box(i,j,colorDict[c], c)); }
+                        } // i,j is box
                         i++;
                     }
                     j++;
                 }
                 else
                 {
-                    mapstartline++;
+                    string[] splitline = line.Split(": ");
+                    string[] splitnames = splitline[1].Split(',');
+                    foreach (string names in splitnames)
+                    {
+                        colorDict[names[0]] = Color.FromName("splitline[0]");
+                    }
                     Color slateBlue = Color.FromName("SlateBlue");
                     //do color devision
                 }
             }
-            
-            
+            map = new Map(newwallmap, newactors, newboxes);
+
         }
-        public int getfilesize(string filename)
+        public void getfilesize(string filename, int colcount, int rowcount)
         {
-            int lineCount = 0;
-            using (var reader = File.OpenText(@filename))
+            rowcount = 0;
+            colcount = 0;
+            foreach (string line in File.ReadLines(@filename))
             {
-                while (reader.ReadLine() != null)
-                {   
-                    lineCount++;
+                
+                if (line.Contains("+")) {
+                    rowcount++;
+                    if (colcount< line.Length) { colcount = line.Length; }
                 }
             }
-            return lineCount;
         }
     }
 }

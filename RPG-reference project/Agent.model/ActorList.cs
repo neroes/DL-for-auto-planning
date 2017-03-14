@@ -9,24 +9,37 @@ namespace Agent.model
 {
     class ActorList
     {
-        public Collection<Actor> actors;
+        public Actor[] actors;
         public Dictionary<char,Actor> namedict;
         public Dictionary<Color, Collection<Actor>> colordict;
 
-        public ActorList()
+        /*public ActorList()
         {
             actors = new Collection<Actor>();
             namedict = new Dictionary<char, Actor>();
             colordict = new Dictionary<Color, Collection<Actor>>();
+        }*/
+        public ActorList(Collection<Actor> newactors)
+        {
+            actors = new Actor[newactors.Count()];
+            namedict = new Dictionary<char, Actor>();
+            colordict = new Dictionary<Color, Collection<Actor>>();
+            int i = 0;
+            foreach (Actor actor in newactors)
+            {
+                this.Add(actor);
+                actors[i] = actor;
+                i++;
+            }
         }
         public void Add(Actor actor)
         {
-            actors.Add(actor);
+            //actors.Add(actor);
             namedict[actor.getName()] = actor;
             colordict[actor.getColor()].Add(actor);
         }
 
-        public Collection<Actor> getAllActors() { return actors; }
+        public Actor[] getAllActors() { return actors; }
         public Actor this[char c]{ get { return namedict[c]; } }
         public Collection<Actor> this[Color c] { get { return colordict[c]; } }
     }
