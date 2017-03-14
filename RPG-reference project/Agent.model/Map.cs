@@ -12,9 +12,10 @@ namespace Agent.model
     public class Map
     {
         static bool[,] wallMap;
+        static GoalList goals;
         ActorList actors;
         BoxList boxes;
-        GoalList goals;
+        
 
         public Map (int x, int y)
         {
