@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections.ObjectModel;
 
-namespace Agent.model
+namespace HAL_Solver
 {
     class MapLoad
     {
-        public void loadMap(string filename, Map map)
+        public static void loadMap(string filename, out Map map)
         {
             int colcount = 0, rowcount = 0;
-            getfilesize(filename, colcount, rowcount);
+            getfilesize(filename, out colcount, out rowcount);
             Collection<Box> newboxes = new Collection<Box>();
             Collection<Actor> newactors = new Collection<Actor>();
-            Collection<Node> newgoals = new Collection<Node>();
+            GoalList newgoals = new GoalList();
             Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
             bool[,] newwallmap = new bool[colcount,rowcount];
             foreach (string line in File.ReadLines(@filename))
@@ -32,7 +32,7 @@ namespace Agent.model
                     foreach (char c in line)
                     {
                         if (c == '+') { newwallmap[i, j] = true; }
-                        else if (Char.IsLower(c)) { newgoals.Add(new Node(i, j));  } // i,j is goal
+                        else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
                         else if (Char.IsDigit(c)) {// i,j is actor
                             if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,colorDict[c], c)); }
                         } 
@@ -47,22 +47,22 @@ namespace Agent.model
                 {
                     string[] splitline = line.Split(':');
                     string names = splitline[1].Remove(0, 1);
-                    string[] splitnames = splitline[1].Split(',');
+                    string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {
-                        colorDict[name[0]] = Color.FromName("splitline[0]");
+                        colorDict[name[0]] = Color.FromName(splitline[0]);
                     }
                     Color slateBlue = Color.FromName("SlateBlue");
                     //do color devision
                 }
             }
-            map = new Map(newwallmap, newactors, newboxes);
+            map = new Map(newwallmap, newactors, newboxes, newgoals);
 
         }
-        public void getfilesize(string filename, int colcount, int rowcount)
+        public static void getfilesize(string filename,out int colcount,out int rowcount)
         {
-            rowcount = 0;
             colcount = 0;
+            rowcount = 0;
             foreach (string line in File.ReadLines(@filename))
             {
                 

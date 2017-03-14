@@ -1,0 +1,4 @@
+C:\Github\AI-MAS\RPG-reference project\Agent.model\bin\Debug\Agent.model.exe.config
+C:\Github\AI-MAS\RPG-reference project\Agent.model\obj\Debug\Agent.model.csprojResolveAssemblyReference.cache
+C:\Github\AI-MAS\RPG-reference project\Agent.model\obj\Debug\Agent.model.Properties.Resources.resources
+C:\Github\AI-MAS\RPG-reference project\Agent.model\obj\Debug\Agent.model.csproj.GenerateResource.Cache

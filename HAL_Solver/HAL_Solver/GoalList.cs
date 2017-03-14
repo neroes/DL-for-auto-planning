@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Collections.ObjectModel;
 
-namespace Agent.model
+namespace HAL_Solver
 {
     class GoalList
     {
@@ -17,7 +17,7 @@ namespace Agent.model
             if (!goalgroups.ContainsKey(name)) { goalgroups[name] = new GoalGroup(name); }
             goalgroups[name].addgoal(x, y);
         }
-        public class GoalGroup
+        class GoalGroup
         {
             char name;
             Collection<Node> goals;
