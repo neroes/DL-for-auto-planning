@@ -6,8 +6,8 @@ namespace HAL_Solver
 {
     class BoxList
     {
-        public Dictionary<char, Collection<Box>> boxNameGroups;// for looking up boxes by name
-        public Dictionary<Color, Collection<Box>> boxColorGroups; // for looking up boxes by color
+        public static Dictionary<char, Collection<int>> boxNameGroups;// for looking up boxes by name
+        public static Dictionary<Color, Collection<int>> boxColorGroups; // for looking up boxes by color
         // Collection<Node> boxes; // itterating across boxes
         public Box[] boxes;
 
@@ -22,25 +22,41 @@ namespace HAL_Solver
         public BoxList(Collection<Box> newboxes)
         {
             boxes = new Box[newboxes.Count];
-            boxNameGroups = new Dictionary<char, Collection<Box>>();
-            boxColorGroups = new Dictionary<Color, Collection<Box>>();
+            boxNameGroups = new Dictionary<char, Collection<int>>();
+            boxColorGroups = new Dictionary<Color, Collection<int>>();
             int i = 0;
             foreach (Box box in newboxes)
             {
                 boxes[i] = box;
                 if (!boxNameGroups.ContainsKey(box.name)) {
-                    boxNameGroups[box.name] = new Collection<Box>(); }
-                boxNameGroups[box.name].Add(box);
+                    boxNameGroups[box.name] = new Collection<int>(); }
+                boxNameGroups[box.name].Add(i);
                 if (!boxColorGroups.ContainsKey(box.color)) {
-                    boxColorGroups[box.color] = new Collection<Box>();
+                    boxColorGroups[box.color] = new Collection<int>();
                 }
-                if (!boxColorGroups[box.color].Contains(box)) { boxColorGroups[box.color].Add(box); }
-                    i++;
+                boxColorGroups[box.color].Add(i);
+                i++;
             }
         }
         
-        public Collection<Box> getBoxesOfColor(Color color) { return boxColorGroups[color]; }
-        public Collection<Box> getBoxesOfName(char name) { return boxNameGroups[name]; }
+        public Collection<Box> getBoxesOfColor(Color color)
+        {
+            Collection<Box> returnCollection = new Collection<Box>();
+            foreach (int i in boxColorGroups[color])
+            {
+                returnCollection.Add(boxes[i]);
+            }
+            return returnCollection;
+        }
+        public Collection<Box> getBoxesOfName(char name)
+        {
+            Collection<Box> returnCollection = new Collection<Box>();
+            foreach (int i in boxNameGroups[name])
+            {
+                returnCollection.Add(boxes[i]);
+            }
+            return returnCollection;
+        }
         public Box[] getAllBoxes() { return boxes; }
     }
 }
