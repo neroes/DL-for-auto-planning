@@ -12,6 +12,7 @@ namespace HAL_Solver
         public Actor[] actors;
         public static Dictionary<char,int> namedict;
         public static Dictionary<Color, Collection<int>> colordict;
+        public static Color[] intToColorDict;
 
         /*public ActorList()
         {
@@ -24,11 +25,13 @@ namespace HAL_Solver
             actors = new Actor[newactors.Count()];
             namedict = new Dictionary<char, int>();
             colordict = new Dictionary<Color, Collection<int>>();
+            intToColorDict = new Color[newactors.Count()];
             int i = 0;
             foreach (Actor actor in newactors)
             {
                 this.Add(actor);
                 actors[i] = actor;
+                intToColorDict[i] = actor.getColor();
                 namedict.Add(actor.getName(), i);
                 if (!colordict.ContainsKey(actor.getColor())) { colordict[actor.getColor()] = new Collection<int>(); }
                 colordict[actor.getColor()].Add(i);
