@@ -19,6 +19,7 @@ namespace HAL_Solver
             Collection<Actor> newactors = new Collection<Actor>();
             GoalList newgoals = new GoalList();
             Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
+            byte actorid = 0;
             bool[,] newwallmap = new bool[colcount,rowcount];
             foreach (string line in File.ReadLines(@filename))
             {
@@ -34,7 +35,7 @@ namespace HAL_Solver
                         if (c == '+') { newwallmap[i, j] = true; }
                         else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
                         else if (Char.IsDigit(c)) {// i,j is actor
-                            if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,colorDict[c], c)); }
+                            if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,actorid++)); }
                         } 
                         else if (Char.IsUpper(c)) {
                             if (colorDict.ContainsKey(c)) { newboxes.Add(new Box(i,j,colorDict[c], c)); }

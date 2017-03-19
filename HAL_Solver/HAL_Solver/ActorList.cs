@@ -14,35 +14,28 @@ namespace HAL_Solver
         public static Dictionary<Color, Collection<int>> colordict;
         public static Color[] intToColorDict;
 
-        /*public ActorList()
-        {
-            actors = new Collection<Actor>();
-            namedict = new Dictionary<char, Actor>();
-            colordict = new Dictionary<Color, Collection<Actor>>();
-        }*/
-        public ActorList(Collection<Actor> newactors)
+        public ActorList(Collection<Actor> newactors, Collection<Color> newactorsColors, Collection<char> newactorsNames)
         {
             actors = new Actor[newactors.Count()];
             namedict = new Dictionary<char, int>();
             colordict = new Dictionary<Color, Collection<int>>();
             intToColorDict = new Color[newactors.Count()];
             int i = 0;
+            IEnumerator<Color> colorenum = newactorsColors.GetEnumerator();
+            IEnumerator<char> namesenum = newactorsNames.GetEnumerator();
             foreach (Actor actor in newactors)
             {
-                this.Add(actor);
                 actors[i] = actor;
-                intToColorDict[i] = actor.getColor();
-                namedict.Add(actor.getName(), i);
-                if (!colordict.ContainsKey(actor.getColor())) { colordict[actor.getColor()] = new Collection<int>(); }
-                colordict[actor.getColor()].Add(i);
+                intToColorDict[i] = colorenum.Current;
+                namedict.Add(namesenum.Current, i);
+                if (!colordict.ContainsKey(colorenum.Current)) { colordict[colorenum.Current] = new Collection<int>(); }
+                colordict[colorenum.Current].Add(i);
                 i++;
             }
         }
-        public void Add(Actor actor)
+        public ActorList(ActorList oldlist)
         {
-            //actors.Add(actor);
-            
-            
+            actors = (Actor[]) oldlist.actors.Clone();
         }
 
         public Actor[] getAllActors() { return actors; }
@@ -56,5 +49,6 @@ namespace HAL_Solver
                 }
                 return returnCollection;
             } }
+        public void performMove() { }
     }
 }

@@ -24,6 +24,11 @@ namespace HAL_Solver
             boxes = new BoxList(newboxes);
             goals = newgoals;
         }
+        public Map (Map oldmap)
+        {
+            actors = new ActorList(oldmap.actors);
+            boxes = new BoxList(boxes);
+        }
 
         public Collection<Box> getBoxGroup(char name)
         {

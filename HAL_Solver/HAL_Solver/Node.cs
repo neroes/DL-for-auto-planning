@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace HAL_Solver
 {
-    public class Node
+    public struct Node
     {
         public Byte x;
         public Byte y;

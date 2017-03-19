@@ -9,7 +9,7 @@ namespace HAL_Solver
         public static Dictionary<char, Collection<int>> boxNameGroups;// for looking up boxes by name
         public static Dictionary<Color, Collection<int>> boxColorGroups; // for looking up boxes by color
         // Collection<Node> boxes; // itterating across boxes
-        public Box[] boxes;
+        public Node[] boxes;
 
         /*public BoxList()
         {
@@ -19,13 +19,13 @@ namespace HAL_Solver
 
             boxColorGroups[Color.FromKnownColor(KnownColor.Gray)] = new Collection<Node>(); // we use grey as default color
         }*/
-        public BoxList(Collection<Box> newboxes)
+        public BoxList(Collection<Node> newboxes, Collection<char> newboxnames, Collection<Color> newboxcolors)
         {
-            boxes = new Box[newboxes.Count];
+            boxes = new Node[newboxes.Count];
             boxNameGroups = new Dictionary<char, Collection<int>>();
             boxColorGroups = new Dictionary<Color, Collection<int>>();
             int i = 0;
-            foreach (Box box in newboxes)
+            foreach (Node box in newboxes)
             {
                 boxes[i] = box;
                 if (!boxNameGroups.ContainsKey(box.name)) {
@@ -38,25 +38,29 @@ namespace HAL_Solver
                 i++;
             }
         }
-        
-        public Collection<Box> getBoxesOfColor(Color color)
+        public BoxList(BoxList oldlist)
         {
-            Collection<Box> returnCollection = new Collection<Box>();
+            boxes = (Node[])oldlist.boxes.Clone();
+        }
+        
+        public Collection<Node> getBoxesOfColor(Color color)
+        {
+            Collection<Node> returnCollection = new Collection<Node>();
             foreach (int i in boxColorGroups[color])
             {
                 returnCollection.Add(boxes[i]);
             }
             return returnCollection;
         }
-        public Collection<Box> getBoxesOfName(char name)
+        public Collection<Node> getBoxesOfName(char name)
         {
-            Collection<Box> returnCollection = new Collection<Box>();
+            Collection<Node> returnCollection = new Collection<Node>();
             foreach (int i in boxNameGroups[name])
             {
                 returnCollection.Add(boxes[i]);
             }
             return returnCollection;
         }
-        public Box[] getAllBoxes() { return boxes; }
+        public Node[] getAllBoxes() { return boxes; }
     }
 }

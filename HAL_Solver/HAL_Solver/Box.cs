@@ -7,16 +7,16 @@ using System.Drawing;
 
 namespace HAL_Solver
 {
-    public class Box : Node
+    public class Box
     {
         public Color color;
         public char name;
-        public Box(Byte x, Byte y, char name) : base(x, y)
+        public Box(Byte x, Byte y, char name) 
         {
             this.name = name;
             color = Color.FromKnownColor(KnownColor.Gray);
         }
-        public Box(Byte x, Byte y, Color color, char name) : base(x, y)
+        public Box(Byte x, Byte y, Color color, char name)
         {
             this.name = name;
             this.color = color;
