@@ -10,8 +10,7 @@ namespace HAL_Solver
     {
         static void Main(string[] args)
         {
-            Map map = null;
-            MapLoad.loadMap("MAsimple1.lvl", out map);
+            Map map = MapLoad.loadMap("MAsimple1.lvl");
 
             System.Console.Write("pizza");
              

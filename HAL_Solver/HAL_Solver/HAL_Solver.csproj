@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="ActorList.cs" />
+    <Compile Include="AgentMovement.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="BoxList.cs" />
     <Compile Include="GoalList.cs" />

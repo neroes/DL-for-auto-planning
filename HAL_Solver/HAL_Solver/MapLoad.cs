@@ -9,57 +9,94 @@ using System.Collections.ObjectModel;
 
 namespace HAL_Solver
 {
-    class MapLoad
+    public static class MapLoad
     {
-        public static void loadMap(string filename, out Map map)
+        private static readonly Dictionary<string, byte> colorID
+         = new Dictionary<string, byte>
         {
-            int colcount = 0, rowcount = 0;
+            { "blue", 0 },
+            { "red", 1 },
+            { "green", 2 },
+            { "cyan", 3 },
+            { "magenta", 4 },
+            { "orange", 5 },
+            { "pink", 6 },
+            { "yellow", 7 },
+        };
+
+        public static Map loadMap(string filename)
+        {
+            byte colcount = 0, rowcount = 0;
             getfilesize(filename, out colcount, out rowcount);
-            Collection<Box> newboxes = new Collection<Box>();
-            Collection<Actor> newactors = new Collection<Actor>();
-            GoalList newgoals = new GoalList();
-            Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
-            bool[,] newwallmap = new bool[colcount,rowcount];
+
+            Collection<byte> availableAgents = new Collection<byte>();
+            Collection<byte> availableBoxes = new Collection<byte>();
+            Collection<byte> availableGoals = new Collection<byte>();
+
+            Collection<byte[]>[] newboxes = new Collection<byte[]>[26];
+            byte[][] newagents = new byte[10][];
+            Collection<byte[]>[] newgoals = new Collection<byte[]>[26];
+
+            Collection<byte>[] boxesOfColor = new Collection<byte>[8];
+            byte[] colorOfBox = new byte[26];
+            Collection<byte>[] agentsOfColor = new Collection<byte>[8];
+            byte[] colorOfAgent = new byte[10];
+
+            bool[] newwallmap = new bool[colcount + rowcount];
+
             foreach (string line in File.ReadLines(@filename))
             {
-                Byte j = 0; // row count
+                byte j = 0; // row count
                 if (line.Contains("+"))
                 {
-                    
-
-                    Byte i = 0; // col count
+                    byte i = 0; // col count
                     //map construction
                     foreach (char c in line)
                     {
-                        if (c == '+') { newwallmap[i, j] = true; }
-                        else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
-                        else if (Char.IsDigit(c)) {// i,j is actor
-                            if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,colorDict[c], c)); }
-                        } 
-                        else if (Char.IsUpper(c)) {
-                            if (colorDict.ContainsKey(c)) { newboxes.Add(new Box(i,j,colorDict[c], c)); }
-                        } // i,j is box
+                        if (c == '+') { newwallmap[i + j * colcount] = true; }
+                        else if (Char.IsLower(c)) { // i,j is goal
+                            byte goal = (byte)(c - 'a');
+                            newgoals[goal].Add(new byte[2] { i, j });
+                            availableGoals.Add(goal);
+                        } else if (Char.IsDigit(c)) { // i,j is agent
+                            newagents[(byte)c] = new byte[2] { i, j };
+                            availableAgents.Add((byte)c);
+                        } else if (Char.IsUpper(c)) { // i,j is box
+                            byte box = (byte)(c - 'a');
+                            newboxes[box].Add(new byte[2] { i, j });
+                            availableBoxes.Add(box);
+                        }
                         i++;
                     }
                     j++;
                 }
                 else
                 {
-                    string[] splitline = line.Split(':');
-                    string names = splitline[1].Remove(0, 1);
-                    string[] splitnames = names.Split(',');
-                    foreach (string name in splitnames)
+                    string[] splitline = line.Split(new[] { ": " }, StringSplitOptions.None);
+                    string[] splitnames = splitline[1].Split(',');
+                    foreach (string names in splitnames)
                     {
-                        colorDict[name[0]] = Color.FromName(splitline[0]);
+                        char c = names[0];
+                        byte color = colorID[splitline[0]];
+                        if (Char.IsDigit(c))
+                        {
+                            colorOfAgent[(byte)c] = color;
+                            agentsOfColor[color].Add((byte)c);
+                        }
+                        else
+                        {
+                            colorOfBox[(byte)(c - 'A')] = color;
+                            boxesOfColor[color].Add((byte)(c - 'A'));
+                        }
                     }
-                    Color slateBlue = Color.FromName("SlateBlue");
-                    //do color devision
                 }
             }
-            map = new Map(newwallmap, newactors, newboxes, newgoals);
+            return new Map(newwallmap, newagents, newboxes, newgoals, availableAgents,
+                availableBoxes, availableGoals, boxesOfColor, colorOfBox, agentsOfColor,
+                colorOfAgent, rowcount, colcount);
 
         }
-        public static void getfilesize(string filename,out int colcount,out int rowcount)
+        public static void getfilesize(string filename, out byte colcount, out byte rowcount)
         {
             colcount = 0;
             rowcount = 0;
@@ -68,7 +105,7 @@ namespace HAL_Solver
                 
                 if (line.Contains("+")) {
                     rowcount++;
-                    if (colcount< line.Length) { colcount = line.Length; }
+                    if (colcount< line.Length) { colcount = (byte)line.Length; }
                 }
             }
         }
