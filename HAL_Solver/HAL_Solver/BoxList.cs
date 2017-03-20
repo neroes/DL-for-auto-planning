@@ -25,16 +25,20 @@ namespace HAL_Solver
             boxNameGroups = new Dictionary<char, Collection<int>>();
             boxColorGroups = new Dictionary<Color, Collection<int>>();
             int i = 0;
+            IEnumerator<char> nameEnum = newboxnames.GetEnumerator();
+            IEnumerator<Color> colorEnum = newboxcolors.GetEnumerator();
             foreach (Node box in newboxes)
             {
                 boxes[i] = box;
-                if (!boxNameGroups.ContainsKey(box.name)) {
-                    boxNameGroups[box.name] = new Collection<int>(); }
-                boxNameGroups[box.name].Add(i);
-                if (!boxColorGroups.ContainsKey(box.color)) {
-                    boxColorGroups[box.color] = new Collection<int>();
+                if (!boxNameGroups.ContainsKey(nameEnum.Current)) {
+                    boxNameGroups[nameEnum.Current] = new Collection<int>(); }
+                boxNameGroups[nameEnum.Current].Add(i);
+                if (!boxColorGroups.ContainsKey(colorEnum.Current)) {
+                    boxColorGroups[colorEnum.Current] = new Collection<int>();
                 }
-                boxColorGroups[box.color].Add(i);
+                boxColorGroups[colorEnum.Current].Add(i);
+                nameEnum.MoveNext();
+                colorEnum.MoveNext();
                 i++;
             }
         }

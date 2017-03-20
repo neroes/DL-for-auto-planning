@@ -30,7 +30,7 @@ namespace HAL_Solver
             boxes = new BoxList(boxes);
         }
 
-        public Collection<Box> getBoxGroup(char name)
+        public Collection<Node> getBoxGroup(char name)
         {
             return boxes.getBoxesOfName(name);
         }
@@ -42,7 +42,7 @@ namespace HAL_Solver
 
         internal bool isBox(int x, int y, Color color)
         {
-            Collection<Box> checklist = boxes.getBoxesOfColor(color);
+            Collection<Node> checklist = boxes.getBoxesOfColor(color);
             foreach (Node n in checklist)
             {
                 if (n.x == x && n.y == y) { return true; }
@@ -53,7 +53,7 @@ namespace HAL_Solver
         internal bool isEmptySpace(int x, int y)
         {
             if (isWall(x, y)) { return false; }
-            Box[] checklist = boxes.getAllBoxes();
+            Node[] checklist = boxes.getAllBoxes();
             foreach (Node n in checklist)
             {
                 if (n.x == x && n.y == y) { return false; }
