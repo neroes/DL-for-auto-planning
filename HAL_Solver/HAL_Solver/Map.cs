@@ -10,7 +10,7 @@ namespace HAL_Solver
 {
     public enum Color : Byte
     {
-        Blue, Red, Green, Cyan, Magenta, Orange, Pink, Yellow
+        blue, red, green, cyan, magenta, orange, pink, yellow
     }
     class Map
     {
