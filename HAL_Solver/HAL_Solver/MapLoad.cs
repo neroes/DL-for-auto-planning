@@ -38,11 +38,11 @@ namespace HAL_Solver
                         if (c == '+') { newwallmap[i+ j*colcount] = true; }
                         else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
                         else if (Char.IsDigit(c)) {// i,j is actor
-                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue; }
+                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.Blue; }
                             newactors.Add(new Actor(i, j, actorid++));
                         } 
                         else if (Char.IsUpper(c)) {
-                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue;  }
+                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.Blue;  }
                             newboxes.Add(new Node(i, j));
                             boxnames.Add(c);
                         } // i,j is box
