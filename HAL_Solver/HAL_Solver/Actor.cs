@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections.ObjectModel;
 
 namespace HAL_Solver
 {
@@ -28,10 +29,11 @@ namespace HAL_Solver
         {
             return ActorList.intToColorDict[id];
         }
-        public List<Actions> getActions(Map currentMap)
+        public List<Actions> getActions(Map currentMap, out Collection<Byte> boxesToMove )
         {
+            boxesToMove = new Collection<Byte>();
             List<Actions> actionList = new List<Actions>();
-
+            Byte box = 0;
             bool[,] isempty = new bool[3, 3];
             isempty[0, 0] = currentMap.isEmptySpace(x - 1, y + 1);
             isempty[1, 0] = currentMap.isEmptySpace(x    , y + 1);
@@ -46,45 +48,45 @@ namespace HAL_Solver
             if (!currentMap.isWall(x, y + 1))
             {
                 if (isempty[1,0]) { actionList.Add(Actions.UP); }
-                else if (currentMap.isBox(x, y + 1,getcolor()))
+                else if (currentMap.isBox(x, y + 1,getcolor(), out box))
                 {
-                    if (isempty[2,0]) { actionList.Add(Actions.UPRIGHT); }
-                    if (isempty[0,0]) { actionList.Add(Actions.UPLEFT); }
-                    if (currentMap.isEmptySpace(x, y + 2)) { actionList.Add(Actions.UPUP); }
-                    if (isempty[1,2]) { actionList.Add(Actions.UPDOWN); }
+                    if (isempty[2,0]) { actionList.Add(Actions.UPRIGHT); boxesToMove.Add(box); }
+                    if (isempty[0,0]) { actionList.Add(Actions.UPLEFT); boxesToMove.Add(box); }
+                    if (currentMap.isEmptySpace(x, y + 2)) { actionList.Add(Actions.UPUP); boxesToMove.Add(box); }
+                    if (isempty[1,2]) { actionList.Add(Actions.UPDOWN); boxesToMove.Add(box); }
                 }
             }
             if (!currentMap.isWall(x, y - 1))
             {
                 if (isempty[1,2]) { actionList.Add(Actions.DOWN); }
-                else if (currentMap.isBox(x, y - 1, getcolor()))
+                else if (currentMap.isBox(x, y - 1, getcolor(), out box))
                 {
-                    if (isempty[2,2]) { actionList.Add(Actions.DOWNRIGHT); }
-                    if (isempty[1,2]) { actionList.Add(Actions.DOWNLEFT); }
-                    if (currentMap.isEmptySpace(x, y - 2)) { actionList.Add(Actions.DOWNDOWN); }
-                    if (isempty[1,0]) { actionList.Add(Actions.DOWNUP); }
+                    if (isempty[2,2]) { actionList.Add(Actions.DOWNRIGHT); boxesToMove.Add(box); }
+                    if (isempty[1,2]) { actionList.Add(Actions.DOWNLEFT); boxesToMove.Add(box); }
+                    if (currentMap.isEmptySpace(x, y - 2)) { actionList.Add(Actions.DOWNDOWN); boxesToMove.Add(box); }
+                    if (isempty[1,0]) { actionList.Add(Actions.DOWNUP); boxesToMove.Add(box); }
                 }
             }
             if (!currentMap.isWall(x + 1, y))
             {
                 if (isempty[2,1]) { actionList.Add(Actions.RIGHT); }
-                else if (currentMap.isBox(x + 1, y, getcolor()))
+                else if (currentMap.isBox(x + 1, y, getcolor(), out box))
                 {
-                    if (isempty[2,0]) { actionList.Add(Actions.RIGHTUP); }
-                    if (isempty[2,2]) { actionList.Add(Actions.RIGHTDOWN); }
-                    if (currentMap.isEmptySpace(x + 2, y)) { actionList.Add(Actions.RIGHTRIGHT); }
-                    if (isempty[0,1]) { actionList.Add(Actions.RIGHTLEFT); }
+                    if (isempty[2,0]) { actionList.Add(Actions.RIGHTUP); boxesToMove.Add(box); }
+                    if (isempty[2,2]) { actionList.Add(Actions.RIGHTDOWN); boxesToMove.Add(box); }
+                    if (currentMap.isEmptySpace(x + 2, y)) { actionList.Add(Actions.RIGHTRIGHT); boxesToMove.Add(box); }
+                    if (isempty[0,1]) { actionList.Add(Actions.RIGHTLEFT); boxesToMove.Add(box); }
                 }
             }
             if (!currentMap.isWall(x - 1, y))
             {
                 if (currentMap.isEmptySpace(x - 1, y)) { actionList.Add(Actions.LEFT); }
-                else if (currentMap.isBox(x - 1, y, getcolor()))
+                else if (currentMap.isBox(x - 1, y, getcolor(), out box))
                 {
-                    if (isempty[0,0]) { actionList.Add(Actions.LEFTUP); }
-                    if (isempty[0,2]) { actionList.Add(Actions.LEFTDOWN); }
-                    if (currentMap.isEmptySpace(x - 2, y)) { actionList.Add(Actions.LEFTLEFT); }
-                    if (isempty[2,1]) { actionList.Add(Actions.LEFTRIGHT); }
+                    if (isempty[0,0]) { actionList.Add(Actions.LEFTUP); boxesToMove.Add(box); }
+                    if (isempty[0,2]) { actionList.Add(Actions.LEFTDOWN); boxesToMove.Add(box); }
+                    if (currentMap.isEmptySpace(x - 2, y)) { actionList.Add(Actions.LEFTLEFT); boxesToMove.Add(box); }
+                    if (isempty[2,1]) { actionList.Add(Actions.LEFTRIGHT); boxesToMove.Add(box); }
                 }
             }
             return actionList;

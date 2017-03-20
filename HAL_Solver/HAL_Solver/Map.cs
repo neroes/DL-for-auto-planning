@@ -17,11 +17,25 @@ namespace HAL_Solver
         BoxList boxes;
         
 
-        public Map (bool[,] newwallMap, Collection<Actor> newactors, Collection<Box> newboxes, GoalList newgoals)
+        public Map (bool[,] newwallMap, Collection<Actor> newactors, Collection<Node> newboxes, Collection<char> boxnames,GoalList newgoals, Dictionary<char, Color> colorDict)
         {
             wallMap = newwallMap;
-            actors = new ActorList(newactors);
-            boxes = new BoxList(newboxes);
+
+            Collection<Color> newboxcolors = new Collection<Color>();
+            foreach (char name in boxnames)
+            {
+                newboxcolors.Add(colorDict[name]);
+            }
+            Collection<Color> newactorcolors = new Collection<Color>(); int i = 0;
+            foreach (Actor a in newactors)
+            {
+                newactorcolors.Add(colorDict[i.ToString()[0]]);
+                i++;
+            }
+            
+
+            actors = new ActorList(newactors, newactorcolors);
+            boxes = new BoxList(newboxes,boxnames,newboxcolors);
             goals = newgoals;
         }
         public Map (Map oldmap)
@@ -40,13 +54,14 @@ namespace HAL_Solver
         }
 
 
-        internal bool isBox(int x, int y, Color color)
+        internal bool isBox(int x, int y, Color color, out Byte box)
         {
-            Collection<Node> checklist = boxes.getBoxesOfColor(color);
-            foreach (Node n in checklist)
+            Collection<Byte> checklist = boxes.getBoxesOfColor(color);
+            foreach (Byte i in checklist)
             {
-                if (n.x == x && n.y == y) { return true; }
+                if (boxes[i].x == x && boxes[i].y == y) { box = i; return true; }
             }
+            box = 255;
             return false;
         }
 

@@ -15,15 +15,19 @@ namespace HAL_Solver
         {
             int colcount = 0, rowcount = 0;
             getfilesize(filename, out colcount, out rowcount);
-            Collection<Box> newboxes = new Collection<Box>();
+            Collection<Node> newboxes = new Collection<Node>();
             Collection<Actor> newactors = new Collection<Actor>();
             GoalList newgoals = new GoalList();
             Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
             byte actorid = 0;
             bool[,] newwallmap = new bool[colcount,rowcount];
+
+            Collection<char> boxnames = new Collection<char>();
+
+            Byte j = 0; // row count
             foreach (string line in File.ReadLines(@filename))
             {
-                Byte j = 0; // row count
+                
                 if (line.Contains("+"))
                 {
                     
@@ -38,8 +42,10 @@ namespace HAL_Solver
                             if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,actorid++)); }
                         } 
                         else if (Char.IsUpper(c)) {
-                            if (colorDict.ContainsKey(c)) { newboxes.Add(new Box(i,j,colorDict[c], c)); }
+                            if (colorDict.ContainsKey(c)) { newboxes.Add(new Node(i,j)); }
+                            boxnames.Add(c);
                         } // i,j is box
+
                         i++;
                     }
                     j++;
@@ -53,11 +59,10 @@ namespace HAL_Solver
                     {
                         colorDict[name[0]] = Color.FromName(splitline[0]);
                     }
-                    Color slateBlue = Color.FromName("SlateBlue");
                     //do color devision
                 }
             }
-            map = new Map(newwallmap, newactors, newboxes, newgoals);
+            map = new Map(newwallmap, newactors, newboxes, boxnames, newgoals, colorDict);
 
         }
         public static void getfilesize(string filename,out int colcount,out int rowcount)
