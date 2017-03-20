@@ -11,7 +11,7 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("MAsimple1.lvl", out map);
+            MapLoad.loadMap("SACrash.lvl", out map);
             map.GetHashCode();
             System.Console.Write("pizza");
              
