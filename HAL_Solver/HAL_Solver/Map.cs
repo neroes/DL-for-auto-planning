@@ -5,10 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Drawing;
 
 namespace HAL_Solver
 {
+    public enum Color : Byte
+    {
+        blue, red, green, cyan, magenta, orange, pink, yellow
+    }
     class Map
     {
         static int mapWidth;
@@ -55,10 +58,10 @@ namespace HAL_Solver
         }
 
 
-        internal bool isBox(int x, int y, Color color, out Byte box)
+        internal bool isBox(int x, int y, Color color, out int box)
         {
-            Collection<Byte> checklist = boxes.getBoxesOfColor(color);
-            foreach (Byte i in checklist)
+            Collection<int> checklist = boxes.getBoxesOfColor(color);
+            foreach (int i in checklist)
             {
                 if (boxes[i].x == x && boxes[i].y == y) { box = i; return true; }
             }

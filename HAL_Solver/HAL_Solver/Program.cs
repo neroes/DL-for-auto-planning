@@ -12,7 +12,7 @@ namespace HAL_Solver
         {
             Map map = null;
             MapLoad.loadMap("MAsimple1.lvl", out map);
-
+            map.GetHashCode();
             System.Console.Write("pizza");
              
         }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Collections.ObjectModel;
 
 namespace HAL_Solver

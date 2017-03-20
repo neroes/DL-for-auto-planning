@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 
 namespace HAL_Solver
 {
     class BoxList
     {
-        public static Dictionary<char, Collection<Byte>> boxNameGroups;// for looking up boxes by name
-        public static Dictionary<Color, Collection<Byte>> boxColorGroups; // for looking up boxes by color
+        public static Dictionary<char, Collection<int>> boxNameGroups;// for looking up boxes by name
+        public static Dictionary<Color, Collection<int>> boxColorGroups; // for looking up boxes by color
         // Collection<Node> boxes; // itterating across boxes
         public Node[] boxes;
 
@@ -23,8 +22,8 @@ namespace HAL_Solver
         public BoxList(Collection<Node> newboxes, Collection<char> newboxnames, Collection<Color> newboxcolors)
         {
             boxes = new Node[newboxes.Count];
-            boxNameGroups = new Dictionary<char, Collection<Byte>>();
-            boxColorGroups = new Dictionary<Color, Collection<Byte>>();
+            boxNameGroups = new Dictionary<char, Collection<int>>();
+            boxColorGroups = new Dictionary<Color, Collection<int>>();
             Byte i = 0;
             IEnumerator<char> nameEnum = newboxnames.GetEnumerator();
             IEnumerator<Color> colorEnum = newboxcolors.GetEnumerator();
@@ -32,10 +31,10 @@ namespace HAL_Solver
             {
                 boxes[i] = box;
                 if (!boxNameGroups.ContainsKey(nameEnum.Current)) {
-                    boxNameGroups[nameEnum.Current] = new Collection<Byte>(); }
+                    boxNameGroups[nameEnum.Current] = new Collection<int>(); }
                 boxNameGroups[nameEnum.Current].Add(i);
                 if (!boxColorGroups.ContainsKey(colorEnum.Current)) {
-                    boxColorGroups[colorEnum.Current] = new Collection<Byte>();
+                    boxColorGroups[colorEnum.Current] = new Collection<int>();
                 }
                 boxColorGroups[colorEnum.Current].Add(i);
                 nameEnum.MoveNext();
@@ -48,14 +47,14 @@ namespace HAL_Solver
             boxes = (Node[])oldlist.boxes.Clone();
         }
 
-        public Node this[Byte i] { get { return boxes[i]; } }
+        public Node this[int i] { get { return boxes[i]; } }
 
-        public void MoveBox(Byte id, Byte x, Byte y)
+        public void MoveBox(int id, Byte x, Byte y)
         {
             boxes[id] = new Node(x, y);
         }
 
-        public Collection<Byte> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }
+        public Collection<int> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }
         public Collection<Node> getBoxesOfName(char name)
         {
             Collection<Node> returnCollection = new Collection<Node>();

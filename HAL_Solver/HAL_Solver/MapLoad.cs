@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 using System.Collections.ObjectModel;
 
 namespace HAL_Solver
@@ -39,10 +38,12 @@ namespace HAL_Solver
                         if (c == '+') { newwallmap[i+ j*colcount] = true; }
                         else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
                         else if (Char.IsDigit(c)) {// i,j is actor
-                            if (colorDict.ContainsKey(c)) { newactors.Add(new Actor(i,j,actorid++)); }
+                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue; }
+                            newactors.Add(new Actor(i, j, actorid++));
                         } 
                         else if (Char.IsUpper(c)) {
-                            if (colorDict.ContainsKey(c)) { newboxes.Add(new Node(i,j)); }
+                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue;  }
+                            newboxes.Add(new Node(i, j));
                             boxnames.Add(c);
                         } // i,j is box
 
@@ -57,7 +58,7 @@ namespace HAL_Solver
                     string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {
-                        colorDict[name[0]] = Color.FromName(splitline[0]);
+                        colorDict[name[0]] = (Color)Enum.Parse(typeof(Color), splitline[0]);    
                     }
                     //do color devision
                 }
