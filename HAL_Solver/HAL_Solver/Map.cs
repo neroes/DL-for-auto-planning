@@ -11,16 +11,17 @@ namespace HAL_Solver
 {
     class Map
     {
-        static bool[,] wallMap;
+        static int mapWidth;
+        static bool[] wallMap;
         static GoalList goals;
         ActorList actors;
         BoxList boxes;
         
 
-        public Map (bool[,] newwallMap, Collection<Actor> newactors, Collection<Node> newboxes, Collection<char> boxnames,GoalList newgoals, Dictionary<char, Color> colorDict)
+        public Map (bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Collection<Node> newboxes, Collection<char> boxnames,GoalList newgoals, Dictionary<char, Color> colorDict)
         {
             wallMap = newwallMap;
-
+            mapWidth = mapwidth;
             Collection<Color> newboxcolors = new Collection<Color>();
             foreach (char name in boxnames)
             {
@@ -81,6 +82,6 @@ namespace HAL_Solver
             return true;
         }
 
-        public bool isWall(int x, int y) { return wallMap[x, y]; }
+        public bool isWall(int x, int y) { return wallMap[x + y*mapWidth]; }
     }
 }
