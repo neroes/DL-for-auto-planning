@@ -86,5 +86,14 @@ namespace HAL_Solver
         }
 
         public bool isWall(int x, int y) { return wallMap[x + y*mapWidth]; }
+
+        public Map PerformActions (act[] actions)
+        {
+            Map newmap = new Map(this);
+
+            newmap.actors.PerformActions(actions, newmap.boxes);
+
+            return newmap;
+        }
     }
 }
