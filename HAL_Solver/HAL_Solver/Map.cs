@@ -45,7 +45,7 @@ namespace HAL_Solver
         public Map (Map oldmap)
         {
             actors = new ActorList(oldmap.actors);
-            boxes = new BoxList(boxes);
+            boxes = new BoxList(oldmap.boxes);
         }
 
         public Collection<Node> getBoxGroup(char name)
@@ -87,13 +87,10 @@ namespace HAL_Solver
 
         public bool isWall(int x, int y) { return wallMap[x + y*mapWidth]; }
 
-        public Map PerformActions (act[] actions)
+        public void PerformActions (act[] actions)
         {
-            Map newmap = new Map(this);
 
-            newmap.actors.PerformActions(actions, newmap.boxes);
-
-            return newmap;
+            actors.PerformActions(actions, boxes);
         }
     }
 }

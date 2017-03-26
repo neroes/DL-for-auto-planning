@@ -19,6 +19,12 @@ namespace HAL_Solver
             this.y = y;
             this.id = id;
         }
+        public Actor(Actor old)
+        {
+            this.x = old.x;
+            this.y = old.y;
+            this.id = old.id;
+        }
         public Color getcolor()
         {
             return ActorList.intToColorDict[id];

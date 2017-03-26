@@ -47,7 +47,7 @@ namespace HAL_Solver
             boxes = (Node[])oldlist.boxes.Clone();
         }
 
-        public Node this[int i] { get { return boxes[i]; } }
+        public Node this[int i] { get { return boxes[i]; } set { boxes[i] = value; } }
 
         public void MoveBox(int id, Byte x, Byte y)
         {
