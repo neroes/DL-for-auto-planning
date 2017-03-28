@@ -11,10 +11,5 @@ namespace HAL_Solver
             this.x = x;
             this.y = y;
         }
-        public Node(Node old)
-        {
-            this.x = old.x;
-            this.y = old.y;
-        }
     }
 }

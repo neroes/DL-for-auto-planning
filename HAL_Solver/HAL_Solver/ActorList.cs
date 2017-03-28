@@ -50,17 +50,12 @@ namespace HAL_Solver
             {
                 switch (actions[i].inter) {
                     case Interact.MOVE:
-                        actors[i] = new Actor(actors[i]);
                         Move(actors[i], actions[i].dir);
                         break;
                     case Interact.PUSH:
-                        actors[i] = new Actor(actors[i]);
-                        boxes[actions[i].box] = new Node(boxes[actions[i].box]);
                         Push(actors[i], boxes[actions[i].box], actions[i].dir, actions[i].boxdir);
                         break;
                     case Interact.PULL:
-                        actors[i] = new Actor(actors[i]);
-                        boxes[actions[i].box] = new Node(boxes[actions[i].box]);
                         Pull(actors[i], boxes[actions[i].box], actions[i].dir, actions[i].boxdir);
                         break;
                     case Interact.WAIT:
