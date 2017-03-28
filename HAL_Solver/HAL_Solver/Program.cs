@@ -19,7 +19,20 @@ namespace HAL_Solver
             map2.PerformActions(actions);
             map2.PerformActions(actions);
 
+
             //map.GetHashCode();
+            /*Map map = null;
+            MapLoad.loadMap(args[0], out map);
+            switch (args[1])
+            {
+                case "BFS":
+                case "DFS":
+                case "Astar":
+                case "AWstar":
+                case "Greedy":
+                    break;
+            }*/
+
             System.Console.Write("pizza");
              
         }
