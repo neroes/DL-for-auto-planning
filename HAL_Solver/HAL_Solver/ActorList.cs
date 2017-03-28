@@ -43,5 +43,89 @@ namespace HAL_Solver
                 return returnCollection;
             } }
         public void performMove() { }
+
+        internal void PerformActions(act[] actions, BoxList boxes)
+        {
+            for (int i = 0; i<actions.Count(); i++)
+            {
+                switch (actions[i].inter) {
+                    case Interact.MOVE:
+                        Move(actors[i], actions[i].dir);
+                        break;
+                    case Interact.PUSH:
+                        Push(actors[i], boxes[actions[i].box], actions[i].dir, actions[i].boxdir);
+                        break;
+                    case Interact.PULL:
+                        Pull(actors[i], boxes[actions[i].box], actions[i].dir, actions[i].boxdir);
+                        break;
+                    case Interact.WAIT:
+                        break;
+                }
+            }
+        }
+        public bool Push(Actor actor, Node box, Direction dir, Direction boxdir) {
+
+            Move(actor, boxdir);
+            Move(box, dir);
+            return true;
+        }
+        public bool Pull(Actor actor, Node box, Direction dir, Direction boxdir) {
+            Move(actor, dir);
+            switch (boxdir)
+            {
+                case Direction.N:
+                    box.y--;
+                    break;
+                case Direction.S:
+                    box.y++;
+                    break;
+                case Direction.E:
+                    box.x--;
+                    break;
+                case Direction.W:
+                    box.x++;
+                    break;
+            }
+
+            Move(box, dir);
+            return true;
+        }
+        public bool Move(Actor actor, Direction dir) {
+            switch (dir)
+            {
+                case Direction.N:
+                    actor.y++;
+                    break;
+                case Direction.S:
+                    actor.y--;
+                    break;
+                case Direction.E:
+                    actor.x++;
+                    break;
+                case Direction.W:
+                    actor.x--;
+                    break;
+            }
+            return true;
+        }
+        public bool Move(Node box, Direction dir)
+        {
+            switch (dir)
+            {
+                case Direction.N:
+                    box.y++;
+                    break;
+                case Direction.S:
+                    box.y--;
+                    break;
+                case Direction.E:
+                    box.x++;
+                    break;
+                case Direction.W:
+                    box.x--;
+                    break;
+            }
+            return true;
+        }
     }
 }

@@ -96,10 +96,10 @@ namespace HAL_Solver
     }
     public struct act
     {
-        Interact inter;
-        Direction dir;
-        Direction boxdir;
-        int box;
+        public Interact inter;
+        public Direction dir;
+        public Direction boxdir;
+        public int box;
         public act(Interact inter, Direction dir, Direction boxdir, int box)
         {
             this.inter = inter;
