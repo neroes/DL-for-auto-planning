@@ -9,9 +9,16 @@ namespace HAL_Solver
 {
     class Search
     {
-        private static Heuristic<Map> h = new Heuristic<Map>();
-        private SortedList<Map, byte> frontier = new SortedList<Map, byte>(h);
+        private static Heuristic<Map> h;
+        private SortedList<Map, byte> frontier;
         private Collection<Map> explored = new Collection<Map>();
+
+        public Search(Heuristic<Map> nh)
+        {
+            h = nh;
+            frontier = new SortedList<Map, byte>(h);
+        }
+
 
         public void addToFrontier(Map map)
         {
