@@ -11,10 +11,11 @@ namespace HAL_Solver
     {
         private static Heuristic<Map> h = new Heuristic<Map>();
         private SortedList<Map, byte> frontier = new SortedList<Map, byte>(h);
-        private Collection<Map> explored = new Collection<Map>();
+        private HashSet<Map> explored = new HashSet<Map>();
 
         public void addToFrontier(Map map)
         {
+            
             frontier.Add(map, 0);
         }
 
@@ -29,6 +30,10 @@ namespace HAL_Solver
         public bool inFrontier(Map map)
         {
             return frontier.ContainsKey(map);
+        }
+        public bool inExplored(Map map)
+        {
+            return explored.Contains(map);
         }
     }
 }

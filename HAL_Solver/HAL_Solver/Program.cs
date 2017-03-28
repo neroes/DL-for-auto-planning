@@ -34,7 +34,11 @@ namespace HAL_Solver
             }*/
 
             System.Console.Write("pizza");
-             
+            
+        }
+        public void solver(Map map)
+        {
+
         }
     }
 }
