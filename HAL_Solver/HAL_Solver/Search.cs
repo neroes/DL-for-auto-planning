@@ -9,6 +9,7 @@ namespace HAL_Solver
 {
     class Search
     {
+
         private static Heuristic<Map> h;
         private SortedList<Map, byte> frontier;
         private Collection<Map> explored = new Collection<Map>();
@@ -22,6 +23,7 @@ namespace HAL_Solver
 
         public void addToFrontier(Map map)
         {
+            
             frontier.Add(map, 0);
         }
 
@@ -36,6 +38,10 @@ namespace HAL_Solver
         public bool inFrontier(Map map)
         {
             return frontier.ContainsKey(map);
+        }
+        public bool inExplored(Map map)
+        {
+            return explored.Contains(map);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace HAL_Solver
     }
     class Map
     {
+        int steps;
         static int mapWidth;
         static bool[] wallMap;
         static GoalList goals;
@@ -41,11 +42,13 @@ namespace HAL_Solver
             actors = new ActorList(newactors, newactorcolors);
             boxes = new BoxList(newboxes,boxnames,newboxcolors);
             goals = newgoals;
+            steps = 0;
         }
         public Map (Map oldmap)
         {
             actors = new ActorList(oldmap.actors);
             boxes = new BoxList(oldmap.boxes);
+            steps = oldmap.steps + 1;
         }
 
         public Collection<Node> getBoxGroup(char name)
