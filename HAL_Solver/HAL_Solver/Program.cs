@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace HAL_Solver
 {
@@ -11,14 +12,15 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("SACrash.lvl", out map);
+            MapLoad.loadMap("testmapeasy.lvl", out map);
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
             map2.PerformActions(actions);
             map2.PerformActions(actions);
             map2.PerformActions(actions);
-
+            Search search = new Search(new Astar<Map>());
+            Map finalmap = solver(search, map);
 
             //map.GetHashCode();
             /*Map map = null;
@@ -36,9 +38,27 @@ namespace HAL_Solver
             System.Console.Write("pizza");
             
         }
-        public void solver(Map map)
+        public static Map solver(Search search, Map map)
         {
+            search.addToFrontier(map);
 
+            while (true)
+            {
+                Map smap = search.getFromFrontier();
+                if (smap.isGoal()) { return smap; }
+                Collection<act>[] actionlist = smap.getAllActions();
+                foreach (Collection<act> actorlist in actionlist)
+                {
+                    foreach (act action in actorlist)
+                    {
+                        Map nmap = new Map(smap);
+                        act[] actions = new act[1];
+                        actions[0] = action;
+                        nmap.PerformActions(actions);
+                        search.addToFrontier(nmap);
+                    }
+                }
+            }
         }
     }
 }

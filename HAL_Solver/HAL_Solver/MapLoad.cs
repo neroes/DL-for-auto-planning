@@ -38,7 +38,7 @@ namespace HAL_Solver
                         else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
                         else if (Char.IsDigit(c)) {// i,j is actor
                             if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue; }
-                            newactors.Add(new Actor(i, j, Convert.ToByte(c)));
+                            newactors.Add(new Actor(i, j, Convert.ToByte(c - '0')));
                         } 
                         else if (Char.IsUpper(c)) {
                             if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue;  }

@@ -10,6 +10,33 @@ namespace HAL_Solver
         public static Dictionary<Color, Collection<int>> colordict;
         public static Color[] intToColorDict;
 
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int result = 1;
+
+            for (int i = 0; i < actors.Length; i++)
+            {
+                result = prime * result + actors[i].GetHashCode();
+            }
+                
+            return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            ActorList al = (ActorList)obj;
+            for (int i = 0; i< actors.Length; i++)
+            {
+                if (!this.actors[i].Equals(al.actors[i])) { return false; }
+            }
+            return true;
+        }
+
         public ActorList(Collection<Actor> newactors, Collection<Color> newactorsColors)
         {
             actors = new Actor[newactors.Count()];
@@ -32,6 +59,17 @@ namespace HAL_Solver
         }
 
         public Actor[] getAllActors() { return actors; }
+        public Collection<act>[] getAllActions(Map map)
+        {
+            Collection<act>[] actions = new Collection<act>[actors.Length];
+            int i = 0;
+            foreach (Actor actor in actors)
+            {
+                actions[i] = actor.getActions(map);
+                i++;
+            }
+            return actions;
+        }
         public Actor this[char c]{ get { return actors[c]; } }
         public Collection<Actor> this[Color c]
         { get {

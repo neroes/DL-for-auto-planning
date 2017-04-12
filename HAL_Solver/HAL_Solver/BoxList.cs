@@ -19,6 +19,34 @@ namespace HAL_Solver
 
             boxColorGroups[Color.FromKnownColor(KnownColor.Gray)] = new Collection<Node>(); // we use grey as default color
         }*/
+
+        public override int GetHashCode()
+        {
+            int prime = 53;
+            int result = 1;
+
+            for (int i = 0; i < boxes.Length; i++)
+            {
+                result = prime * result + boxes[i].GetHashCode();
+            }
+
+            return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            BoxList bl = (BoxList)obj;
+            for (int i = 0; i < boxes.Length; i++)
+            {
+                if (this.boxes[i].Equals(bl.boxes[i])) { return false; }
+            }
+            return true;
+        }
+
         public BoxList(Collection<Node> newboxes, Collection<char> newboxnames, Collection<Color> newboxcolors)
         {
             boxes = new Node[newboxes.Count];

@@ -14,13 +14,42 @@ namespace HAL_Solver
     }
     class Map
     {
+        private int hash = 0;
+        Map parent;
         int steps;
         static int mapWidth;
         static bool[] wallMap;
         static GoalList goals;
         ActorList actors;
         BoxList boxes;
-        
+
+        public override int GetHashCode()
+        {
+            if (this.hash == 0)
+            {
+                int prime = 101;
+                int result = 1;
+
+                result = prime * result + actors.GetHashCode();
+                this.hash = prime * result + boxes.GetHashCode();
+            }
+
+            return this.hash;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            Map map = (Map)obj;
+            if (!this.actors.Equals(map.actors))
+                return false;
+            if (!this.boxes.Equals(map.boxes))
+                return false;
+            return true;
+        }
 
         public Map (bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Collection<Node> newboxes, Collection<char> boxnames,GoalList newgoals, Dictionary<char, Color> colorDict)
         {
@@ -46,6 +75,7 @@ namespace HAL_Solver
         }
         public Map (Map oldmap)
         {
+            parent = oldmap;
             actors = new ActorList(oldmap.actors);
             boxes = new BoxList(oldmap.boxes);
             steps = oldmap.steps + 1;
@@ -59,7 +89,11 @@ namespace HAL_Solver
         {
             return actors[name];
         }
+        public Collection<act>[] getAllActions()
+        {
+            return actors.getAllActions(this);
 
+        }
 
         internal bool isBox(int x, int y, Color color, out int box)
         {
@@ -94,6 +128,10 @@ namespace HAL_Solver
         {
 
             actors.PerformActions(actions, boxes);
+        }
+        public bool isGoal()
+        {
+            return false;
         }
     }
 }

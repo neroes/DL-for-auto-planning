@@ -23,15 +23,19 @@ namespace HAL_Solver
 
         public void addToFrontier(Map map)
         {
+            if (!inExplored(map))
+            {
+                frontier.Add(map, 0);
+                explored.Add(map);
+            }
             
-            frontier.Add(map, 0);
         }
 
         public Map getFromFrontier()
         {
             Map first = frontier.First().Key;
             frontier.RemoveAt(0);
-            explored.Add(first);
+            
             return first;
         }
 

@@ -25,6 +25,29 @@ namespace HAL_Solver
             this.y = old.y;
             this.id = old.id;
         }
+
+        public override int GetHashCode()
+        {
+            int prime = 7;
+            int result = 1;
+
+            result = prime * result + x;
+            result = prime * result + y;
+
+            return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            Actor ac = (Actor)obj;
+            if (ac.x != x || ac.y != y) { return false;}
+            return true;
+        }
+
         public Color getcolor()
         {
             return ActorList.intToColorDict[id];
