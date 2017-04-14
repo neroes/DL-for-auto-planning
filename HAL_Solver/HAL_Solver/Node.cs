@@ -16,5 +16,13 @@ namespace HAL_Solver
             this.x = old.x;
             this.y = old.y;
         }
+        public static bool operator ==( Node x, Node y)
+        {
+            return (x.x == y.x && x.y == y.y);
+        }
+        public static bool operator !=(Node x, Node y)
+        {
+            return !(x.x == y.x && x.y == y.y);
+        }
     }
 }

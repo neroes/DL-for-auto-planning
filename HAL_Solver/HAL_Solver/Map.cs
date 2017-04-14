@@ -131,7 +131,7 @@ namespace HAL_Solver
         }
         public bool isGoal()
         {
-            return false;
+            return goals.IsInGoal(boxes);
         }
     }
 }

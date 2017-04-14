@@ -41,9 +41,9 @@ namespace HAL_Solver
                             newactors.Add(new Actor(i, j, Convert.ToByte(c - '0')));
                         } 
                         else if (Char.IsUpper(c)) {
-                            if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue;  }
+                            if (!colorDict.ContainsKey(Char.ToLower(c))) { colorDict[Char.ToLower(c)] = Color.blue;  }
                             newboxes.Add(new Node(i, j));
-                            boxnames.Add(c);
+                            boxnames.Add(Char.ToLower(c));
                         } // i,j is box
 
                         i++;
@@ -57,6 +57,7 @@ namespace HAL_Solver
                     string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {
+                        
                         colorDict[name[0]] = (Color)Enum.Parse(typeof(Color), splitline[0]);    
                     }
                     //do color devision
