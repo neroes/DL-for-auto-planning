@@ -41,7 +41,7 @@ namespace HAL_Solver
         {
             if (this == obj)
                 return true;
-            if (obj == null)
+            if (obj == null || !(obj is Map))
                 return false;
             Map map = (Map)obj;
             if (!this.actors.Equals(map.actors))
@@ -51,15 +51,10 @@ namespace HAL_Solver
             return true;
         }
 
-        public Map (bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Collection<Node> newboxes, Collection<char> boxnames,GoalList newgoals, Dictionary<char, Color> colorDict)
+        public Map (bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
         {
             wallMap = newwallMap;
             mapWidth = mapwidth;
-            Collection<Color> newboxcolors = new Collection<Color>();
-            foreach (char name in boxnames)
-            {
-                newboxcolors.Add(colorDict[name]);
-            }
             Collection<Color> newactorcolors = new Collection<Color>(); int i = 0;
             foreach (Actor a in newactors)
             {
@@ -69,7 +64,7 @@ namespace HAL_Solver
             
 
             actors = new ActorList(newactors, newactorcolors);
-            boxes = new BoxList(newboxes,boxnames,newboxcolors);
+            boxes = new BoxList(newboxes,colorDict);
             goals = newgoals;
             steps = 0;
         }
@@ -127,7 +122,7 @@ namespace HAL_Solver
         public void PerformActions (act[] actions)
         {
 
-            actors.PerformActions(actions, boxes);
+            actors.PerformActions(actions, ref boxes);
         }
         public bool isGoal()
         {

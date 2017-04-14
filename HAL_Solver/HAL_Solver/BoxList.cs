@@ -37,36 +37,33 @@ namespace HAL_Solver
         {
             if (this == obj)
                 return true;
-            if (obj == null)
+            if (obj == null || !(obj is BoxList))
                 return false;
             BoxList bl = (BoxList)obj;
             for (int i = 0; i < boxes.Length; i++)
             {
-                if (this.boxes[i].Equals(bl.boxes[i])) { return false; }
+                if (this.boxes[i] != bl.boxes[i]) { return false; }
             }
             return true;
         }
 
-        public BoxList(Collection<Node> newboxes, Collection<char> newboxnames, Collection<Color> newboxcolors)
+        public BoxList(Dictionary<Node, char> newboxes, Dictionary<char, Color> colorDict)
         {
             boxes = new Node[newboxes.Count];
             boxNameGroups = new Dictionary<char, Collection<int>>();
             boxColorGroups = new Dictionary<Color, Collection<int>>();
-            Byte i = 0;
-            IEnumerator<char> nameEnum = newboxnames.GetEnumerator();
-            IEnumerator<Color> colorEnum = newboxcolors.GetEnumerator();
-            foreach (Node box in newboxes)
+            int i = 0;
+            foreach (KeyValuePair<Node, char> box in newboxes)
             {
-                boxes[i] = box;
-                if (!boxNameGroups.ContainsKey(nameEnum.Current)) {
-                    boxNameGroups[nameEnum.Current] = new Collection<int>(); }
-                boxNameGroups[nameEnum.Current].Add(i);
-                if (!boxColorGroups.ContainsKey(colorEnum.Current)) {
-                    boxColorGroups[colorEnum.Current] = new Collection<int>();
+                Color col = colorDict[box.Value];
+                boxes[i] = box.Key;
+                if (!boxNameGroups.ContainsKey(box.Value)) {
+                    boxNameGroups[box.Value] = new Collection<int>(); }
+                boxNameGroups[box.Value].Add(i);
+                if (!boxColorGroups.ContainsKey(col)) {
+                    boxColorGroups[col] = new Collection<int>();
                 }
-                boxColorGroups[colorEnum.Current].Add(i);
-                nameEnum.MoveNext();
-                colorEnum.MoveNext();
+                boxColorGroups[col].Add(i);
                 i++;
             }
         }

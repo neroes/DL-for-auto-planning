@@ -14,13 +14,11 @@ namespace HAL_Solver
         {
             int colcount = 0, rowcount = 0;
             getfilesize(filename, out colcount, out rowcount);
-            Collection<Node> newboxes = new Collection<Node>();
+            Dictionary<Node, char> newboxes = new Dictionary<Node, char>();
             Collection<Actor> newactors = new Collection<Actor>();
             GoalList newgoals = new GoalList();
             Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
             bool[] newwallmap = new bool[colcount*rowcount];
-
-            Collection<char> boxnames = new Collection<char>();
 
             Byte j = 0; // row count
             foreach (string line in File.ReadLines(@filename))
@@ -42,8 +40,7 @@ namespace HAL_Solver
                         } 
                         else if (Char.IsUpper(c)) {
                             if (!colorDict.ContainsKey(Char.ToLower(c))) { colorDict[Char.ToLower(c)] = Color.blue;  }
-                            newboxes.Add(new Node(i, j));
-                            boxnames.Add(Char.ToLower(c));
+                            newboxes.Add(new Node(i, j), Char.ToLower(c));
                         } // i,j is box
 
                         i++;
@@ -63,7 +60,7 @@ namespace HAL_Solver
                     //do color devision
                 }
             }
-            map = new Map(newwallmap, colcount, newactors, newboxes, boxnames, newgoals, colorDict);
+            map = new Map(newwallmap, colcount, newactors, newboxes, newgoals, colorDict);
 
         }
         public static void getfilesize(string filename,out int colcount,out int rowcount)
