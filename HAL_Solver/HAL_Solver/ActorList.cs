@@ -82,7 +82,7 @@ namespace HAL_Solver
             } }
         public void performMove() { }
 
-        internal void PerformActions(act[] actions, BoxList boxes)
+        internal void PerformActions(act[] actions, ref BoxList boxes)
         {
             for (int i = 0; i<actions.Count(); i++)
             {
@@ -93,26 +93,28 @@ namespace HAL_Solver
                         break;
                     case Interact.PUSH:
                         actors[i] = new Actor(actors[i]);
-                        boxes[actions[i].box] = new Node(boxes[actions[i].box]);
-                        Push(actors[i], boxes[actions[i].box], actions[i].dir, actions[i].boxdir);
+                        Node pushbox = new Node(boxes[actions[i].box]);
+                        Push(actors[i], ref pushbox, actions[i].dir, actions[i].boxdir);
+                        boxes[actions[i].box] = pushbox;
                         break;
                     case Interact.PULL:
                         actors[i] = new Actor(actors[i]);
-                        boxes[actions[i].box] = new Node(boxes[actions[i].box]);
-                        Pull(actors[i], boxes[actions[i].box], actions[i].dir, actions[i].boxdir);
+                        Node pullbox = new Node(boxes[actions[i].box]);
+                        Pull(actors[i], ref pullbox, actions[i].dir, actions[i].boxdir);
+                        boxes[actions[i].box] = pullbox;
                         break;
                     case Interact.WAIT:
                         break;
                 }
             }
         }
-        public bool Push(Actor actor, Node box, Direction dir, Direction boxdir) {
+        public bool Push(Actor actor, ref Node box, Direction dir, Direction boxdir) {
 
             Move(actor, boxdir);
-            Move(box, dir);
+            Move(ref box, dir);
             return true;
         }
-        public bool Pull(Actor actor, Node box, Direction dir, Direction boxdir) {
+        public bool Pull(Actor actor, ref Node box, Direction dir, Direction boxdir) {
             Move(actor, dir);
             switch (boxdir)
             {
@@ -130,7 +132,7 @@ namespace HAL_Solver
                     break;
             }
 
-            Move(box, dir);
+            Move(ref box, dir);
             return true;
         }
         public bool Move(Actor actor, Direction dir) {
@@ -151,7 +153,7 @@ namespace HAL_Solver
             }
             return true;
         }
-        public bool Move(Node box, Direction dir)
+        public bool Move(ref Node box, Direction dir)
         {
             switch (dir)
             {

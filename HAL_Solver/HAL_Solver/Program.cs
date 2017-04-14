@@ -12,13 +12,13 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("testmapeasy.lvl", out map);
+            MapLoad.loadMap("testmapeasy.lvl", out map);/*
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
             map2.PerformActions(actions);
             map2.PerformActions(actions);
-            map2.PerformActions(actions);
+            map2.PerformActions(actions);*/
             Search search = new Search(new Astar<Map>());
             Map finalmap = solver(search, map);
 
