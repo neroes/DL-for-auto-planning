@@ -15,7 +15,7 @@ namespace HAL_Solver
     class Map
     {
         private int hash = 0;
-        Map parent;
+        public Map parent;
         int steps;
         static int mapWidth;
         static bool[] wallMap;
@@ -80,7 +80,7 @@ namespace HAL_Solver
         {
             return boxes.getBoxesOfName(name);
         }
-        public Actor getActor(char name)
+        public Actor getActor(byte name)
         {
             return actors[name];
         }

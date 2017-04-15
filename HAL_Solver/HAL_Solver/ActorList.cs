@@ -70,7 +70,7 @@ namespace HAL_Solver
             }
             return actions;
         }
-        public Actor this[char c]{ get { return actors[c]; } }
+        public Actor this[Byte c]{ get { return actors[c]; } }
         public Collection<Actor> this[Color c]
         { get {
                 Collection<Actor> returnCollection = new Collection<Actor>();
@@ -116,21 +116,7 @@ namespace HAL_Solver
         }
         public bool Pull(Actor actor, ref Node box, Direction dir, Direction boxdir) {
             Move(actor, dir);
-            switch (boxdir)
-            {
-                case Direction.N:
-                    box.y--;
-                    break;
-                case Direction.S:
-                    box.y++;
-                    break;
-                case Direction.E:
-                    box.x--;
-                    break;
-                case Direction.W:
-                    box.x++;
-                    break;
-            }
+            
 
             Move(ref box, dir);
             return true;

@@ -75,9 +75,9 @@ namespace HAL_Solver
                     if (isempty[2, 0]) { actionList.Add(new act(Interact.PUSH,Direction.E,Direction.N,box)); }
                     if (isempty[0, 0]) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.N, box)); }
                     if (currentMap.isEmptySpace(x, y + 2)) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.N, box)); }
-                    if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.N, box)); }
-                    if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.N, box)); }
-                    if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.N, box)); }
+                    if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.S, box)); }
+                    if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.S, box)); }
+                    if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.S, box)); }
                 }
             }
             if (!currentMap.isWall(x, y - 1))
@@ -88,9 +88,9 @@ namespace HAL_Solver
                     if (isempty[2, 2]) { actionList.Add(new act(Interact.PUSH, Direction.E, Direction.S, box)); }
                     if (isempty[0, 2]) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.S, box)); }
                     if (currentMap.isEmptySpace(x, y - 2)) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.S, box)); }
-                    if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.S, box)); }
-                    if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.S, box)); }
-                    if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.S, box)); }
+                    if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.N, box)); }
+                    if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.N, box)); }
+                    if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.N, box)); }
                 }
             }
             if (!currentMap.isWall(x + 1, y))
@@ -101,9 +101,9 @@ namespace HAL_Solver
                     if (isempty[2, 0]) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.E, box)); }
                     if (isempty[2, 2]) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.E, box)); }
                     if (currentMap.isEmptySpace(x + 2, y)) { actionList.Add(new act(Interact.PUSH, Direction.E, Direction.E, box)); }
-                    if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.E, box)); }
-                    if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.E, box)); }
-                    if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.E, box)); }
+                    if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.W, box)); }
+                    if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.W, box)); }
+                    if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.W, box)); }
                 }
             }
             if (!currentMap.isWall(x - 1, y))
@@ -114,9 +114,9 @@ namespace HAL_Solver
                     if (isempty[0, 0]) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.W, box)); }
                     if (isempty[0, 2]) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.W, box)); }
                     if (currentMap.isEmptySpace(x - 1, y)) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.W, box)); }
-                    if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.W, box)); }
-                    if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.W, box)); }
-                    if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.W, box)); }
+                    if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.E, box)); }
+                    if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.E, box)); }
+                    if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.E, box)); }
                 }
             }
             actionList.Add(new act(Interact.WAIT));

@@ -12,7 +12,7 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("testmapeasy.lvl", out map);/*
+            MapLoad.loadMap("testmapeasypull.lvl", out map);/*
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
@@ -34,7 +34,14 @@ namespace HAL_Solver
                 case "Greedy":
                     break;
             }*/
+            Map printmap = finalmap;
+            while (true)
+            {
 
+                System.Console.WriteLine("boxplacement: "+printmap.getBoxGroup('a')[0].x + " Actorplace: "+printmap.getActor(0).x);
+                if (printmap.parent == null) { break; }
+                else { printmap = printmap.parent; }
+            }
             System.Console.Write("pizza");
             
         }
