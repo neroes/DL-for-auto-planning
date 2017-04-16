@@ -16,7 +16,7 @@ namespace HAL_Solver
     {
         private int hash = 0;
         public Map parent;
-        int steps;
+        public int steps;
         static int mapWidth;
         static bool[] wallMap;
         static GoalList goals;

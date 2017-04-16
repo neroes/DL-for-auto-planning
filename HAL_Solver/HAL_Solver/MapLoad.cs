@@ -21,12 +21,13 @@ namespace HAL_Solver
             bool[] newwallmap = new bool[colcount*rowcount];
 
             Byte j = 0; // row count
+            bool pastSetup = false;
             foreach (string line in File.ReadLines(@filename))
             {
                 
                 if (line.Contains("+"))
                 {
-                    
+                    pastSetup = true;
 
                     Byte i = 0; // col count
                     //map construction
@@ -47,7 +48,7 @@ namespace HAL_Solver
                     }
                     j++;
                 }
-                else
+                else if (!pastSetup)
                 {
                     string[] splitline = line.Split(':');
                     string names = splitline[1].Remove(0, 1);
