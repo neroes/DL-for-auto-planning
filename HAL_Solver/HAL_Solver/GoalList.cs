@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace HAL_Solver
 {
-    class GoalList
+    public class GoalList
     {
         Dictionary<char,GoalGroup> goalgroups;
         Collection<char> names;

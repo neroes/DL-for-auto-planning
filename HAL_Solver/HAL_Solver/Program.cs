@@ -19,7 +19,7 @@ namespace HAL_Solver
             map2.PerformActions(actions);
             map2.PerformActions(actions);
             map2.PerformActions(actions);*/
-            Search search = new Search(new Astar<Map>());
+            Search search = new Search(new Astar());
             Map finalmap = solver(search, map);
 
             //map.GetHashCode();

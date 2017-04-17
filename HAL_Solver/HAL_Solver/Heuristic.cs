@@ -21,11 +21,11 @@ namespace HAL_Solver
         }
     }
 
-    public class Astar<Map> : Heuristic<Map>
+    public class Astar : Heuristic<Map>
     {
-        public override int f(Map m)
+        public override int f(HAL_Solver.Map m)
         {
-            return h(m); // + steps.
+            return h(m)+m.steps; // + steps.
         }
     }
 

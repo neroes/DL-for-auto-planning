@@ -12,7 +12,7 @@ namespace HAL_Solver
     {
         blue, red, green, cyan, magenta, orange, pink, yellow
     }
-    class Map
+    public class Map
     {
         private int hash = 0;
         public Map parent;

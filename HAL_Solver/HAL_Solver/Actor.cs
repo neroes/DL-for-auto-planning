@@ -6,7 +6,7 @@ namespace HAL_Solver
 {
     public enum Direction : Byte { N, S, E, W, NONE };
     public enum Interact : Byte { PUSH, PULL, MOVE, WAIT };
-    class Actor
+    public class Actor
     {
         public Byte x;
         public Byte y;

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace HAL_Solver
 {
-    class BoxList
+    public class BoxList
     {
         public static Dictionary<char, Collection<int>> boxNameGroups;// for looking up boxes by name
         public static Dictionary<Color, Collection<int>> boxColorGroups; // for looking up boxes by color
