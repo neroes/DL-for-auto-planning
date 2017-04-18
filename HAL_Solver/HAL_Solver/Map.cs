@@ -14,8 +14,11 @@ namespace HAL_Solver
     }
     public class Map
     {
+        static uint nextId = 0;
+        public uint id;
+
         private int hash = 0;
-        public int f = 0;
+        public int f = -1;
         public Map parent;
         public int steps;
         static int mapWidth;
@@ -54,6 +57,7 @@ namespace HAL_Solver
 
         public Map (bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
         {
+            id = Map.nextId++;
             wallMap = newwallMap;
             mapWidth = mapwidth;
             Collection<Color> newactorcolors = new Collection<Color>(); int i = 0;
@@ -71,6 +75,7 @@ namespace HAL_Solver
         }
         public Map (Map oldmap)
         {
+            id = Map.nextId++;
             parent = oldmap;
             actors = new ActorList(oldmap.actors);
             boxes = new BoxList(oldmap.boxes);

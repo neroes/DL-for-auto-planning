@@ -12,7 +12,7 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("SAPHOBAR.lvl", out map);/*
+            MapLoad.loadMap("SAD1.lvl", out map);/*
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
@@ -37,8 +37,7 @@ namespace HAL_Solver
             Map printmap = finalmap;
             while (true)
             {
-
-                System.Console.WriteLine("boxplacement: "+printmap.getBoxGroup('a')[0].x+","+ printmap.getBoxGroup('a')[0].y+ ", Actorplace: "+printmap.getActor(0).x+"," + printmap.getActor(0).x+ ", Step: " + printmap.steps );
+                System.Console.WriteLine("Box1 Position: {0},{1}\t Actor1 Position: {2},{3}\t Steps: {4}", printmap.getBoxGroup('a')[0].x, printmap.getBoxGroup('a')[0].y, printmap.getActor(0).x, printmap.getActor(0).y, printmap.steps);
                 if (printmap.parent == null) { break; }
                 else { printmap = printmap.parent; }
             }
@@ -49,8 +48,16 @@ namespace HAL_Solver
         {
             search.addToFrontier(map);
 
+            int i = -1;
+
             while (true)
             {
+                i++;
+                if (i == 1000)
+                {
+                    System.Console.Write("Explored: {0}\t Frontier: {1}\n", search.exploredSize(), search.frontierSize());
+                    i = 0;
+                }
                 Map smap = search.getFromFrontier();
                 if (smap.isGoal()) { return smap; }
                 Collection<act>[] actionlist = smap.getAllActions();

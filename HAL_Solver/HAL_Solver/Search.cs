@@ -46,5 +46,13 @@ namespace HAL_Solver
         {
             return explored.Contains(map);
         }
+        public int exploredSize()
+        {
+            return explored.Count;
+        }
+        public int frontierSize()
+        {
+            return frontier.Count;
+        }
     }
 }
