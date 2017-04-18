@@ -15,6 +15,7 @@ namespace HAL_Solver
     public class Map
     {
         private int hash = 0;
+        public int f = 0;
         public Map parent;
         public int steps;
         static int mapWidth;
@@ -127,6 +128,10 @@ namespace HAL_Solver
         public bool isGoal()
         {
             return goals.IsInGoal(boxes);
+        }
+        public int distToGoal()
+        {
+            return goals.ManDist(boxes);
         }
     }
 }

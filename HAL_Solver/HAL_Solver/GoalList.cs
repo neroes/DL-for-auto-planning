@@ -31,6 +31,22 @@ namespace HAL_Solver
             {
                 goals.Add(new Node(x, y));
             }
+            public int ManDist(BoxList boxlist, Collection<int> boxes)//manhattendistance
+            {
+                int totaldist = 0;
+
+                foreach (Node goal in goals)
+                {
+                    int minDistToGoal = 1000000;
+                    foreach (int boxnumber in boxes)
+                    {
+                        int dist = boxlist[boxnumber] - goal;
+                        if (dist < minDistToGoal) { minDistToGoal = dist; }
+                    }
+                    totaldist += minDistToGoal;
+                }
+                return totaldist;
+            }
             public bool IsInGoal(BoxList boxlist, Collection<int> boxes)
             {
                 
@@ -53,6 +69,15 @@ namespace HAL_Solver
                 if (!goalgroups[name].IsInGoal(boxlist, BoxList.boxNameGroups[name])) { return false; }
             }
             return true;
+        }
+        public int ManDist(BoxList boxlist)
+        {
+            int goaldist = 0;
+            foreach (char name in names)
+            {
+                goaldist += goalgroups[name].ManDist(boxlist, BoxList.boxNameGroups[name]);
+            }
+            return goaldist;
         }
     }
 }

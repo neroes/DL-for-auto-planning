@@ -24,6 +24,10 @@ namespace HAL_Solver
         {
             return !(x.x == y.x && x.y == y.y);
         }
+        public static int operator -(Node x, Node y)
+        {
+            return (Math.Abs(x.x - y.x) + Math.Abs(x.y - y.y));
+        }
         public override bool Equals(Object obj)
         {
             return obj is Node && this == (Node)obj;

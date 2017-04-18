@@ -9,14 +9,14 @@ namespace HAL_Solver
 {
     class Search
     {
-        private static Heuristic<Map> h;
-        private SortedList<Map, byte> frontier;
+        private static Heuristic h;
+        private SortedSet<Map> frontier; 
         private Collection<Map> explored = new Collection<Map>();
 
-        public Search(Heuristic<Map> nh)
+        public Search(Heuristic nh)
         {
             h = nh;
-            frontier = new SortedList<Map, byte>(h);
+            frontier = new SortedSet<Map>(h);
         }
 
 
@@ -24,7 +24,7 @@ namespace HAL_Solver
         {
             if (!inExplored(map))
             {
-                frontier.Add(map, 0);
+                frontier.Add(map);
                 explored.Add(map);
             }
             
@@ -32,15 +32,15 @@ namespace HAL_Solver
 
         public Map getFromFrontier()
         {
-            Map first = frontier.First().Key;
-            frontier.RemoveAt(0);
+            Map first = frontier.First();
+            frontier.Remove(first);
             
             return first;
         }
 
         public bool inFrontier(Map map)
         {
-            return frontier.ContainsKey(map);
+            return frontier.Contains(map);
         }
         public bool inExplored(Map map)
         {

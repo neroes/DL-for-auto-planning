@@ -1,6 +1,5 @@
 c:\users\soren\documents\visual studio 2015\Projects\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.exe.config
 C:\Github\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.exe.config
-C:\Github\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.csprojResolveAssemblyReference.cache
 C:\Github\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.exe
 C:\Github\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.pdb
 C:\Github\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.exe

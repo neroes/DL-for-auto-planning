@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace HAL_Solver
 {
-    public abstract class Heuristic<Map> : IComparer<Map>
+    public abstract class Heuristic : IComparer<Map>
     {
-        public int h(Map m) { return 0; } // This is the heuristic.
+        public int h(Map m) { return m.distToGoal(); } // This is the heuristic.
 
         public virtual int f(Map m) { return 0; }
 
@@ -21,15 +21,17 @@ namespace HAL_Solver
         }
     }
 
-    public class Astar : Heuristic<Map>
+    public class Astar : Heuristic
     {
         public override int f(HAL_Solver.Map m)
         {
-            return h(m)+m.steps; // + steps.
+            return m.steps;
+            if (m.f == 0) { m.f = h(m) + m.steps; }
+            return m.f; // + steps.
         }
     }
 
-    public class WAstar<Map> : Heuristic<Map>
+    public class WAstar : Heuristic
     {
         private int W;
 
@@ -44,7 +46,7 @@ namespace HAL_Solver
         }
     }
 
-    public class Greedy<Map> : Heuristic<Map>
+    public class Greedy : Heuristic
     {
         public override int f(Map m)
         {
@@ -52,9 +54,9 @@ namespace HAL_Solver
         }
     }
 
-    public class BFS<Map> : Heuristic<Map>{}
+    public class BFS : Heuristic{}
 
-    public class DFS<Map> : Heuristic<Map>
+    public class DFS : Heuristic
     {
         public override int Compare(Map x, Map y)
         {
