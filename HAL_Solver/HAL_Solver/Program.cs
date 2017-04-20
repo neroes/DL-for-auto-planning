@@ -12,7 +12,7 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("SAD1.lvl", out map);/*
+            MapLoad.loadMap("SAPHOBAR.lvl", out map);/*
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
