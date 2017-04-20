@@ -16,18 +16,17 @@ namespace HAL_Solver
         public virtual int Compare(Map x, Map y)
         {
             int comp = f(x).CompareTo(f(y));
-            if (comp == 0) { return 1; } // Might need to return 0 at last index.
+            if (comp == 0) { return x.id.CompareTo(y.id); } // Might need to return 0 at last index.
             return comp;
         }
     }
 
     public class Astar : Heuristic
     {
-        public override int f(HAL_Solver.Map m)
+        public override int f(Map m)
         {
-            return m.steps;
-            if (m.f == 0) { m.f = h(m) + m.steps; }
-            return m.f; // + steps.
+            if (m.f == -1) { m.f = h(m) + m.steps; }
+            return m.f;
         }
     }
 
@@ -42,7 +41,8 @@ namespace HAL_Solver
 
         public override int f(Map m)
         {
-            return h(m) * W; // + steps.
+            if (m.f == -1) { m.f = h(m) * W + m.steps; }
+            return m.f;
         }
     }
 
@@ -50,7 +50,8 @@ namespace HAL_Solver
     {
         public override int f(Map m)
         {
-            return h(m);
+            if (m.f == -1) { m.f = h(m); }
+            return m.f;
         }
     }
 
@@ -60,7 +61,7 @@ namespace HAL_Solver
     {
         public override int Compare(Map x, Map y)
         {
-            return -1; // Might need to be 0 at first index.
+            return y.id.CompareTo(x.id);
         }
     }
 }
