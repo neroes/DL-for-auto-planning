@@ -138,5 +138,11 @@ namespace HAL_Solver
         {
             return goals.ManDist(boxes);
         }
+
+        public int distToActor()
+        {
+            return actors.ManDistAct(boxes);
+        }
+        
     }
 }

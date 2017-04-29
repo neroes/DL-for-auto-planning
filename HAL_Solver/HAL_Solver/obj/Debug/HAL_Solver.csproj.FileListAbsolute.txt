@@ -16,3 +16,9 @@ C:\Users\Minteah\Source\Repos\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.
 C:\Users\Minteah\Source\Repos\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.exe
 C:\Users\Minteah\Source\Repos\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.pdb
 C:\Users\Minteah\Source\Repos\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.csprojResolveAssemblyReference.cache
+C:\Users\Jon\Documents\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.exe.config
+C:\Users\Jon\Documents\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.exe
+C:\Users\Jon\Documents\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.pdb
+C:\Users\Jon\Documents\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.exe
+C:\Users\Jon\Documents\AI-MAS\HAL_Solver\HAL_Solver\bin\Debug\HAL_Solver.pdb
+C:\Users\Jon\Documents\AI-MAS\HAL_Solver\HAL_Solver\obj\Debug\HAL_Solver.csprojResolveAssemblyReference.cache
