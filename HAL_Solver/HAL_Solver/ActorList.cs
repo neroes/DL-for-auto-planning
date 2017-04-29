@@ -158,38 +158,5 @@ namespace HAL_Solver
             }
             return true;
         }
-        
-        public int ManDistAct(BoxList boxlist, Collection<int> boxes)//manhattendistance
-        {
-            int totaldist = 0;
-
-            foreach (Actor actor in actors)
-            {
-                int minDistToActor = 1000000;
-                foreach (int boxnumber in boxes)
-                {
-                    Node actorpos = new Node(actor.x, actor.y);
-                    int dist = boxlist[boxnumber] - actorpos;
-                    if (dist < minDistToActor) { minDistToActor = dist; }
-                }
-                totaldist += minDistToActor;
-            }
-            return totaldist;
-        }
-
-        public int ManDistAct(BoxList boxlist)
-        {
-            int Actdist = 0;
-            foreach (Actor actor in actors)
-            {
-                // Kan ikke helt få skrevet den her linje korrekt, den er direkte baseret på den tilsvarende i GoalList for box til goal manhatdist
-                // Er derudover rimeligt sikker på at ovenstående ManDistAct nok ikke er fuldstændigt optimalt, da jeg laver en ny Node.
-
-                // Skulle bare være actdist+= ManDistAct på alle actors som i kan se, men jeg kan ikke få BoxList delen til at virke, derudover er det jo egentligt ikke under actors at det
-                // Skal være
-                Actdist += actors.ManDistAct(boxlist, BoxList.boxNameGroups[actor.id]);
-            }
-            return Actdist;
-        }
     }
 }
