@@ -15,7 +15,7 @@ namespace HAL_Solver
             int colcount = 0, rowcount = 0;
             getfilesize(filename, out colcount, out rowcount);
             Dictionary<Node, char> newboxes = new Dictionary<Node, char>();
-            Collection<Actor> newactors = new Collection<Actor>();
+            HashSet<Actor> newactors = new HashSet<Actor>();
             GoalList newgoals = new GoalList();
             Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
             bool[] newwallmap = new bool[colcount*rowcount];

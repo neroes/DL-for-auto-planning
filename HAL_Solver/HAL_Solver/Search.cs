@@ -11,7 +11,7 @@ namespace HAL_Solver
     {
         private static Heuristic h;
         private SortedSet<Map> frontier; 
-        private Collection<Map> explored = new Collection<Map>();
+        private HashSet<Map> explored = new HashSet<Map>();
 
         public Search(Heuristic nh)
         {

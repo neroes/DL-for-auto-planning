@@ -55,25 +55,24 @@ namespace HAL_Solver
             return true;
         }
 
-        public Map (bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
+        public Map(bool[] newwallMap, int mapwidth, HashSet<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
         {
             id = Map.nextId++;
             wallMap = newwallMap;
             mapWidth = mapwidth;
-            Collection<Color> newactorcolors = new Collection<Color>(); int i = 0;
+            HashSet<Color> newactorcolors = new HashSet<Color>(); int i = 0;
             foreach (Actor a in newactors)
             {
                 newactorcolors.Add(colorDict[i.ToString()[0]]);
                 i++;
             }
-            
 
             actors = new ActorList(newactors, newactorcolors);
-            boxes = new BoxList(newboxes,colorDict);
+            boxes = new BoxList(newboxes, colorDict);
             goals = newgoals;
             steps = 0;
         }
-        public Map (Map oldmap)
+        public Map(Map oldmap)
         {
             id = Map.nextId++;
             parent = oldmap;
@@ -82,7 +81,7 @@ namespace HAL_Solver
             steps = oldmap.steps + 1;
         }
 
-        public Collection<Node> getBoxGroup(char name)
+        public HashSet<Node> getBoxGroup(char name)
         {
             return boxes.getBoxesOfName(name);
         }
@@ -90,7 +89,12 @@ namespace HAL_Solver
         {
             return actors[name];
         }
-        public Collection<act>[] getAllActions()
+        public Actor[] getActors()
+        {
+            return actors.getAllActors();
+        }
+
+        public HashSet<act>[] getAllActions()
         {
             return actors.getAllActions(this);
 
@@ -98,7 +102,7 @@ namespace HAL_Solver
 
         internal bool isBox(int x, int y, Color color, out int box)
         {
-            Collection<int> checklist = boxes.getBoxesOfColor(color);
+            HashSet<int> checklist = boxes.getBoxesOfColor(color);
             foreach (int i in checklist)
             {
                 if (boxes[i].x == x && boxes[i].y == y) { box = i; return true; }
@@ -139,7 +143,7 @@ namespace HAL_Solver
             return goals.ManDist(boxes);
         }
 
-        public int ManDistAct(BoxList boxlist, Collection<int> boxes)//manhattendistance
+        public int ManDistAct(BoxList boxlist, HashSet<int> boxes)//manhattendistance
         {
             int totaldist = 0;
 
@@ -160,7 +164,7 @@ namespace HAL_Solver
         public int ManDistAct(BoxList boxlist)
         {
             int Actdist = 0;
-            foreach (Color color  in actors)
+            foreach (Color color in actors)
             {
                 // Kan ikke helt få skrevet den her linje korrekt, den er direkte baseret på den tilsvarende i GoalList for box til goal manhatdist
                 // Er derudover rimeligt sikker på at ovenstående ManDistAct nok ikke er fuldstændigt optimalt, da jeg laver en ny Node.
@@ -172,13 +176,19 @@ namespace HAL_Solver
             return Actdist;
         }
 
+        public HashSet<char> getGoalNames()
+        {
+            return goals.getGoalNames();
+        }
 
-
+        public HashSet<Node> getGoals(char name)
+        {
+            return goals.getGoals(name);
+        }
 
         public int distToActor()
         {
             return ManDistAct(boxes);
-        }
-        
+        } 
     }
 }
