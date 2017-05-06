@@ -6,18 +6,18 @@ namespace HAL_Solver
 {
     public class BoxList
     {
-        public static Dictionary<char, Collection<int>> boxNameGroups;// for looking up boxes by name
-        public static Dictionary<Color, Collection<int>> boxColorGroups; // for looking up boxes by color
-        // Collection<Node> boxes; // itterating across boxes
+        public static Dictionary<char, HashSet<int>> boxNameGroups;// for looking up boxes by name
+        public static Dictionary<Color, HashSet<int>> boxColorGroups; // for looking up boxes by color
+        // HashSet<Node> boxes; // itterating across boxes
         public Node[] boxes;
 
         /*public BoxList()
         {
             boxNameGroups = new Dictionary<char, BoxGroup>();
-            boxColorGroups = new Dictionary<Color, Collection<Node>>();
-            boxes = new Collection<Node>();
+            boxColorGroups = new Dictionary<Color, HashSet<Node>>();
+            boxes = new HashSet<Node>();
 
-            boxColorGroups[Color.FromKnownColor(KnownColor.Gray)] = new Collection<Node>(); // we use grey as default color
+            boxColorGroups[Color.FromKnownColor(KnownColor.Gray)] = new HashSet<Node>(); // we use grey as default color
         }*/
 
         public override int GetHashCode()
@@ -50,18 +50,18 @@ namespace HAL_Solver
         public BoxList(Dictionary<Node, char> newboxes, Dictionary<char, Color> colorDict)
         {
             boxes = new Node[newboxes.Count];
-            boxNameGroups = new Dictionary<char, Collection<int>>();
-            boxColorGroups = new Dictionary<Color, Collection<int>>();
+            boxNameGroups = new Dictionary<char, HashSet<int>>();
+            boxColorGroups = new Dictionary<Color, HashSet<int>>();
             int i = 0;
             foreach (KeyValuePair<Node, char> box in newboxes)
             {
                 Color col = colorDict[box.Value];
                 boxes[i] = box.Key;
                 if (!boxNameGroups.ContainsKey(box.Value)) {
-                    boxNameGroups[box.Value] = new Collection<int>(); }
+                    boxNameGroups[box.Value] = new HashSet<int>(); }
                 boxNameGroups[box.Value].Add(i);
                 if (!boxColorGroups.ContainsKey(col)) {
-                    boxColorGroups[col] = new Collection<int>();
+                    boxColorGroups[col] = new HashSet<int>();
                 }
                 boxColorGroups[col].Add(i);
                 i++;
@@ -79,15 +79,15 @@ namespace HAL_Solver
             boxes[id] = new Node(x, y);
         }
 
-        public Collection<int> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }
-        public Collection<Node> getBoxesOfName(char name)
+        public HashSet<int> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }
+        public HashSet<Node> getBoxesOfName(char name)
         {
-            Collection<Node> returnCollection = new Collection<Node>();
+            HashSet<Node> returnHashSet = new HashSet<Node>();
             foreach (int i in boxNameGroups[name])
             {
-                returnCollection.Add(boxes[i]);
+                returnHashSet.Add(boxes[i]);
             }
-            return returnCollection;
+            return returnHashSet;
         }
         public Node[] getAllBoxes() { return boxes; }
     }

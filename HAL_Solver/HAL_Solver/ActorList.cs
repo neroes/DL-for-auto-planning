@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,8 +8,13 @@ namespace HAL_Solver
     class ActorList
     {
         public Actor[] actors;
-        public static Dictionary<Color, Collection<int>> colordict;
+        public static Dictionary<Color, HashSet<int>> colordict;
         public static Color[] intToColorDict;
+
+        public IEnumerator GetEnumerator()
+        {
+            return actors.GetEnumerator();
+        }
 
         public override int GetHashCode()
         {
@@ -37,10 +43,10 @@ namespace HAL_Solver
             return true;
         }
 
-        public ActorList(Collection<Actor> newactors, Collection<Color> newactorsColors)
+        public ActorList(HashSet<Actor> newactors, HashSet<Color> newactorsColors)
         {
             actors = new Actor[newactors.Count()];
-            colordict = new Dictionary<Color, Collection<int>>();
+            colordict = new Dictionary<Color, HashSet<int>>();
             intToColorDict = new Color[newactors.Count()];
             int i = 0;
             IEnumerator<Color> colorenum = newactorsColors.GetEnumerator();
@@ -48,7 +54,7 @@ namespace HAL_Solver
             {
                 actors[i] = actor;
                 intToColorDict[i] = colorenum.Current;
-                if (!colordict.ContainsKey(colorenum.Current)) { colordict[colorenum.Current] = new Collection<int>(); }
+                if (!colordict.ContainsKey(colorenum.Current)) { colordict[colorenum.Current] = new HashSet<int>(); }
                 colordict[colorenum.Current].Add(i);
                 i++;
             }
@@ -59,9 +65,9 @@ namespace HAL_Solver
         }
 
         public Actor[] getAllActors() { return actors; }
-        public Collection<act>[] getAllActions(Map map)
+        public HashSet<act>[] getAllActions(Map map)
         {
-            Collection<act>[] actions = new Collection<act>[actors.Length];
+            HashSet<act>[] actions = new HashSet<act>[actors.Length];
             int i = 0;
             foreach (Actor actor in actors)
             {
@@ -71,14 +77,14 @@ namespace HAL_Solver
             return actions;
         }
         public Actor this[Byte c]{ get { return actors[c]; } }
-        public Collection<Actor> this[Color c]
+        public HashSet<Actor> this[Color c]
         { get {
-                Collection<Actor> returnCollection = new Collection<Actor>();
+                HashSet<Actor> returnHashSet = new HashSet<Actor>();
                 foreach (int i in colordict[c])
                 {
-                    returnCollection.Add(actors[i]);
+                    returnHashSet.Add(actors[i]);
                 }
-                return returnCollection;
+                return returnHashSet;
             } }
         public void performMove() { }
 
