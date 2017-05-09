@@ -21,8 +21,8 @@ namespace HAL_Solver
         public int f = -1;
         public Map parent;
         public int steps;
-        static int mapWidth;
-        static bool[] wallMap;
+        public static int mapWidth;
+        public static bool[] wallMap;
         static GoalList goals;
         ActorList actors;
         BoxList boxes;
@@ -129,10 +129,11 @@ namespace HAL_Solver
 
         public bool isWall(int x, int y) { return wallMap[x + y*mapWidth]; }
 
-        public void PerformActions (act[] actions)
+        public bool PerformActions (act[] actions)
         {
 
-            actors.PerformActions(actions, ref boxes);
+            return actors.PerformActions(actions, ref boxes);
+
         }
         public bool isGoal()
         {

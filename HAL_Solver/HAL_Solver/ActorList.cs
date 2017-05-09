@@ -88,8 +88,9 @@ namespace HAL_Solver
             } }
         public void performMove() { }
 
-        internal void PerformActions(act[] actions, ref BoxList boxes)
+        internal bool PerformActions(act[] actions, ref BoxList boxes)
         {
+            bool[] activeboxlist = new bool[boxes.boxes.Length];
             for (int i = 0; i<actions.Count(); i++)
             {
                 switch (actions[i].inter) {
@@ -102,17 +103,39 @@ namespace HAL_Solver
                         Node pushbox = new Node(boxes[actions[i].box]);
                         Push(actors[i], ref pushbox, actions[i].dir, actions[i].boxdir);
                         boxes[actions[i].box] = pushbox;
+
+                        if (activeboxlist[actions[i].box] == true) { return false; }
+                        else { activeboxlist[actions[i].box] = true; }
                         break;
                     case Interact.PULL:
                         actors[i] = new Actor(actors[i]);
                         Node pullbox = new Node(boxes[actions[i].box]);
                         Pull(actors[i], ref pullbox, actions[i].dir, actions[i].boxdir);
                         boxes[actions[i].box] = pullbox;
+
+                        if (activeboxlist[actions[i].box] == true) { return false; }
+                        else { activeboxlist[actions[i].box] = true; }
                         break;
                     case Interact.WAIT:
                         break;
                 }
             }
+            return isLegal(boxes);
+        }
+        public bool isLegal(BoxList boxes)
+        {
+            bool[] tempmap = new bool[Map.wallMap.Length];
+            for (int i = 0; i<actors.Length; i++)
+            {
+                if (tempmap[actors[i].y * Map.mapWidth + actors[i].x] == true) {  return false; }
+                else { return true; }
+            }
+            for (int i = 0; i < boxes.boxes.Length; i++)
+            {
+                if (tempmap[boxes.boxes[i].y * Map.mapWidth + boxes.boxes[i].x] == true) { return false; }
+                else { return true; }
+            }
+            return false;
         }
         public bool Push(Actor actor, ref Node box, Direction dir, Direction boxdir) {
 
