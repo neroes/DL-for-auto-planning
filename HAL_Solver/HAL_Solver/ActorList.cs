@@ -128,14 +128,14 @@ namespace HAL_Solver
             for (int i = 0; i<actors.Length; i++)
             {
                 if (tempmap[actors[i].y * Map.mapWidth + actors[i].x] == true) {  return false; }
-                else { return true; }
+                else { tempmap[actors[i].y * Map.mapWidth + actors[i].x] = true; }
             }
             for (int i = 0; i < boxes.boxes.Length; i++)
             {
                 if (tempmap[boxes.boxes[i].y * Map.mapWidth + boxes.boxes[i].x] == true) { return false; }
-                else { return true; }
+                else { tempmap[boxes.boxes[i].y * Map.mapWidth + boxes.boxes[i].x] = true; }
             }
-            return false;
+            return true;
         }
         public bool Push(Actor actor, ref Node box, Direction dir, Direction boxdir) {
 

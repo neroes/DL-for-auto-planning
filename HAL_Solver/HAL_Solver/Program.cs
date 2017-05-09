@@ -81,9 +81,11 @@ namespace HAL_Solver
                         Map nmap = new Map(smap);
                         act[] actions = new act[1];
                         actions[0] = action;
-                        nmap.PerformActions(actions);
-                        if (nmap.isGoal()) { return nmap; }
-                        search.addToFrontier(nmap);
+                        if (nmap.PerformActions(actions))
+                        {
+                            if (nmap.isGoal()) { return nmap; }
+                            search.addToFrontier(nmap);
+                        }
                     }
                 }
             }
