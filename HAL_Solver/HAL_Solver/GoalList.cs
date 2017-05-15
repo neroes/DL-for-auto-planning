@@ -6,12 +6,12 @@ namespace HAL_Solver
     public class GoalList
     {
         Dictionary<char,GoalGroup> goalgroups;
-        Collection<char> names;
+        HashSet<char> names;
         
         public GoalList()
         {
             goalgroups = new Dictionary<char,GoalGroup>();
-            names = new Collection<char>();
+            names = new HashSet<char>();
         }
         public void Add(byte x, byte y, char name)
         {
@@ -21,17 +21,17 @@ namespace HAL_Solver
         class GoalGroup
         {
             char name;
-            Collection<Node> goals;
+            HashSet<Node> goals;
             public GoalGroup(char name)
             {
                 this.name = name;
-                goals = new Collection<Node>();
+                goals = new HashSet<Node>();
             }
             public void addgoal(byte x, byte y)
             {
                 goals.Add(new Node(x, y));
             }
-            public int ManDist(BoxList boxlist, Collection<int> boxes)//manhattendistance
+            public int ManDist(BoxList boxlist, HashSet<int> boxes) // Manhattan Distance
             {
                 int totaldist = 0;
 
@@ -47,9 +47,8 @@ namespace HAL_Solver
                 }
                 return totaldist;
             }
-            public bool IsInGoal(BoxList boxlist, Collection<int> boxes)
+            public bool IsInGoal(BoxList boxlist, HashSet<int> boxes)
             {
-                
                 foreach (Node goal in goals)
                 {
                     bool res = false;
@@ -60,6 +59,11 @@ namespace HAL_Solver
                     if (res == false) { return false; }
                 }
                 return true;
+            }
+
+            public HashSet<Node> getGoals()
+            {
+                return goals;
             }
         }
         public bool IsInGoal(BoxList boxlist)
@@ -78,6 +82,16 @@ namespace HAL_Solver
                 goaldist += goalgroups[name].ManDist(boxlist, BoxList.boxNameGroups[name]);
             }
             return goaldist;
+        }
+
+        public HashSet<char> getGoalNames()
+        {
+            return names;
+        }
+
+        public HashSet<Node> getGoals(char name)
+        {
+            return goalgroups[name].getGoals();
         }
     }
 }
