@@ -151,8 +151,8 @@ namespace HAL_Solver
         }
         public bool Push(Actor actor, ref Node box, Direction dir, Direction boxdir) {
 
-            Move(actor, boxdir);
-            Move(ref box, dir);
+            Move(actor, dir);
+            Move(ref box, boxdir);
             return true;
         }
         public bool Pull(Actor actor, ref Node box, Direction dir, Direction boxdir) {

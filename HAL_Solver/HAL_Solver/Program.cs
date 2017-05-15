@@ -38,7 +38,7 @@ namespace HAL_Solver
             while (true)
             {
                 // Only prints a-boxes. This is only temporary testing though. It needs to input to the server.
-                HashSet<Node> aBoxes = printmap.getBoxGroup('a');
+                Node[] aBoxes = printmap.getAllBoxes();//.getBoxGroup('a');
                 Actor[] actors = printmap.getActors();
                 foreach (Actor actor in actors)
                 {
