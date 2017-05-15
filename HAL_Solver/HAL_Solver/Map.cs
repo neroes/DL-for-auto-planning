@@ -127,9 +127,9 @@ namespace HAL_Solver
             return true;
         }
 
-        public bool isWall(int x, int y) { return wallMap[x + y*mapWidth]; }
+        public bool isWall(int x, int y) { return wallMap[x + y * mapWidth]; }
 
-        public bool PerformActions (act[] actions)
+        public bool PerformActions(act[] actions)
         {
 
             return actors.PerformActions(actions, ref boxes);
@@ -148,7 +148,7 @@ namespace HAL_Solver
         {
             int totaldist = 0;
 
-            foreach (Actor actor in actors)
+            foreach (Actor actor in actors.getAllActors())
             {
                 int minDistToActor = 1000000;
                 foreach (int boxnumber in boxes)
@@ -156,6 +156,7 @@ namespace HAL_Solver
                     Node actorpos = new Node(actor.x, actor.y);
                     int dist = boxlist[boxnumber] - actorpos;
                     if (dist < minDistToActor) { minDistToActor = dist; }
+                    if (isGoal() == true) { minDistToActor = 0; }
                 }
                 totaldist += minDistToActor;
             }
@@ -165,13 +166,8 @@ namespace HAL_Solver
         public int ManDistAct(BoxList boxlist)
         {
             int Actdist = 0;
-            foreach (Color color in actors)
+            foreach (Color color in ActorList.intToColorDict)
             {
-                // Kan ikke helt få skrevet den her linje korrekt, den er direkte baseret på den tilsvarende i GoalList for box til goal manhatdist
-                // Er derudover rimeligt sikker på at ovenstående ManDistAct nok ikke er fuldstændigt optimalt, da jeg laver en ny Node.
-
-                // Skulle bare være actdist+= ManDistAct på alle actors som i kan se, men jeg kan ikke få BoxList delen til at virke, derudover er det jo egentligt ikke under actors at det
-                // Skal være
                 Actdist += ManDistAct(boxlist, BoxList.boxColorGroups[color]);
             }
             return Actdist;
@@ -190,6 +186,6 @@ namespace HAL_Solver
         public int distToActor()
         {
             return ManDistAct(boxes);
-        } 
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace HAL_Solver
 {
     public abstract class Heuristic : IComparer<Map>
     {
+        public int h(Map m) { return m.distToGoal() +  m.distToActor(); } // This is the heuristic.
         private Dictionary<Node, Byte> priority; // This needs to be implemented.
         private Dictionary<Node, Node> boxOfGoal;
 
@@ -84,7 +85,6 @@ namespace HAL_Solver
             }
         }
 
-        public int h(Map m) { return m.distToGoal() /*+ m.distToActor()*/; } // This is the heuristic.
 
         public virtual int f(Map m) { return 0; }
 
