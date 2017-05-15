@@ -155,10 +155,10 @@ namespace HAL_Solver
             switch (dir)
             {
                 case Direction.N:
-                    actor.y++;
+                    actor.y--;
                     break;
                 case Direction.S:
-                    actor.y--;
+                    actor.y++;
                     break;
                 case Direction.E:
                     actor.x++;
@@ -174,10 +174,10 @@ namespace HAL_Solver
             switch (dir)
             {
                 case Direction.N:
-                    box.y++;
+                    box.y--;
                     break;
                 case Direction.S:
-                    box.y--;
+                    box.y++;
                     break;
                 case Direction.E:
                     box.x++;

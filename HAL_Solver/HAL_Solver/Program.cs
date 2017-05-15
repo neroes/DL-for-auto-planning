@@ -130,11 +130,43 @@ namespace HAL_Solver
                 Map smap = search.getFromFrontier();
                 if (smap.isGoal()) { return smap; }
                 HashSet<act>[] actionlist = smap.getAllActions();
-                foreach (HashSet<act> actorlist in actionlist)
+
+
+                IEnumerator<act>[] enumerators = new IEnumerator<act>[actionlist.Count()];
+                for (int j = 0; j < actionlist.Count(); j++)
+                {
+                    enumerators[j] = actionlist[j].GetEnumerator();
+                    enumerators[j].MoveNext();
+                }
+                bool run = true;
+                while (run)
+                {
+                    act[] actions = new act[enumerators.Count()];
+                    for (int j = 0; j < enumerators.Count(); j++)
+                    {
+                        actions[j] = enumerators[j].Current;
+                    }
+                    int k = 0;
+                    while (!enumerators[k].MoveNext())
+                    {
+                        enumerators[k].Reset();
+                        k++;
+                        if (k == enumerators.Count()) { run = false; break; }
+                    }
+                    Map nmap = new Map(smap);
+                    if (nmap.PerformActions(actions))
+                    {
+                        if (nmap.isGoal()) { return nmap; }
+                        search.addToFrontier(nmap);
+                    }
+                }
+                
+
+                /*foreach (HashSet<act> actorlist in actionlist)
                 {
                     foreach (act action in actorlist)
                     {
-                        Map nmap = new Map(smap);
+                        
                         act[] actions = new act[1];
                         actions[0] = action;
                         if (nmap.PerformActions(actions))
@@ -143,8 +175,9 @@ namespace HAL_Solver
                             search.addToFrontier(nmap);
                         }
                     }
-                }
+                }*/
             }
         }
+        
     }
 }

@@ -57,37 +57,38 @@ namespace HAL_Solver
             HashSet<act> actionList = new HashSet<act>();
             int box = 0;
             bool[,] isempty = new bool[3, 3];
-            isempty[0, 0] = currentMap.isEmptySpace(x - 1, y + 1);
-            isempty[1, 0] = currentMap.isEmptySpace(x    , y + 1);
-            isempty[2, 0] = currentMap.isEmptySpace(x + 1, y + 1);
+            isempty[0, 0] = currentMap.isEmptySpace(x - 1, y - 1);
+            isempty[1, 0] = currentMap.isEmptySpace(x    , y - 1);
+            isempty[2, 0] = currentMap.isEmptySpace(x + 1, y - 1);
             isempty[0, 1] = currentMap.isEmptySpace(x - 1, y    );
             isempty[2, 1] = currentMap.isEmptySpace(x + 1, y    );
-            isempty[0, 2] = currentMap.isEmptySpace(x - 1, y - 1);
-            isempty[1, 2] = currentMap.isEmptySpace(x    , y - 1);
-            isempty[2, 2] = currentMap.isEmptySpace(x + 1, y - 1);
+            isempty[0, 2] = currentMap.isEmptySpace(x - 1, y + 1);
+            isempty[1, 2] = currentMap.isEmptySpace(x    , y + 1);
+            isempty[2, 2] = currentMap.isEmptySpace(x + 1, y + 1);
 
-
-            if (!currentMap.isWall(x, y + 1))
+            System.Console.WriteLine(x + " " + y);
+            System.Console.WriteLine(isempty.ToString());
+            if (!currentMap.isWall(x, y - 1))
             {
                 if (isempty[1,0]) { actionList.Add(new act(Interact.MOVE,Direction.N)); }
-                else if (currentMap.isBox(x, y + 1,getcolor(), out box))
+                else if (currentMap.isBox(x, y - 1,getcolor(), out box))
                 {
                     if (isempty[2, 0]) { actionList.Add(new act(Interact.PUSH,Direction.E,Direction.N,box)); }
                     if (isempty[0, 0]) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.N, box)); }
-                    if (currentMap.isEmptySpace(x, y + 2)) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.N, box)); }
+                    if (currentMap.isEmptySpace(x, y - 2)) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.N, box)); }
                     if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.S, box)); }
                     if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.S, box)); }
                     if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.S, box)); }
                 }
             }
-            if (!currentMap.isWall(x, y - 1))
+            if (!currentMap.isWall(x, y + 1))
             {
                 if (isempty[1,2]) { actionList.Add(new act(Interact.MOVE, Direction.S)); }
-                else if (currentMap.isBox(x, y - 1, getcolor(), out box))
+                else if (currentMap.isBox(x, y + 1, getcolor(), out box))
                 {
                     if (isempty[2, 2]) { actionList.Add(new act(Interact.PUSH, Direction.E, Direction.S, box)); }
                     if (isempty[0, 2]) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.S, box)); }
-                    if (currentMap.isEmptySpace(x, y - 2)) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.S, box)); }
+                    if (currentMap.isEmptySpace(x, y + 2)) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.S, box)); }
                     if (isempty[1, 0]) { actionList.Add(new act(Interact.PULL, Direction.N, Direction.N, box)); }
                     if (isempty[2, 1]) { actionList.Add(new act(Interact.PULL, Direction.E, Direction.N, box)); }
                     if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.N, box)); }
