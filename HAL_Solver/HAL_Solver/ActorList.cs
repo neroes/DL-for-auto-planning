@@ -53,6 +53,7 @@ namespace HAL_Solver
             foreach (Actor actor in newactors)
             {
                 actors[i] = actor;
+                colorenum.MoveNext();
                 intToColorDict[i] = colorenum.Current;
                 if (!colordict.ContainsKey(colorenum.Current)) { colordict[colorenum.Current] = new HashSet<int>(); }
                 colordict[colorenum.Current].Add(i);

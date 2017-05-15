@@ -54,8 +54,64 @@ namespace HAL_Solver
                 if (printmap.parent == null) { break; }
                 else { printmap = printmap.parent; }
             }
+            LinkedList<act[]> actionlist = restoreactions(finalmap);
+            foreach(act[] actiongroup in actionlist)
+            {
+                string line = "[";
+                for (int i = 0; i < actiongroup.Count()-1; i++)
+                {
+                    line = line + actiongroup[i].ToString();
+                    line = line + ", ";
+                }
+                line = line + actiongroup[actiongroup.Count()-1].ToString();
+                line = line + "]";
+                System.Console.WriteLine(line);
+            }
             System.Console.Write("pizza");
             
+        }
+        public static LinkedList<act[]> restoreactions(Map map)
+        {
+            LinkedList<act[]> actions;
+            if (map.parent != null) { actions = restoreactions(map.parent); }
+            else { actions = new LinkedList<act[]>(); return actions; }
+
+            Actor[] actors = map.getActors();
+            Actor[] parentactors = map.parent.getActors();
+            
+            int actorcount = actors.Count();
+            act[] actiongroup = new act[actorcount];
+
+            for (int i = 0; i< actorcount; i++)
+            {
+                if (actors[i].y < parentactors[i].y) { actiongroup[i] = new act(Interact.MOVE,Direction.N); }
+                else if (actors[i].y > parentactors[i].y) { actiongroup[i] = new act(Interact.MOVE, Direction.S); }
+                else if (actors[i].x < parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.E); }
+                else if (actors[i].x > parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.W); }
+                else { actiongroup[i] = new act(Interact.WAIT); }
+                int box;
+                if (map.parent.isBox(actors[i].x,actors[i].y,actors[i].getcolor(),out box))
+                {
+                    Node newbox = map.parent.getbox(box);
+                    Node oldbox = map.getbox(box);
+                    if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.N, box); }
+                    else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.S, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.E, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.W, box); }
+                }
+                else if (map.isBox(parentactors[i].x, parentactors[i].y, parentactors[i].getcolor(), out box))
+                {
+                    Node newbox = map.parent.getbox(box);
+                    Node oldbox = map.getbox(box);
+                    if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.N, box); }
+                    else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.S, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
+                }
+            }
+            
+            actions.AddLast(actiongroup);
+            return actions;
         }
         public static Map solver(Search search, Map map)
         {

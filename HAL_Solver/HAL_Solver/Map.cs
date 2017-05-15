@@ -80,7 +80,10 @@ namespace HAL_Solver
             boxes = new BoxList(oldmap.boxes);
             steps = oldmap.steps + 1;
         }
-
+        public Node getbox (int id)
+        {
+            return boxes[id];
+        }
         public HashSet<Node> getBoxGroup(char name)
         {
             return boxes.getBoxesOfName(name);

@@ -150,5 +150,58 @@ namespace HAL_Solver
             this.boxdir = Direction.NONE;
             this.box = 255;
         }
+        public override string ToString()
+        {
+            string operation = "";
+            string boxstring ="";
+            string actorstring = "";
+            switch (dir)
+            {
+                case Direction.N:
+                    actorstring = "N";
+                    break;
+                case Direction.S:
+                    actorstring = "S";
+                    break;
+                case Direction.E:
+                    actorstring = "E";
+                    break;
+                case Direction.W:
+                    actorstring = "W";
+                    break;
+            }
+            switch (boxdir)
+            {
+                case Direction.N:
+                    boxstring = "N";
+                    break;
+                case Direction.S:
+                    boxstring = "S";
+                    break;
+                case Direction.E:
+                    boxstring = "E";
+                    break;
+                case Direction.W:
+                    boxstring = "W";
+                    break;
+            }
+            switch (inter)
+            {
+                case Interact.WAIT:
+                    operation = "NoOp";
+                    break;
+                case Interact.MOVE:
+                    operation = "Move(" + actorstring + ")";
+                    break;
+                case Interact.PUSH:
+                    operation = "Push(" + actorstring + "," + boxstring + ")";
+                    break;
+                case Interact.PULL:
+                    operation = "Pull(" + actorstring + "," + boxstring + ")";
+                    break;
+                
+            }
+            return operation;
+        }
     }
 }
