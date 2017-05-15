@@ -12,7 +12,6 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-<<<<<<< HEAD
             MapLoad.loadMap("MAsimple1.lvl", out map);/*
 =======
             MapLoad.loadMap("testmap.lvl", out map);/*

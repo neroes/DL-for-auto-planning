@@ -55,8 +55,7 @@ namespace HAL_Solver
                     string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {
-                        
-                        colorDict[name[0]] = (Color)Enum.Parse(typeof(Color), splitline[0]);    
+                        colorDict[name[0]] = (Color)Enum.Parse(typeof(Color), splitline[0].ToLower());    
                     }
                     //do color devision
                 }

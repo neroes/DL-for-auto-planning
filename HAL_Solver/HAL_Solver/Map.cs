@@ -127,9 +127,9 @@ namespace HAL_Solver
             return true;
         }
 
-        public bool isWall(int x, int y) { return wallMap[x + y*mapWidth]; }
+        public bool isWall(int x, int y) { return wallMap[x + y * mapWidth]; }
 
-        public bool PerformActions (act[] actions)
+        public bool PerformActions(act[] actions)
         {
 
             return actors.PerformActions(actions, ref boxes);
@@ -143,13 +143,8 @@ namespace HAL_Solver
         {
             return goals.ManDist(boxes);
         }
-<<<<<<< HEAD
-        
-        public int ManDistAct(BoxList boxlist, Collection<int> boxes)//manhattendistance
-=======
 
         public int ManDistAct(BoxList boxlist, HashSet<int> boxes)//manhattendistance
->>>>>>> refs/remotes/origin/master
         {
             int totaldist = 0;
 
@@ -161,7 +156,7 @@ namespace HAL_Solver
                     Node actorpos = new Node(actor.x, actor.y);
                     int dist = boxlist[boxnumber] - actorpos;
                     if (dist < minDistToActor) { minDistToActor = dist; }
-                    if (isGoal() == true) { minDistToActor = 0;}
+                    if (isGoal() == true) { minDistToActor = 0; }
                 }
                 totaldist += minDistToActor;
             }
@@ -171,11 +166,7 @@ namespace HAL_Solver
         public int ManDistAct(BoxList boxlist)
         {
             int Actdist = 0;
-<<<<<<< HEAD
-            foreach (Color color  in ActorList.intToColorDict)
-=======
-            foreach (Color color in actors)
->>>>>>> refs/remotes/origin/master
+            foreach (Color color in ActorList.intToColorDict)
             {
                 Actdist += ManDistAct(boxlist, BoxList.boxColorGroups[color]);
             }
@@ -195,10 +186,6 @@ namespace HAL_Solver
         public int distToActor()
         {
             return ManDistAct(boxes);
-<<<<<<< HEAD
         }
-=======
-        } 
->>>>>>> refs/remotes/origin/master
     }
 }
