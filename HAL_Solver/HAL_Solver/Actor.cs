@@ -52,9 +52,9 @@ namespace HAL_Solver
         {
             return ActorList.intToColorDict[id];
         }
-        public Collection<act> getActions(Map currentMap )
+        public HashSet<act> getActions(Map currentMap )
         {
-            Collection<act> actionList = new Collection<act>();
+            HashSet<act> actionList = new HashSet<act>();
             int box = 0;
             bool[,] isempty = new bool[3, 3];
             isempty[0, 0] = currentMap.isEmptySpace(x - 1, y + 1);

@@ -12,14 +12,18 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
+<<<<<<< HEAD
             MapLoad.loadMap("MAsimple1.lvl", out map);/*
+=======
+            MapLoad.loadMap("testmap.lvl", out map);/*
+>>>>>>> refs/remotes/origin/master
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
             map2.PerformActions(actions);
             map2.PerformActions(actions);
             map2.PerformActions(actions);*/
-            Search search = new Search(new Astar());
+            Search search = new Search(new Astar(map));
             Map finalmap = solver(search, map);
 
             //map.GetHashCode();
@@ -37,7 +41,20 @@ namespace HAL_Solver
             Map printmap = finalmap;
             while (true)
             {
-                System.Console.WriteLine("Box1 Position: {0},{1}\t Actor1 Position: {2},{3}\t Steps: {4}", printmap.getBoxGroup('a')[0].x, printmap.getBoxGroup('a')[0].y, printmap.getActor(0).x, printmap.getActor(0).y, printmap.steps);
+                // Only prints a-boxes. This is only temporary testing though. It needs to input to the server.
+                HashSet<Node> aBoxes = printmap.getBoxGroup('a');
+                Actor[] actors = printmap.getActors();
+                foreach (Actor actor in actors)
+                {
+                    System.Console.Write("Actor{0} Position: {1},{2}\n", actor.id, actor.x, actor.y);
+                }
+                int count = 1;
+                foreach (Node box in aBoxes)
+                {
+                    System.Console.Write("Box{0} Position: {1},{2}\n", count, box.x, box.y);
+                    count++;
+                }
+                System.Console.Write("Steps: {0}\n\n", printmap.steps);
                 if (printmap.parent == null) { break; }
                 else { printmap = printmap.parent; }
             }
@@ -60,17 +77,19 @@ namespace HAL_Solver
                 }
                 Map smap = search.getFromFrontier();
                 if (smap.isGoal()) { return smap; }
-                Collection<act>[] actionlist = smap.getAllActions();
-                foreach (Collection<act> actorlist in actionlist)
+                HashSet<act>[] actionlist = smap.getAllActions();
+                foreach (HashSet<act> actorlist in actionlist)
                 {
                     foreach (act action in actorlist)
                     {
                         Map nmap = new Map(smap);
                         act[] actions = new act[1];
                         actions[0] = action;
-                        nmap.PerformActions(actions);
-                        if (nmap.isGoal()) { return nmap; }
-                        search.addToFrontier(nmap);
+                        if (nmap.PerformActions(actions))
+                        {
+                            if (nmap.isGoal()) { return nmap; }
+                            search.addToFrontier(nmap);
+                        }
                     }
                 }
             }
