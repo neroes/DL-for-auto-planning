@@ -10,10 +10,18 @@ namespace HAL_Solver
 {
     class MapLoad
     {
-        public static void loadMap(string filename, out Map map)
+        public static void loadMap(StreamReader lines, out Map map)
         {
+            List<string> mapLines = new List<string>();
+
+            string l;
+            do {
+                l = lines.ReadLine();
+                mapLines.Add(l);
+            } while (l != "");
+
             int colcount = 0, rowcount = 0;
-            getfilesize(filename, out colcount, out rowcount);
+            getfilesize(mapLines, out colcount, out rowcount);
             Dictionary<Node, char> newboxes = new Dictionary<Node, char>();
             HashSet<Actor> newactors = new HashSet<Actor>();
             GoalList newgoals = new GoalList();
@@ -22,9 +30,9 @@ namespace HAL_Solver
 
             Byte j = 0; // row count
             bool pastSetup = false;
-            foreach (string line in File.ReadLines(@filename))
+
+            foreach (string line in mapLines)
             {
-                
                 if (line.Contains("+"))
                 {
                     pastSetup = true;
@@ -33,14 +41,16 @@ namespace HAL_Solver
                     //map construction
                     foreach (char c in line)
                     {
-                        if (c == '+') { newwallmap[i+ j*colcount] = true; }
+                        if (c == '+') { newwallmap[i + j * colcount] = true; }
                         else if (Char.IsLower(c)) { newgoals.Add(i, j, c); } // i,j is goal
-                        else if (Char.IsDigit(c)) {// i,j is actor
+                        else if (Char.IsDigit(c))
+                        {// i,j is actor
                             if (!colorDict.ContainsKey(c)) { colorDict[c] = Color.blue; }
                             newactors.Add(new Actor(i, j, Convert.ToByte(c - '0')));
-                        } 
-                        else if (Char.IsUpper(c)) {
-                            if (!colorDict.ContainsKey(Char.ToLower(c))) { colorDict[Char.ToLower(c)] = Color.blue;  }
+                        }
+                        else if (Char.IsUpper(c))
+                        {
+                            if (!colorDict.ContainsKey(Char.ToLower(c))) { colorDict[Char.ToLower(c)] = Color.blue; }
                             newboxes.Add(new Node(i, j), Char.ToLower(c));
                         } // i,j is box
 
@@ -55,8 +65,8 @@ namespace HAL_Solver
                     string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {
-                        
-                        colorDict[Char.ToLower(name[0])] = (Color)Enum.Parse(typeof(Color), splitline[0].ToLower());    
+
+                        colorDict[Char.ToLower(name[0])] = (Color)Enum.Parse(typeof(Color), splitline[0].ToLower());
                     }
                     //do color devision
                 }
@@ -64,16 +74,17 @@ namespace HAL_Solver
             map = new Map(newwallmap, colcount, newactors, newboxes, newgoals, colorDict);
 
         }
-        public static void getfilesize(string filename,out int colcount,out int rowcount)
+        public static void getfilesize(List<string> mapLines, out int colcount, out int rowcount)
         {
             colcount = 0;
             rowcount = 0;
-            foreach (string line in File.ReadLines(@filename))
+
+            foreach (string line in mapLines)
             {
-                
-                if (line.Contains("+")) {
+                if (line.Contains("+"))
+                {
                     rowcount++;
-                    if (colcount< line.Length) { colcount = line.Length; }
+                    if (colcount < line.Length) { colcount = line.Length; }
                 }
             }
         }

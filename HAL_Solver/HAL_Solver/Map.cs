@@ -71,12 +71,13 @@ namespace HAL_Solver
             boxes = new BoxList(newboxes, colorDict);
             goals = newgoals;
             steps = 0;
+            /*
             for (int j = 0; j<wallMap.Count(); j++)
             {
                 if (j%mapWidth == 0) { System.Console.WriteLine(""); }
                 if (isWall(j % mapWidth, j / mapwidth)) { System.Console.Write("+"); }
                 else { System.Console.Write(" "); }
-            }
+            }*/
         }
         public Map(Map oldmap)
         {
