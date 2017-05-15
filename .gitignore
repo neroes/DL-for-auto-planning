@@ -213,3 +213,8 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+*.pdb
+HAL_Solver/HAL_Solver/bin/Debug/HAL_Solver.exe
+*.exe
+HAL_Solver/HAL_Solver/bin/Debug/HAL_Solver.exe
+*.pdb

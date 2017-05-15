@@ -53,6 +53,7 @@ namespace HAL_Solver
             foreach (Actor actor in newactors)
             {
                 actors[i] = actor;
+                colorenum.MoveNext();
                 intToColorDict[i] = colorenum.Current;
                 if (!colordict.ContainsKey(colorenum.Current)) { colordict[colorenum.Current] = new HashSet<int>(); }
                 colordict[colorenum.Current].Add(i);
@@ -118,8 +119,19 @@ namespace HAL_Solver
                         break;
                     case Interact.WAIT:
                         break;
+                    
                 }
             }
+            /*string line = "[";
+            for (int i = 0; i < actions.Count() - 1; i++)
+            {
+                line = line + actions[i].ToString();
+                line = line + ", ";
+            }
+            line = line + actions[actions.Count() - 1].ToString();
+            line = line + "]";
+            System.Console.WriteLine(line);*/ //debug code for seeing what moves are sent
+
             return isLegal(boxes);
         }
         public bool isLegal(BoxList boxes)
@@ -154,10 +166,10 @@ namespace HAL_Solver
             switch (dir)
             {
                 case Direction.N:
-                    actor.y++;
+                    actor.y--;
                     break;
                 case Direction.S:
-                    actor.y--;
+                    actor.y++;
                     break;
                 case Direction.E:
                     actor.x++;
@@ -173,10 +185,10 @@ namespace HAL_Solver
             switch (dir)
             {
                 case Direction.N:
-                    box.y++;
+                    box.y--;
                     break;
                 case Direction.S:
-                    box.y--;
+                    box.y++;
                     break;
                 case Direction.E:
                     box.x++;

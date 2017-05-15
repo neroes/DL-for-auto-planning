@@ -9,9 +9,11 @@ namespace HAL_Solver
 {
     public abstract class Heuristic : IComparer<Map>
     {
+
         private Dictionary<Node, int> priority; // This needs to be implemented. Key is a box, value is the priority.
         private Dictionary<Node, int> boxOfGoal; // int being index of the goal.
         // Also some way for boxes that need to be moved out of the way to have a goal position perhaps.
+
 
         public Heuristic(Map initialState)
         {
