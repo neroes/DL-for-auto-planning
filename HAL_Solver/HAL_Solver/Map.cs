@@ -88,6 +88,11 @@ namespace HAL_Solver
         {
             return boxes.getBoxesOfName(name);
         }
+        public Node[] getAllBoxes()
+        {
+            return boxes.getAllBoxes();
+        }
+
         public Actor getActor(byte name)
         {
             return actors[name];

@@ -9,18 +9,21 @@ namespace HAL_Solver
 {
     public abstract class Heuristic : IComparer<Map>
     {
-        public int h(Map m) { return m.distToGoal() +  m.distToActor(); } // This is the heuristic.
-        private Dictionary<Node, Byte> priority; // This needs to be implemented.
-        private Dictionary<Node, Node> boxOfGoal;
+
+        private Dictionary<Node, int> priority; // This needs to be implemented. Key is a box, value is the priority.
+        private Dictionary<Node, int> boxOfGoal; // int being index of the goal.
+        // Also some way for boxes that need to be moved out of the way to have a goal position perhaps.
+
 
         public Heuristic(Map initialState)
         {
-            this.initHeuristic(initialState); // Seperate function so it can be disabled.
+            this.initHeuristic(initialState); // Separate function so it can easily be disabled for testing.
         }
 
         public void initHeuristic(Map m)
         {
-            this.boxOfGoal = new Dictionary<Node, Node>();
+            this.boxOfGoal = new Dictionary<Node, int>();
+            Node[] boxList = m.getAllBoxes();
 
             foreach (char name in m.getGoalNames())
             {
@@ -37,7 +40,7 @@ namespace HAL_Solver
                     {
                         double shortestDist = double.MaxValue;
                         double dist;
-                        Node takenBox = new Node(0, 0);
+                        int takenBox = -1;
                         foreach (Node box in untakenBoxes)
                         {
                             // A* search should be implemented, for now it's distance.
@@ -45,7 +48,7 @@ namespace HAL_Solver
                             if (dist < shortestDist)
                             {
                                 shortestDist = dist;
-                                takenBox = box;
+                                takenBox = Array.IndexOf(boxList, box);
                             }
                         }
                         shortestGoalDist[goal] = shortestDist;
@@ -53,7 +56,7 @@ namespace HAL_Solver
                         bool oldGoalExists = false;
                         Node oldGoal = new Node(0, 0);
                         // For each already taken goal/box combo.
-                        foreach (KeyValuePair<Node, Node> taken in this.boxOfGoal) {
+                        foreach (KeyValuePair<Node, int> taken in this.boxOfGoal) {
                             // Check if the box is taken for a different goal with a shorter distance.
                             if (taken.Value == takenBox && taken.Key != goal)
                             {
@@ -70,7 +73,7 @@ namespace HAL_Solver
                         {
                             this.boxOfGoal[goal] = takenBox;
                             redoGoalsBuffer.Remove(goal);
-                            takenBoxes.Add(takenBox);
+                            takenBoxes.Add(boxList[takenBox]);
                             // If this replaces another goal, that goal has to be redone.
                             if (oldGoalExists)
                                 redoGoalsBuffer.Add(oldGoal);
@@ -85,6 +88,24 @@ namespace HAL_Solver
             }
         }
 
+        private int DistFromGoals(Map m)
+        {
+            int dist = 0;
+            Node[] allBoxes = m.getAllBoxes();
+
+            foreach (KeyValuePair<Node, int> goalBox in boxOfGoal)
+            {
+                dist += (goalBox.Key - allBoxes[goalBox.Value]) /* * priority[goalBox.Value]*/; // Multiply with priority for weight.
+                // Possibly save A* path and check distance along that instead.
+                // Possibly include agent distances to box. Closest box only or all boxes. Check color.
+            }
+
+            return dist;
+        }
+
+        // public int h(Map m) { return m.distToGoal() /*+ m.distToActor()*/; } // This is the heuristic.
+
+        public int h(Map m) { return DistFromGoals(m); } // This is the heuristic.
 
         public virtual int f(Map m) { return 0; }
 
