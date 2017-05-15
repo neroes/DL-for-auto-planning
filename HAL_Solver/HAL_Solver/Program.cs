@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace HAL_Solver
 {
@@ -11,29 +12,49 @@ namespace HAL_Solver
     {
         static void Main(string[] args)
         {
+            Console.Error.WriteLine("HELLO WORLD!");
+
+            StreamReader level = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
+            
             Map map = null;
-            MapLoad.loadMap("MASimple1.lvl", out map);/*
+
+            Console.Error.WriteLine("Pre map-load");
+            MapLoad.loadMap(level, out map);
+            Console.Error.WriteLine("Loaded map");
+            
+            /*
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
             map2.PerformActions(actions);
             map2.PerformActions(actions);
             map2.PerformActions(actions);*/
-            Search search = new Search(new Astar(map));
+            Heuristic h;
+            switch (args[0])
+            {
+                case "BFS":
+                    h = new BFS(map);
+                    break;
+                case "DFS":
+                    h = new DFS(map);
+                    break;
+                case "WAstar":
+                    h = new WAstar(map, 5);
+                    break;
+                case "Greedy":
+                    h = new Greedy(map);
+                    break;
+                case "Astar":
+                default: // A* is default.
+                    h = new Astar(map);
+                    break;
+            }
+            Search search = new Search(h);
             Map finalmap = solver(search, map);
 
             //map.GetHashCode();
             /*Map map = null;
-            MapLoad.loadMap(args[0], out map);
-            switch (args[1])
-            {
-                case "BFS":
-                case "DFS":
-                case "Astar":
-                case "AWstar":
-                case "Greedy":
-                    break;
-            }*/
+            MapLoad.loadMap(args[0], out map);*/
             Map printmap = finalmap;
             while (true)
             {
@@ -42,15 +63,15 @@ namespace HAL_Solver
                 Actor[] actors = printmap.getActors();
                 foreach (Actor actor in actors)
                 {
-                    System.Console.Write("Actor{0} Position: {1},{2}\n", actor.id, actor.x, actor.y);
+                    Console.Error.Write("Actor{0} Position: {1},{2}\n", actor.id, actor.x, actor.y);
                 }
                 int count = 1;
                 foreach (Node box in aBoxes)
                 {
-                    System.Console.Write("Box{0} Position: {1},{2}\n", count, box.x, box.y);
+                    Console.Error.Write("Box{0} Position: {1},{2}\n", count, box.x, box.y);
                     count++;
                 }
-                System.Console.Write("Steps: {0}\n\n", printmap.steps);
+                Console.Error.Write("Steps: {0}\n\n", printmap.steps);
                 if (printmap.parent == null) { break; }
                 else { printmap = printmap.parent; }
             }
@@ -65,10 +86,9 @@ namespace HAL_Solver
                 }
                 line = line + actiongroup[actiongroup.Count()-1].ToString();
                 line = line + "]";
+                Console.Error.WriteLine(line); // Debug.
                 System.Console.WriteLine(line);
             }
-            System.Console.Write("pizza");
-            
         }
         public static LinkedList<act[]> restoreactions(Map map)
         {
@@ -86,8 +106,8 @@ namespace HAL_Solver
             {
                 if (actors[i].y < parentactors[i].y) { actiongroup[i] = new act(Interact.MOVE,Direction.N); }
                 else if (actors[i].y > parentactors[i].y) { actiongroup[i] = new act(Interact.MOVE, Direction.S); }
-                else if (actors[i].x < parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.E); }
-                else if (actors[i].x > parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.W); }
+                else if (actors[i].x < parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.W); }
+                else if (actors[i].x > parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.E); }
                 else { actiongroup[i] = new act(Interact.WAIT); }
                 int box;
                 if (map.parent.isBox(actors[i].x,actors[i].y,actors[i].getcolor(),out box))
@@ -96,8 +116,8 @@ namespace HAL_Solver
                     Node oldbox = map.getbox(box);
                     if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.N, box); }
                     else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.S, box); }
-                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.E, box); }
-                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.E, box); }
                 }
                 else if (map.isBox(parentactors[i].x, parentactors[i].y, parentactors[i].getcolor(), out box))
                 {
@@ -105,8 +125,8 @@ namespace HAL_Solver
                     Node oldbox = map.getbox(box);
                     if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.N, box); }
                     else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.S, box); }
-                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
-                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
                 }
             }
             
@@ -124,7 +144,7 @@ namespace HAL_Solver
                 i++;
                 if (i == 1000)
                 {
-                    System.Console.Write("Explored: {0}\t Frontier: {1}\n", search.exploredSize(), search.frontierSize());
+                    Console.Error.Write("Explored: {0}\t Frontier: {1}\n", search.exploredSize(), search.frontierSize());
                     i = 0;
                 }
                 Map smap = search.getFromFrontier();
