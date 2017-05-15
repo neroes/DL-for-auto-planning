@@ -86,8 +86,8 @@ namespace HAL_Solver
             {
                 if (actors[i].y < parentactors[i].y) { actiongroup[i] = new act(Interact.MOVE,Direction.N); }
                 else if (actors[i].y > parentactors[i].y) { actiongroup[i] = new act(Interact.MOVE, Direction.S); }
-                else if (actors[i].x < parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.E); }
-                else if (actors[i].x > parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.W); }
+                else if (actors[i].x < parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.W); }
+                else if (actors[i].x > parentactors[i].x) { actiongroup[i] = new act(Interact.MOVE, Direction.E); }
                 else { actiongroup[i] = new act(Interact.WAIT); }
                 int box;
                 if (map.parent.isBox(actors[i].x,actors[i].y,actors[i].getcolor(),out box))
@@ -96,8 +96,8 @@ namespace HAL_Solver
                     Node oldbox = map.getbox(box);
                     if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.N, box); }
                     else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.S, box); }
-                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.E, box); }
-                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PUSH, actiongroup[i].dir, Direction.E, box); }
                 }
                 else if (map.isBox(parentactors[i].x, parentactors[i].y, parentactors[i].getcolor(), out box))
                 {
@@ -105,8 +105,8 @@ namespace HAL_Solver
                     Node oldbox = map.getbox(box);
                     if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.N, box); }
                     else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.S, box); }
-                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
-                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
                 }
             }
             
