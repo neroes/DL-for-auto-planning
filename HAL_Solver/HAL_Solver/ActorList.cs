@@ -119,8 +119,19 @@ namespace HAL_Solver
                         break;
                     case Interact.WAIT:
                         break;
+                    
                 }
             }
+            /*string line = "[";
+            for (int i = 0; i < actions.Count() - 1; i++)
+            {
+                line = line + actions[i].ToString();
+                line = line + ", ";
+            }
+            line = line + actions[actions.Count() - 1].ToString();
+            line = line + "]";
+            System.Console.WriteLine(line);*/ //debug code for seeing what moves are sent
+
             return isLegal(boxes);
         }
         public bool isLegal(BoxList boxes)

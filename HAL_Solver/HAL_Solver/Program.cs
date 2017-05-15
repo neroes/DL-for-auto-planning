@@ -12,7 +12,7 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Map map = null;
-            MapLoad.loadMap("MASimple1test.lvl", out map);/*
+            MapLoad.loadMap("MASimple1.lvl", out map);/*
             Map map2 = new Map(map);
             act[] actions = new act[1];
             actions[0] = new act(Interact.MOVE, Direction.E);
@@ -150,6 +150,7 @@ namespace HAL_Solver
                     while (!enumerators[k].MoveNext())
                     {
                         enumerators[k].Reset();
+                        enumerators[k].MoveNext();
                         k++;
                         if (k == enumerators.Count()) { run = false; break; }
                     }
