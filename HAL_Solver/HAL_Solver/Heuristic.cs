@@ -91,6 +91,10 @@ namespace HAL_Solver
 
             foreach (KeyValuePair<Node, int> goalBox in boxOfGoal)
             {
+                // Print which boxes connect to which goal.
+                Console.Error.WriteLine("Goal {0},{1} connected to box {2},{3}", goalBox.Key.x, goalBox.Key.y,
+                                                                                 m.getbox(goalBox.Value).x, m.getbox(goalBox.Value).y);
+
                 int prio = 2; // Priority starts at 2 to weigh everything lower.
                 
                 // Higher priority for each wall it touches.

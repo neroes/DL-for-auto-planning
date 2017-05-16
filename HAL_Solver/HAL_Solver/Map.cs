@@ -74,9 +74,9 @@ namespace HAL_Solver
             /*
             for (int j = 0; j<wallMap.Count(); j++)
             {
-                if (j%mapWidth == 0) { System.Console.WriteLine(""); }
-                if (isWall(j % mapWidth, j / mapwidth)) { System.Console.Write("+"); }
-                else { System.Console.Write(" "); }
+                if (j%mapWidth == 0) { Console.Error.WriteLine(""); }
+                if (isWall(j % mapWidth, j / mapwidth)) { Console.Error.Write("+"); }
+                else { Console.Error.Write(" "); }
             }*/
         }
         public Map(Map oldmap)
