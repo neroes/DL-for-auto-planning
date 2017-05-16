@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Diagnostics;
 
 namespace HAL_Solver
 {
@@ -16,6 +17,8 @@ namespace HAL_Solver
             Console.Error.WriteLine(args[0]);
 
             StreamReader level = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             Map map = null;
 
@@ -42,7 +45,11 @@ namespace HAL_Solver
                     break;
             }
             Search search = new Search(h);
+
+            Console.Error.WriteLine("Initialized.");
+
             Map finalmap = solver(search, map);
+            stopwatch.Stop();
 
             if (finalmap == null)
             {
@@ -51,8 +58,8 @@ namespace HAL_Solver
             else
             {
                 Console.Error.WriteLine("Finished!");
-                Console.Error.Write("Steps: {0}\t Explored: {1}\t Frontier: {2}\n\n", finalmap.steps, search.exploredSize(), search.frontierSize());
-
+                Console.Error.Write("Time: {0:0.000}\t Steps: {1}\t Explored: {2}\t Frontier: {3}\n\n", stopwatch.Elapsed.TotalSeconds, finalmap.steps, search.exploredSize(), search.frontierSize());
+                /*
                 Map printmap = finalmap;
                 while (true) // Outputs posistions for debugging.
                 {
@@ -71,7 +78,7 @@ namespace HAL_Solver
                     Console.Error.Write("Steps: {0}\n\n", printmap.steps);
                     if (printmap.parent == null) { break; }
                     else { printmap = printmap.parent; }
-                }
+                }*/
                 LinkedList<act[]> actionlist = restoreactions(finalmap);
                 foreach (act[] actiongroup in actionlist)
                 {
@@ -83,7 +90,7 @@ namespace HAL_Solver
                     }
                     line = line + actiongroup[actiongroup.Count() - 1].ToString();
                     line = line + "]";
-                    Console.Error.WriteLine(line); // Debug.
+                    // Console.Error.WriteLine(line); // Debug.
                     System.Console.WriteLine(line);
                 }
             }

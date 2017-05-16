@@ -78,6 +78,7 @@ namespace HAL_Solver
         private static long _id = 0;
 
         public long id;
+        public int hashCode = 0;
 
         public Node me;
         public Path parent;
@@ -93,6 +94,14 @@ namespace HAL_Solver
         {
             steps = parent.steps + 1;
             this.parent = parent;
+        }
+        public override bool Equals(Object obj)
+        {
+            return obj is Path && me == ((Path)obj).me;
+        }
+        public override int GetHashCode()
+        {
+            return me.GetHashCode();
         }
     }
 }

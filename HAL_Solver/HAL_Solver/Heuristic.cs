@@ -42,13 +42,14 @@ namespace HAL_Solver
                     // Foreach box x goal combination.
                     foreach (Node goal in redoGoals)
                     {
-                        double shortestDist = double.MaxValue;
-                        double dist;
+                        int shortestDist = int.MaxValue;
+                        int dist;
                         int takenBox = -1;
                         foreach (Node box in untakenBoxes)
                         {
-                            // A* search should be implemented, for now it's distance.
+                            // A* search for distance.
                             dist = BoxDistanceSolver(m, box, goal);
+
                             if (dist < shortestDist)
                             {
                                 shortestDist = dist;
@@ -138,7 +139,7 @@ namespace HAL_Solver
                 }
             }
 
-            return -1; // -1 means no path.
+            return int.MaxValue; // As close to infinite distance as we can get.
         }
 
         private int DistFromGoals(Map m)
