@@ -46,7 +46,7 @@ namespace HAL_Solver
 
             if (finalmap == null)
             {
-                Console.Error.WriteLine("Frontier was emptied! No solution found.");
+                Console.Error.WriteLine("Frontier was emptied! No solution found. Explored: {0}", search.exploredSize());
             }
             else
             {
