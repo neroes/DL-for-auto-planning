@@ -10,8 +10,8 @@ namespace HAL_Solver
     public abstract class Heuristic : IComparer<Map>
     {
 
-        private Dictionary<Node, int> priority; // This needs to be implemented. Key is a box, value is the priority.
-        private Dictionary<Node, int> boxOfGoal; // int being index of the goal.
+        private Dictionary<int, int> priority; // This needs to be implemented. Key is a boxID, value is the priority.
+        private Dictionary<Node, int> boxOfGoal; // int being index of the box.
         // Also some way for boxes that need to be moved out of the way to have a goal position perhaps.
 
 
@@ -86,6 +86,21 @@ namespace HAL_Solver
                     redoGoalsBuffer.Clear();
                 }
             }
+
+            this.priority = new Dictionary<int, int>();
+
+            foreach (KeyValuePair<Node, int> goalBox in boxOfGoal)
+            {
+                int prio = 2; // Priority starts at 2 to weigh everything lower.
+                
+                // Higher priority for each wall it touches.
+                if (m.isWall(goalBox.Key.x + 1, goalBox.Key.y)) { ++prio; }
+                if (m.isWall(goalBox.Key.x - 1, goalBox.Key.y)) { ++prio; }
+                if (m.isWall(goalBox.Key.x, goalBox.Key.y + 1)) { ++prio; }
+                if (m.isWall(goalBox.Key.x, goalBox.Key.y - 1)) { ++prio; }
+                
+                priority[goalBox.Value] = prio;
+            }
         }
 
         private int DistFromGoals(Map m)
@@ -93,16 +108,35 @@ namespace HAL_Solver
             int dist = 0;
             Node[] allBoxes = m.getAllBoxes();
 
-            foreach (KeyValuePair<Node, int> goalBox in boxOfGoal)
+            foreach (KeyValuePair<Node, int> goalBox in boxOfGoal) // goalBox.Key is the goal. goalBox.Value is the box.
             {
-                dist += (goalBox.Key - allBoxes[goalBox.Value]) /* * priority[goalBox.Value]*/; // Multiply with priority for weight.
-                // Possibly save A* path and check distance along that instead.
-                // Possibly include agent distances to box. Closest box only or all boxes. Check color.
+                Node box = allBoxes[goalBox.Value];
+                int thisDist = goalBox.Key - box;
+
+                if (thisDist > 0) // Only bother with player distance if the box is not on the goal. Also normal dist because 0 will just be added.
+                {
+                    dist += thisDist * priority[goalBox.Value] * 2; // Multiply with priority for weight.
+                                                                    // Multiply with 2 to weigh higher than player distance.
+                                                                    // Possibly save A* path and check distance along that instead.
+                    dist += DistFromPlayer(m, box, goalBox.Value) * priority[goalBox.Value]; // Again multiply with priority.
+                }
             }
 
+            return dist / 4; // Dist is divided by 4 as priority is weighted by 2 and so are boxes. Probably not the best solution.
+                             // Maybe multiply g(m) with 4 instead.
+        }
+
+        private int DistFromPlayer(Map m, Node box, int boxID)
+        {
+            // Total distance of agents of the same color as the box.
+            int dist = 0;
+            foreach (Actor act in m.getActorsByColor(m.getColorOfBox(boxID)))
+            {
+                dist += Math.Abs(box.x - act.x) + Math.Abs(box.y - act.y);
+            }
             return dist;
         }
-        
+
         public int h(Map m) { return DistFromGoals(m); } // This is the heuristic.
 
         public virtual int f(Map m) { return 0; }

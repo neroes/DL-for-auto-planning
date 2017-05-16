@@ -13,38 +13,30 @@ namespace HAL_Solver
         static void Main(string[] args)
         {
             Console.Error.WriteLine("HELLO WORLD!");
+            Console.Error.WriteLine(args[0]);
 
             StreamReader level = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
-            
+
             Map map = null;
 
-            Console.Error.WriteLine("Pre map-load");
             MapLoad.loadMap(level, out map);
-            Console.Error.WriteLine("Loaded map");
-            
-            /*
-            Map map2 = new Map(map);
-            act[] actions = new act[1];
-            actions[0] = new act(Interact.MOVE, Direction.E);
-            map2.PerformActions(actions);
-            map2.PerformActions(actions);
-            map2.PerformActions(actions);*/
+
             Heuristic h;
             switch (args[0])
             {
-                case "BFS":
+                case "-BFS":
                     h = new BFS(map);
                     break;
-                case "DFS":
+                case "-DFS":
                     h = new DFS(map);
                     break;
-                case "WAstar":
+                case "-wastar":
                     h = new WAstar(map, 5);
                     break;
-                case "Greedy":
+                case "-greedy":
                     h = new Greedy(map);
                     break;
-                case "Astar":
+                case "-astar":
                 default: // A* is default.
                     h = new Astar(map);
                     break;
@@ -52,44 +44,51 @@ namespace HAL_Solver
             Search search = new Search(h);
             Map finalmap = solver(search, map);
 
-            //map.GetHashCode();
-            /*Map map = null;
-            MapLoad.loadMap(args[0], out map);*/
-            Map printmap = finalmap;
-            while (true)
+            if (finalmap == null)
             {
-                // Only prints a-boxes. This is only temporary testing though. It needs to input to the server.
-                Node[] aBoxes = printmap.getAllBoxes();//.getBoxGroup('a');
-                Actor[] actors = printmap.getActors();
-                foreach (Actor actor in actors)
-                {
-                    Console.Error.Write("Actor{0} Position: {1},{2}\n", actor.id, actor.x, actor.y);
-                }
-                int count = 1;
-                foreach (Node box in aBoxes)
-                {
-                    Console.Error.Write("Box{0} Position: {1},{2}\n", count, box.x, box.y);
-                    count++;
-                }
-                Console.Error.Write("Steps: {0}\n\n", printmap.steps);
-                if (printmap.parent == null) { break; }
-                else { printmap = printmap.parent; }
+                Console.Error.WriteLine("Frontier was emptied! No solution found.");
             }
-            LinkedList<act[]> actionlist = restoreactions(finalmap);
-            foreach(act[] actiongroup in actionlist)
+            else
             {
-                string line = "[";
-                for (int i = 0; i < actiongroup.Count()-1; i++)
+                Console.Error.WriteLine("Finished!");
+                Console.Error.Write("Steps: {0}\t Explored: {1}\t Frontier: {2}\n\n", finalmap.steps, search.exploredSize(), search.frontierSize());
+
+                Map printmap = finalmap;
+                while (true) // Outputs posistions for debugging.
                 {
-                    line = line + actiongroup[i].ToString();
-                    line = line + ", ";
+                    Node[] aBoxes = printmap.getAllBoxes();
+                    Actor[] actors = printmap.getActors();
+                    foreach (Actor actor in actors)
+                    {
+                        Console.Error.Write("Act{0} Pos: {1},{2}\n", actor.id, actor.x, actor.y);
+                    }
+                    int count = 1;
+                    foreach (Node box in aBoxes)
+                    {
+                        Console.Error.Write("Box{0} Pos: {1},{2}\n", count, box.x, box.y);
+                        count++;
+                    }
+                    Console.Error.Write("Steps: {0}\n\n", printmap.steps);
+                    if (printmap.parent == null) { break; }
+                    else { printmap = printmap.parent; }
                 }
-                line = line + actiongroup[actiongroup.Count()-1].ToString();
-                line = line + "]";
-                Console.Error.WriteLine(line); // Debug.
-                System.Console.WriteLine(line);
+                LinkedList<act[]> actionlist = restoreactions(finalmap);
+                foreach (act[] actiongroup in actionlist)
+                {
+                    string line = "[";
+                    for (int i = 0; i < actiongroup.Count() - 1; i++)
+                    {
+                        line = line + actiongroup[i].ToString();
+                        line = line + ", ";
+                    }
+                    line = line + actiongroup[actiongroup.Count() - 1].ToString();
+                    line = line + "]";
+                    Console.Error.WriteLine(line); // Debug.
+                    System.Console.WriteLine(line);
+                }
             }
         }
+
         public static LinkedList<act[]> restoreactions(Map map)
         {
             LinkedList<act[]> actions;
@@ -123,10 +122,11 @@ namespace HAL_Solver
                 {
                     Node newbox = map.parent.getbox(box);
                     Node oldbox = map.getbox(box);
-                    if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.N, box); }
-                    else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.S, box); }
-                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
-                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
+                    // Opposite directions for pull. It's what the server wants!
+                    if (oldbox.y < newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.S, box); }
+                    else if (oldbox.y > newbox.y) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.N, box); }
+                    else if (oldbox.x < newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.E, box); }
+                    else if (oldbox.x > newbox.x) { actiongroup[i] = new act(Interact.PULL, actiongroup[i].dir, Direction.W, box); }
                 }
             }
             
@@ -139,16 +139,17 @@ namespace HAL_Solver
 
             int i = -1;
 
-            while (true)
+            while (search.frontierSize() > 0)
             {
                 i++;
-                if (i == 1000)
+                if (i == 10000)
                 {
                     Console.Error.Write("Explored: {0}\t Frontier: {1}\n", search.exploredSize(), search.frontierSize());
                     i = 0;
                 }
                 Map smap = search.getFromFrontier();
                 if (smap.isGoal()) { return smap; }
+
                 HashSet<act>[] actionlist = smap.getAllActions();
 
 
@@ -198,6 +199,7 @@ namespace HAL_Solver
                     }
                 }*/
             }
+            return null;
         }
         
     }

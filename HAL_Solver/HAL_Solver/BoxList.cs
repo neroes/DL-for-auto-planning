@@ -8,6 +8,7 @@ namespace HAL_Solver
     {
         public static Dictionary<char, HashSet<int>> boxNameGroups;// for looking up boxes by name
         public static Dictionary<Color, HashSet<int>> boxColorGroups; // for looking up boxes by color
+        public static Dictionary<int, Color> colorBox; // for getting the color of a box
         // HashSet<Node> boxes; // itterating across boxes
         public Node[] boxes;
 
@@ -52,17 +53,21 @@ namespace HAL_Solver
             boxes = new Node[newboxes.Count];
             boxNameGroups = new Dictionary<char, HashSet<int>>();
             boxColorGroups = new Dictionary<Color, HashSet<int>>();
+            colorBox = new Dictionary<int, Color>(); // Note: For every box because it's easier to lookup.
             int i = 0;
             foreach (KeyValuePair<Node, char> box in newboxes)
             {
                 Color col = colorDict[box.Value];
                 boxes[i] = box.Key;
+                colorBox[i] = col;
                 if (!boxNameGroups.ContainsKey(box.Value)) {
-                    boxNameGroups[box.Value] = new HashSet<int>(); }
+                    boxNameGroups[box.Value] = new HashSet<int>();
+                }
                 boxNameGroups[box.Value].Add(i);
                 if (!boxColorGroups.ContainsKey(col)) {
                     boxColorGroups[col] = new HashSet<int>();
                 }
+
                 boxColorGroups[col].Add(i);
                 i++;
             }
@@ -77,6 +82,11 @@ namespace HAL_Solver
         public void MoveBox(int id, Byte x, Byte y)
         {
             boxes[id] = new Node(x, y);
+        }
+
+        public Color getColorOfBox(int boxID)
+        {
+            return colorBox[boxID];
         }
 
         public HashSet<int> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }

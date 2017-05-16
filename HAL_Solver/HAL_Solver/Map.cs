@@ -87,7 +87,7 @@ namespace HAL_Solver
             boxes = new BoxList(oldmap.boxes);
             steps = oldmap.steps + 1;
         }
-        public Node getbox (int id)
+        public Node getbox(int id)
         {
             return boxes[id];
         }
@@ -99,6 +99,10 @@ namespace HAL_Solver
         {
             return boxes.getAllBoxes();
         }
+        public Color getColorOfBox(int boxID)
+        {
+            return boxes.getColorOfBox(boxID);
+        }
 
         public Actor getActor(byte name)
         {
@@ -107,6 +111,9 @@ namespace HAL_Solver
         public Actor[] getActors()
         {
             return actors.getAllActors();
+        }
+        public HashSet<Actor> getActorsByColor(Color color) {
+            return actors[color];
         }
 
         public HashSet<act>[] getAllActions()
