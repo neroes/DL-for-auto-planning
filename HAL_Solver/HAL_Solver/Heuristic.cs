@@ -17,8 +17,8 @@ namespace HAL_Solver
         private Dictionary<int, Node> boxPos; // For checking whether the box has moved.
 
         // 1 by default. Changed in initHeuristic.
-        internal int pdw = 1; // Player distance weight (inverted).
-        internal int priow = 1; // Priority weight.
+        private int pdw = 1; // Player distance weight (inverted).
+        private int priow = 1; // Priority weight.
 
         private int gmult = 1;
 
@@ -29,7 +29,7 @@ namespace HAL_Solver
 
         public void initHeuristic(Map m)
         {
-            // pdw = 5; // Not used atm
+            pdw = 4;
             this.boxOfGoal = new Dictionary<Node, int>();
             this.pathOfBox = new Dictionary<int, Path>();
             this.boxDistance = new Dictionary<int, int>();
@@ -114,7 +114,7 @@ namespace HAL_Solver
             {
                 boxPos[goalBox.Value] = new Node(m.getbox(goalBox.Value));
 
-                int prio = 1; // Priority starts at 2 to weigh everything lower. -1 to ignore final goal makes it 1.
+                int prio = 0;
 
                 // Priority increases for every goal along the path.
                 Path p = pathOfBox[goalBox.Value];
@@ -130,7 +130,7 @@ namespace HAL_Solver
                     }
                     p = p.parent;
                 }
-                
+
                 if (priow < prio) { priow = prio; }
 
                 priority[goalBox.Value] = prio;
@@ -225,14 +225,14 @@ namespace HAL_Solver
                 {
                     dist += thisDist * priority[goalBox.Value] * pdw; // Multiply with priority for weight.
                                                                       // Multiply with pdw to weigh higher than player distance.
-                   // dist += DistFromPlayer(m, box, goalBox.Value) * priority[goalBox.Value]; // Again multiply with priority.
+                    dist += DistFromAgent(m, box, goalBox.Value) * priority[goalBox.Value]; // Again multiply with priority.
                 }
             }
-
+            
             return dist;
         }
 
-        private int DistFromPlayer(Map m, Node box, int boxID)
+        private int DistFromAgent(Map m, Node box, int boxID)
         {
             // Total distance of agents of the same color as the box.
             int dist = 0;
