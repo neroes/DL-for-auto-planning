@@ -83,7 +83,8 @@ namespace HAL_Solver
         public Node me;
         public Path parent;
 
-        public int steps;
+        public int steps = 0;
+        public int rem = 0;
 
         public Path(Node node)
         {

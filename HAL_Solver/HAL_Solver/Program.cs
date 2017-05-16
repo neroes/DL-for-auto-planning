@@ -25,12 +25,12 @@ namespace HAL_Solver
             MapLoad.loadMap(level, out map);
 
             Heuristic h;
-            switch (args[0])
+            switch (args[0].ToLower())
             {
-                case "-BFS":
+                case "-bfs":
                     h = new BFS(map);
                     break;
-                case "-DFS":
+                case "-dfs":
                     h = new DFS(map);
                     break;
                 case "-wastar":
@@ -46,7 +46,7 @@ namespace HAL_Solver
             }
             Search search = new Search(h);
 
-            Console.Error.WriteLine("Initialized.");
+            Console.Error.WriteLine("Initialized after {0:0.000}", stopwatch.Elapsed.TotalSeconds);
 
             Map finalmap = solver(search, map);
             stopwatch.Stop();
