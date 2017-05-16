@@ -9,11 +9,13 @@ namespace HAL_Solver
 {
     public abstract class Heuristic : IComparer<Map>
     {
-
-        private Dictionary<int, int> priority; // This needs to be implemented. Key is a boxID, value is the priority.
+        private Dictionary<int, int> priority; // Key is a boxID, value is the priority.
         private Dictionary<Node, int> boxOfGoal; // int being index of the box.
         // Also some way for boxes that need to be moved out of the way to have a goal position perhaps.
 
+        // 1 by default. Changed in initHeuristic.
+        internal int pdw = 1; // Player distance weight (inverted).
+        internal int priow = 1; // Priority weight.
 
         public Heuristic(Map initialState)
         {
@@ -22,6 +24,8 @@ namespace HAL_Solver
 
         public void initHeuristic(Map m)
         {
+            pdw = 5;
+            priow = 2;
             this.boxOfGoal = new Dictionary<Node, int>();
             Node[] boxList = m.getAllBoxes();
 
@@ -44,7 +48,7 @@ namespace HAL_Solver
                         foreach (Node box in untakenBoxes)
                         {
                             // A* search should be implemented, for now it's distance.
-                            dist = goal - box;
+                            dist = BoxDistanceSolver(m, box, goal);
                             if (dist < shortestDist)
                             {
                                 shortestDist = dist;
@@ -95,7 +99,7 @@ namespace HAL_Solver
                 Console.Error.WriteLine("Goal {0},{1} connected to box {2},{3}", goalBox.Key.x, goalBox.Key.y,
                                                                                  m.getbox(goalBox.Value).x, m.getbox(goalBox.Value).y);
 
-                int prio = 2; // Priority starts at 2 to weigh everything lower.
+                int prio = priow; // Priority starts at priow to weigh everything lower.
                 
                 // Higher priority for each wall it touches.
                 if (m.isWall(goalBox.Key.x + 1, goalBox.Key.y)) { ++prio; }
@@ -105,6 +109,36 @@ namespace HAL_Solver
                 
                 priority[goalBox.Value] = prio;
             }
+        }
+
+        private int BoxDistanceSolver(Map m, Node box, Node goal)
+        {
+            BoxSearch search = new BoxSearch(goal);
+
+            search.addToFrontier(new Path(box));
+
+            Node[] newNodes = new Node[4];
+
+            while (search.frontierSize() > 0)
+            {
+                Path spath = search.getFromFrontier();
+                if (spath.me == goal) { return spath.steps; }
+
+                newNodes[0] = new Node((byte)(spath.me.x + 1), spath.me.y);
+                newNodes[1] = new Node((byte)(spath.me.x - 1), spath.me.y);
+                newNodes[2] = new Node(spath.me.x, (byte)(spath.me.y + 1));
+                newNodes[3] = new Node(spath.me.x, (byte)(spath.me.y - 1));
+
+                foreach (Node node in newNodes)
+                {
+                    if (!m.isWall(node.x, node.y))
+                    {
+                        search.addToFrontier(new Path(spath, node));
+                    }
+                }
+            }
+
+            return -1; // -1 means no path.
         }
 
         private int DistFromGoals(Map m)
@@ -119,15 +153,14 @@ namespace HAL_Solver
 
                 if (thisDist > 0) // Only bother with player distance if the box is not on the goal. Also normal dist because 0 will just be added.
                 {
-                    dist += thisDist * priority[goalBox.Value] * 2; // Multiply with priority for weight.
-                                                                    // Multiply with 2 to weigh higher than player distance.
-                                                                    // Possibly save A* path and check distance along that instead.
+                    dist += thisDist * priority[goalBox.Value] * pdw; // Multiply with priority for weight.
+                                                                      // Multiply with pdw to weigh higher than player distance.
+                                                                      // Possibly save A* path and check distance along that instead.
                     dist += DistFromPlayer(m, box, goalBox.Value) * priority[goalBox.Value]; // Again multiply with priority.
                 }
             }
 
-            return dist / 4; // Dist is divided by 4 as priority is weighted by 2 and so are boxes. Probably not the best solution.
-                             // Maybe multiply g(m) with 4 instead.
+            return dist;
         }
 
         private int DistFromPlayer(Map m, Node box, int boxID)
@@ -159,7 +192,7 @@ namespace HAL_Solver
 
         public override int f(Map m)
         {
-            if (m.f == -1) { m.f = h(m) + m.steps; }
+            if (m.f == -1) { m.f = h(m) + priow * pdw * m.steps; }
             return m.f;
         }
     }
@@ -175,7 +208,7 @@ namespace HAL_Solver
 
         public override int f(Map m)
         {
-            if (m.f == -1) { m.f = h(m) * W + m.steps; }
+            if (m.f == -1) { m.f = h(m) * W + priow * pdw * m.steps; }
             return m.f;
         }
     }

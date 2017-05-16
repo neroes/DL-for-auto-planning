@@ -56,6 +56,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="ActorList.cs" />
     <Compile Include="BoxList.cs" />
+    <Compile Include="BoxSearch.cs" />
     <Compile Include="GoalList.cs" />
     <Compile Include="Heuristic.cs" />
     <Compile Include="Map.cs" />
