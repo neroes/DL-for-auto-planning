@@ -89,6 +89,18 @@ namespace HAL_Solver
             return colorBox[boxID];
         }
 
+        public char getBoxName(int boxID)
+        {
+            foreach (KeyValuePair<char, HashSet<int>> boxes in boxNameGroups)
+            {
+                if (boxes.Value.Contains(boxID))
+                {
+                    return boxes.Key;
+                }
+            }
+            return '0';
+        }
+
         public HashSet<int> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }
         public HashSet<Node> getBoxesOfName(char name)
         {

@@ -26,6 +26,9 @@ namespace HAL_Solver
         static GoalList goals;
         ActorList actors;
         BoxList boxes;
+        public Path[] pathOfActor; // For heuristic. Temporary so it needs to be stored in map (or actorlist).
+        public int[] targetOfActor; // For heuristic.
+        public int[] boxPriority; // For heuristic. Key is a boxID, value is the priority.
 
         public override int GetHashCode()
         {
@@ -86,6 +89,9 @@ namespace HAL_Solver
             actors = new ActorList(oldmap.actors);
             boxes = new BoxList(oldmap.boxes);
             steps = oldmap.steps + 1;
+            pathOfActor = (Path[])oldmap.pathOfActor.Clone();
+            targetOfActor = (int[])oldmap.targetOfActor.Clone();
+            boxPriority = (int[])oldmap.boxPriority.Clone();
         }
         public Node getbox(int id)
         {
@@ -103,7 +109,10 @@ namespace HAL_Solver
         {
             return boxes.getColorOfBox(boxID);
         }
-
+        public char getBoxName(int boxID)
+        {
+            return boxes.getBoxName(boxID);
+        }
         public Actor getActor(byte name)
         {
             return actors[name];
