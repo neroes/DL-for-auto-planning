@@ -155,11 +155,11 @@ namespace HAL_Solver
                 this.permBoxPrio[goalBox.Value] = prio;
 
                 // Print which boxes connect to which goal with which priority.
-                /*
+                
                 Console.Error.WriteLine("Goal {0},{1} connected to box {2} at {3},{4} with priority (permanent) {5} and (blocking) {6}",
                                         goalBox.Key.x, goalBox.Key.y, m.getBoxName(goalBox.Value), m.getbox(goalBox.Value).x,
                                         m.getbox(goalBox.Value).y, this.permBoxPrio[goalBox.Value], m.boxPriority[goalBox.Value]);
-                                        */
+                                        
             }
 
             m.targetOfActor = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // 10 possible agents.
@@ -172,19 +172,22 @@ namespace HAL_Solver
 
             foreach (Actor agent in m.getActors()) // Update priority values from actor paths.
             {
-                Path p = m.pathOfActor[agent.id].parent;
-
-                while (p != null)
+                if (m.pathOfActor[agent.id] != null)
                 {
-                    for (int i = 0; i < allBoxes.Length; ++i)
-                    {
-                        if (p.me == allBoxes[i] && !m.getActorsByColor(m.getColorOfBox(i)).Contains(agent)) // If there is a box and it's not the same color as the agent.
-                        {
-                            m.boxPriority[i] += boxPathBlockMult;
-                        }
-                    }
+                    Path p = m.pathOfActor[agent.id].parent;
 
-                    p = p.parent;
+                    while (p != null)
+                    {
+                        for (int i = 0; i < allBoxes.Length; ++i)
+                        {
+                            if (p.me == allBoxes[i] && !m.getActorsByColor(m.getColorOfBox(i)).Contains(agent)) // If there is a box and it's not the same color as the agent.
+                            {
+                                m.boxPriority[i] += boxPathBlockMult;
+                            }
+                        }
+
+                        p = p.parent;
+                    }
                 }
             }
 
@@ -203,40 +206,65 @@ namespace HAL_Solver
         private void FindActorTarget(Map m, Actor agent)
         {
             calculateBoxPriority(m); // Recalculate all box priorities first.
+            HashSet<int> nogo = new HashSet<int>();
 
             Node[] allBoxes = m.getAllBoxes();
-            int aprio = 0;
-            int goal = 0;
+            Color acol = agent.getcolor();
 
-            for (int i = 0; i < allBoxes.Length; ++i)
+            Path p = null;
+            
+            while (p == null)
             {
-                int prio = m.boxPriority[i];
-                Node box = allBoxes[i];
-                if (prio > 0)
+                m.targetOfActor[agent.id] = -1;
+
+                int aprio = int.MinValue;
+                int goal = -1;
+
+                // What if all boxes are in goal? Keep searching??? For now it will be set to finished.
+                for (int i = 0; i < allBoxes.Length; ++i)
                 {
-                    if (!m.targetOfActor.Contains(i) || m.targetOfActor[agent.id] == i) // If the box is not already taken by another agent.
+                    if (m.getColorOfBox(i) == acol && !nogo.Contains(i))
                     {
-                        int bdist = box - agent;
-                        int val = prio * actorDistPrioMult + bdist;
-                        if (val > aprio)
+                        int prio = m.boxPriority[i] // Box move priority.
+                            + ((boxOfGoal.ContainsKey(allBoxes[i]) ? boxOfGoal[allBoxes[i]] != i : true) // If not on goal.
+                            ? (permBoxPrio.ContainsKey(i) ? permBoxPrio[i] : 0) : 0); // Also permanant priority.
+                        if (prio > 0)
                         {
-                            aprio = val;
-                            goal = i;
+                            if (!m.targetOfActor.Contains(i)) // If the box is not already taken by another agent.
+                            {
+                                int bdist = allBoxes[i] - agent;
+                                int val = prio * actorDistPrioMult - bdist;
+                                if (val > aprio)
+                                {
+                                    aprio = val;
+                                    goal = i;
+                                }
+                            }
                         }
                     }
                 }
+
+                m.targetOfActor[agent.id] = goal;
+                if (goal == -1) // No goal was found
+                {
+                    break;
+                }
+                else // If a goal is found
+                {
+                    // After finding the best one, calculate the path.
+                    p = BoxDistanceSolver(m, new Node(agent.x, agent.y), allBoxes[goal]);
+                    nogo.Add(goal);
+                    // Print which actor connects to which goal with which priority.
+                    /*
+                    if (p != null)
+                    {
+                        Console.Error.WriteLine("Actor {0} connected to box {1} at {2},{3} with priority {4}",
+                                                agent.id, m.getBoxName(goal), m.getbox(goal).x,
+                                                m.getbox(goal).y, m.boxPriority[goal] + (this.permBoxPrio.ContainsKey(goal) ? this.permBoxPrio[goal] : 0));
+                    }*/
+                }
             }
-
-            m.targetOfActor[agent.id] = goal;
-            // After finding the best one, calculate the path.
-            m.pathOfActor[agent.id] = BoxDistanceSolver(m, new Node(agent.x, agent.y), allBoxes[goal]);
-
-            // Print which actor connects to which goal with which priority.
-            /*
-            Console.Error.WriteLine("Actor {0} connected to box {1} at {2},{3} with priority {4}",
-                                    agent.id, m.getBoxName(goal), m.getbox(goal).x,
-                                    m.getbox(goal).y, m.boxPriority[goal] + (this.permBoxPrio.ContainsKey(goal) ? this.permBoxPrio[goal] : 0));
-                                    */
+            m.pathOfActor[agent.id] = p;
         }
 
         private Path BoxDistanceSolver(Map m, Node box, Node goal, bool[] map)
@@ -347,60 +375,63 @@ namespace HAL_Solver
             foreach (Actor actor in m.getActors())
             {
                 int boxID = m.targetOfActor[actor.id];
-                Node box = allBoxes[boxID];
-
-                Path p = m.pathOfActor[actor.id];
-                if (p != null) // Use path if there is one, else manhattan distance.
+                if (boxID > -1)
                 {
-                    bool found = false;
-                    int maxSteps = p.steps;
-                    int steps = p.steps;
+                    Node box = allBoxes[boxID];
 
-                    while (p != null)
+                    Path p = m.pathOfActor[actor.id];
+                    if (p != null) // Use path if there is one, else manhattan distance.
                     {
-                        if (p.me == actor)
+                        bool found = false;
+                        int maxSteps = p.steps;
+                        int steps = p.steps;
+
+                        while (p != null)
                         {
-                            steps = maxSteps - p.steps;
-                            found = true;
-                            break;
+                            if (p.me == actor)
+                            {
+                                steps = maxSteps - p.steps;
+                                found = true;
+                                break;
+                            }
+                            if (p.me - actor == 1) // If the actar is adjacent to the path it's that place +1 away.
+                            {
+                                if (maxSteps - p.steps < steps) { steps = maxSteps - p.steps; }
+                            }
+                            p = p.parent;
                         }
-                        if (p.me - actor == 1) // If the actar is adjacent to the path it's that place +1 away.
-                        {
-                            if (maxSteps - p.steps < steps) { steps = maxSteps - p.steps; }
+
+                        if (!found) // If it's not on the path.
+                        {   // If it's adjacent it's the amount of steps of the adjacent part + 1.
+                            // Otherwise it's the max distance + 1.
+                            ++steps;
                         }
-                        p = p.parent;
-                    }
 
-                    if (!found) // If it's not on the path.
-                    {   // If it's adjacent it's the amount of steps of the adjacent part + 1.
-                        // Otherwise it's the max distance + 1.
-                        ++steps;
-                    }
-
-                    if (steps == 1) // If next to the box use manhattan distance instead from now on -1 (meaning 0 this time).
-                    {
-                        m.pathOfActor[actor.id] = null;
-                    }
-                    else
-                    {
-                        int pbp = this.permBoxPrio.ContainsKey(boxID) ? this.permBoxPrio[boxID] : 1;
-                        dist += (steps - 1) * m.boxPriority[boxID] + pbp; // Multiply with priority for weight.
-                    }
-                } else // Manhattan distance
-                {
-                    if (m.boxPriority[boxID] >= boxPathBlockMult) // Recalculate prio if the box (likely) is blocking a path.
-                    {
-                        int prio = m.boxPriority[boxID];
-                        if (calculateBoxPriority(m, boxID, box) < prio) // If the priority of the box is lower than before.
+                        if (steps == 1) // If next to the box use manhattan distance instead from now on -1 (meaning 0 this time).
                         {
-                            FindActorTarget(m, actor); // Find the agent a new target.
+                            m.pathOfActor[actor.id] = null;
+                        }
+                        else
+                        {
+                            int pbp = this.permBoxPrio.ContainsKey(boxID) ? this.permBoxPrio[boxID] : 1;
+                            dist += (steps - 1) * (m.boxPriority[boxID] + pbp); // Multiply with priority for weight.
                         }
                     }
-
-                    dist += box - actor - 1; // Just to prioritise staying near the box.
+                    else // Manhattan distance
+                    {
+                        if (m.boxPriority[boxID] >= boxPathBlockMult) // Recalculate prio if the box (likely) is blocking a path.
+                        {
+                            int prio = m.boxPriority[boxID];
+                            if (calculateBoxPriority(m, boxID, box) < prio) // If the priority of the box is lower than before.
+                            {
+                                FindActorTarget(m, actor); // Find the agent a new target.
+                            }
+                        }
+                        dist += box - actor - 1; // Just to prioritise staying near the box.
+                    }
                 }
             }
-            
+
             return dist;
         }
 

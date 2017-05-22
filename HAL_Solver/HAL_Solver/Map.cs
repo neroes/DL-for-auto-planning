@@ -58,19 +58,13 @@ namespace HAL_Solver
             return true;
         }
 
-        public Map(bool[] newwallMap, int mapwidth, HashSet<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
+        public Map(bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
         {
             id = Map.nextId++;
             wallMap = newwallMap;
             mapWidth = mapwidth;
-            HashSet<Color> newactorcolors = new HashSet<Color>(); int i = 0;
-            foreach (Actor a in newactors)
-            {
-                newactorcolors.Add(colorDict[i.ToString()[0]]);
-                i++;
-            }
 
-            actors = new ActorList(newactors, newactorcolors);
+            actors = new ActorList(newactors, colorDict);
             boxes = new BoxList(newboxes, colorDict);
             goals = newgoals;
             steps = 0;
