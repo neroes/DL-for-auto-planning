@@ -61,7 +61,7 @@ namespace HAL_Solver
                 else if (!pastSetup)
                 {
                     string[] splitline = line.Split(':');
-                    string names = splitline[1].Remove(0, 1);
+                    string names = splitline[1].Replace(" ", ""); ;
                     string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {

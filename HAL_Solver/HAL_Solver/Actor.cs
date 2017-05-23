@@ -66,13 +66,38 @@ namespace HAL_Solver
             isempty[1, 2] = currentMap.isEmptySpace(x    , y + 1);
             isempty[2, 2] = currentMap.isEmptySpace(x + 1, y + 1);
 
-            
+            bool checkUp = false;
+            bool checkDown = false;
+            bool checkLeft = false;
+            bool checkRight = false;
+
+            // This order is so it doesn't push and pull unnecessary boxes around
+            actionList.Add(new act(Interact.WAIT));
             if (!currentMap.isWall(x, y - 1))
             {
-                if (isempty[1,0]) { actionList.Add(new act(Interact.MOVE,Direction.N)); }
-                else if (currentMap.isBox(x, y - 1,getcolor(), out box))
+                if (isempty[1, 0]) { actionList.Add(new act(Interact.MOVE, Direction.N)); }
+                else { checkUp = true; }
+            }
+            if (!currentMap.isWall(x, y + 1))
+            {
+                if (isempty[1,2]) { actionList.Add(new act(Interact.MOVE, Direction.S)); }
+                else { checkDown = true; }
+            }
+            if (!currentMap.isWall(x + 1, y))
+            {
+                if (isempty[2,1]) { actionList.Add(new act(Interact.MOVE, Direction.E)); }
+                else { checkRight = true; }
+            }
+            if (!currentMap.isWall(x - 1, y))
+            {
+                if (isempty[0, 1]) { actionList.Add(new act(Interact.MOVE, Direction.W)); }
+                else { checkLeft = true; }
+            }
+            if (checkUp)
+            {
+                if (currentMap.isBox(x, y - 1, getcolor(), out box))
                 {
-                    if (isempty[2, 0]) { actionList.Add(new act(Interact.PUSH,Direction.N,Direction.E,box)); }
+                    if (isempty[2, 0]) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.E, box)); }
                     if (isempty[0, 0]) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.W, box)); }
                     if (currentMap.isEmptySpace(x, y - 2)) { actionList.Add(new act(Interact.PUSH, Direction.N, Direction.N, box)); }
                     if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.S, box)); }
@@ -80,10 +105,8 @@ namespace HAL_Solver
                     if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.S, box)); }
                 }
             }
-            if (!currentMap.isWall(x, y + 1))
-            {
-                if (isempty[1,2]) { actionList.Add(new act(Interact.MOVE, Direction.S)); }
-                else if (currentMap.isBox(x, y + 1, getcolor(), out box))
+            if (checkDown) {
+                if (currentMap.isBox(x, y + 1, getcolor(), out box))
                 {
                     if (isempty[2, 2]) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.E, box)); }
                     if (isempty[0, 2]) { actionList.Add(new act(Interact.PUSH, Direction.S, Direction.W, box)); }
@@ -93,10 +116,8 @@ namespace HAL_Solver
                     if (isempty[0, 1]) { actionList.Add(new act(Interact.PULL, Direction.W, Direction.N, box)); }
                 }
             }
-            if (!currentMap.isWall(x + 1, y))
-            {
-                if (isempty[2,1]) { actionList.Add(new act(Interact.MOVE, Direction.E)); }
-                else if (currentMap.isBox(x + 1, y, getcolor(), out box))
+            if (checkRight) {
+                if (currentMap.isBox(x + 1, y, getcolor(), out box))
                 {
                     if (isempty[2, 0]) { actionList.Add(new act(Interact.PUSH, Direction.E, Direction.N, box)); }
                     if (isempty[2, 2]) { actionList.Add(new act(Interact.PUSH, Direction.E, Direction.S, box)); }
@@ -106,10 +127,9 @@ namespace HAL_Solver
                     if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.W, box)); }
                 }
             }
-            if (!currentMap.isWall(x - 1, y))
+            if (checkLeft)
             {
-                if (isempty[0, 1]) { actionList.Add(new act(Interact.MOVE, Direction.W)); }
-                else if (currentMap.isBox(x - 1, y, getcolor(), out box))
+                if (currentMap.isBox(x - 1, y, getcolor(), out box))
                 {
                     if (isempty[0, 0]) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.N, box)); }
                     if (isempty[0, 2]) { actionList.Add(new act(Interact.PUSH, Direction.W, Direction.S, box)); }
@@ -119,7 +139,6 @@ namespace HAL_Solver
                     if (isempty[1, 2]) { actionList.Add(new act(Interact.PULL, Direction.S, Direction.E, box)); }
                 }
             }
-            actionList.Add(new act(Interact.WAIT));
             return actionList;
         }
     }

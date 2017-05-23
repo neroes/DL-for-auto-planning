@@ -101,7 +101,7 @@ namespace HAL_Solver
             return '0';
         }
 
-        public HashSet<int> getBoxesOfColor(Color color)  { return boxColorGroups[color]; }
+        public HashSet<int> getBoxesOfColor(Color color)  { return boxColorGroups.ContainsKey(color) ? boxColorGroups[color] : new HashSet<int>(); }
         public HashSet<Node> getBoxesOfName(char name)
         {
             HashSet<Node> returnHashSet = new HashSet<Node>();

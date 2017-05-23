@@ -28,7 +28,8 @@ namespace HAL_Solver
         BoxList boxes;
         public Path[] pathOfActor; // For heuristic. Temporary so it needs to be stored in map (or actorlist).
         public int[] targetOfActor; // For heuristic.
-        public int[] boxPriority; // For heuristic. Key is a boxID, value is the priority.
+        public Dictionary<int, byte> boxPriority;  // For heuristic. Key is a boxID, value is the priority.
+        public Dictionary<int, int> boxDistance; // The current distance of the box to its path. To avoid recalculating it unless the box is moved.
 
         public override int GetHashCode()
         {
@@ -68,13 +69,6 @@ namespace HAL_Solver
             boxes = new BoxList(newboxes, colorDict);
             goals = newgoals;
             steps = 0;
-            /*
-            for (int j = 0; j<wallMap.Count(); j++)
-            {
-                if (j%mapWidth == 0) { Console.Error.WriteLine(""); }
-                if (isWall(j % mapWidth, j / mapwidth)) { Console.Error.Write("+"); }
-                else { Console.Error.Write(" "); }
-            }*/
         }
         public Map(Map oldmap)
         {
@@ -85,7 +79,8 @@ namespace HAL_Solver
             steps = oldmap.steps + 1;
             pathOfActor = (Path[])oldmap.pathOfActor.Clone();
             targetOfActor = (int[])oldmap.targetOfActor.Clone();
-            boxPriority = (int[])oldmap.boxPriority.Clone();
+            boxPriority = new Dictionary<int, byte>(oldmap.boxPriority);
+            boxDistance = new Dictionary<int, int>(oldmap.boxDistance);
         }
         public Node getbox(int id)
         {
