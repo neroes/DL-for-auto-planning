@@ -20,7 +20,7 @@ namespace HAL_Solver
         private const int actorDistPrioMult = 50; // Inverse. Also uses manhattan distance not pathfinding distance.
         private const int prioWeight = 1; // Weight of priorities. Not a multiplier.
         private const int pdw = 150; // Player distance weight (inverted).
-        private const int boxPathBlockMult = 8 * pdw;
+        private const int boxPathBlockMult = 8 + pdw;
         private const int actorPathBlockMult = 16 * pdw;
 
         // 1 by default. Changed in initHeuristic.
