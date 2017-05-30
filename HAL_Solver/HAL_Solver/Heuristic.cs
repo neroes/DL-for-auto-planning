@@ -17,11 +17,11 @@ namespace HAL_Solver
         private HashSet<int> movedBoxes;
         
         // Global consts for tuning.
-        private const int boxPathBlockMult = 8;
-        private const int actorPathBlockMult = 30;
-        private const int actorDistPrioMult = 30; // Inverse. Also uses manhattan distance not pathfinding distance.
+        private const int actorDistPrioMult = 50; // Inverse. Also uses manhattan distance not pathfinding distance.
         private const int prioWeight = 1; // Weight of priorities. Not a multiplier.
-        private const int pdw = 4; // Player distance weight (inverted).
+        private const int pdw = 150; // Player distance weight (inverted).
+        private const int boxPathBlockMult = 8 * pdw;
+        private const int actorPathBlockMult = 16 * pdw;
 
         // 1 by default. Changed in initHeuristic.
         private int gmult = 1;
@@ -172,7 +172,7 @@ namespace HAL_Solver
                 FindActorTarget(m, agent);
             }
             
-            gmult = pdw; // Weighting the movement cost.
+            gmult = 1; // Weighting the movement cost.
         }
 
         private void FindActorTarget(Map m, Actor agent)
@@ -394,9 +394,7 @@ namespace HAL_Solver
                         }
                         else
                         {
-                            int prio = (m.boxPriority.ContainsKey(boxID) ? m.boxPriority[boxID] : 0)
-                                + (this.permBoxPrio.ContainsKey(boxID) ? this.permBoxPrio[boxID] : 1);
-                            dist += (steps - 1) * prio; // Multiply with priority for weight.
+                            dist += steps - 1; // Multiply with priority for weight.
                         }
                     }
                     else // Manhattan distance
