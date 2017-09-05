@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAL_Solver", "HAL_Solver\HAL_Solver.csproj", "{6E619E19-7443-4DE6-86E0-72F0686F2622}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MachineLearning_Project", "MachineLearning_Project\MachineLearning_Project.pyproj", "{AA770ED6-45BA-4A05-8546-A6BF77CEE55A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6E619E19-7443-4DE6-86E0-72F0686F2622}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E619E19-7443-4DE6-86E0-72F0686F2622}.Release|x64.ActiveCfg = Release|x64
 		{6E619E19-7443-4DE6-86E0-72F0686F2622}.Release|x64.Build.0 = Release|x64
+		{AA770ED6-45BA-4A05-8546-A6BF77CEE55A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA770ED6-45BA-4A05-8546-A6BF77CEE55A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA770ED6-45BA-4A05-8546-A6BF77CEE55A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA770ED6-45BA-4A05-8546-A6BF77CEE55A}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
