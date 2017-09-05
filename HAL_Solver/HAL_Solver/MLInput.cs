@@ -30,6 +30,8 @@ namespace HAL_Solver
             }
             for (int i = 0; i<boxes.Length; i++)
             {
+                container[boxes[i].x + boxes[i].y * 70][yy + (byte)map.getBoxName(i)] = true;
+                container[boxes[i].x + boxes[i].y * 70][60 + (byte)map.getColorOfBox(i)] = true;
                 
             }
             
@@ -37,7 +39,7 @@ namespace HAL_Solver
             {
                 foreach (Node goal in map.getGoals(name))
                 {
-
+                    container[goal.x + goal.y * 70][yy + (byte)(name-'0')] = true;
                 }
             }
             

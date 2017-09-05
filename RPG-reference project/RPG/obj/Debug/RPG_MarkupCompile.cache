@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Github\AI-MAS\RPG-reference project\RPG\obj\Debug\
+C:\Users\soren\Source\Repos\DL-for-auto-planning\RPG-reference project\RPG\obj\Debug\
 RPG
 none
 false
 DEBUG;TRACE
-C:\Github\AI-MAS\RPG-reference project\RPG\View\App.xaml
+C:\Users\soren\Source\Repos\DL-for-auto-planning\RPG-reference project\RPG\View\App.xaml
 5119886943
 
 1621518692
-22-1934281541
+22-1568150936
 View\PlayerEntityUserControl.xaml;View\EntityUserControl.xaml;View\MainWindow.xaml;View\TileUserControl.xaml;View\TriggerEntityUserControl.xaml;
 
-False
+True
 
