@@ -43,21 +43,20 @@ namespace HAL_Solver
             return true;
         }
 
-        public ActorList(HashSet<Actor> newactors, HashSet<Color> newactorsColors)
+        public ActorList(Collection<Actor> newactors, Dictionary<char, Color> colorDict)
         {
             actors = new Actor[newactors.Count()];
             colordict = new Dictionary<Color, HashSet<int>>();
             intToColorDict = new Color[newactors.Count()];
-            int i = 0;
-            IEnumerator<Color> colorenum = newactorsColors.GetEnumerator();
+
             foreach (Actor actor in newactors)
             {
+                int i = actor.id;
+                Color col = colorDict[i.ToString()[0]];
                 actors[i] = actor;
-                colorenum.MoveNext();
-                intToColorDict[i] = colorenum.Current;
-                if (!colordict.ContainsKey(colorenum.Current)) { colordict[colorenum.Current] = new HashSet<int>(); }
-                colordict[colorenum.Current].Add(i);
-                i++;
+                intToColorDict[i] = col;
+                if (!colordict.ContainsKey(col)) { colordict[col] = new HashSet<int>(); }
+                colordict[col].Add(i);
             }
         }
         public ActorList(ActorList oldlist)

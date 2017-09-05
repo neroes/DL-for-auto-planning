@@ -25,12 +25,12 @@ namespace HAL_Solver
             MapLoad.loadMap(level, out map);
 
             Heuristic h;
-            switch (args[0])
+            switch (args[0].ToLower())
             {
-                case "-BFS":
+                case "-bfs":
                     h = new BFS(map);
                     break;
-                case "-DFS":
+                case "-dfs":
                     h = new DFS(map);
                     break;
                 case "-wastar":
@@ -46,9 +46,9 @@ namespace HAL_Solver
             }
             Search search = new Search(h);
 
-            Console.Error.WriteLine("Initialized.");
+            Console.Error.WriteLine("Initialized after {0:0.000}", stopwatch.Elapsed.TotalSeconds);
 
-            Map finalmap = solver(search, map);
+            Map finalmap = solver(search, map, stopwatch);
             stopwatch.Stop();
 
             if (finalmap == null)
@@ -58,7 +58,7 @@ namespace HAL_Solver
             else
             {
                 Console.Error.WriteLine("Finished!");
-                Console.Error.Write("Time: {0:0.000}\t Steps: {1}\t Explored: {2}\t Frontier: {3}\n\n", stopwatch.Elapsed.TotalSeconds, finalmap.steps, search.exploredSize(), search.frontierSize());
+                Console.Error.Write("Time: {0:0.000}\t Steps: {1}\t Explored: {2}\t Frontier: {3}\n\n", stopwatch.Elapsed.TotalSeconds, finalmap.steps, search.exploredSize() - search.frontierSize(), search.frontierSize());
                 /*
                 Map printmap = finalmap;
                 while (true) // Outputs posistions for debugging.
@@ -142,7 +142,7 @@ namespace HAL_Solver
             actions.AddLast(actiongroup);
             return actions;
         }
-        public static Map solver(Search search, Map map)
+        public static Map solver(Search search, Map map, Stopwatch stopwatch)
         {
             search.addToFrontier(map);
 
@@ -153,7 +153,7 @@ namespace HAL_Solver
                 i++;
                 if (i == 10000)
                 {
-                    Console.Error.Write("Explored: {0}\t Frontier: {1}\n", search.exploredSize(), search.frontierSize());
+                    Console.Error.Write("Time:  {0:0.000}\t Explored: {1}\t Frontier: {2}\n", stopwatch.Elapsed.TotalSeconds, search.exploredSize() - search.frontierSize(), search.frontierSize());
                     i = 0;
                 }
                 Map smap = search.getFromFrontier();

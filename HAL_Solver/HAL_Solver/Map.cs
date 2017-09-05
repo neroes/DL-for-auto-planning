@@ -26,6 +26,10 @@ namespace HAL_Solver
         static GoalList goals;
         ActorList actors;
         BoxList boxes;
+        public Path[] pathOfActor; // For heuristic. Temporary so it needs to be stored in map (or actorlist).
+        public int[] targetOfActor; // For heuristic.
+        public Dictionary<int, byte> boxPriority;  // For heuristic. Key is a boxID, value is the priority.
+        public Dictionary<int, int> boxDistance; // The current distance of the box to its path. To avoid recalculating it unless the box is moved.
 
         public override int GetHashCode()
         {
@@ -55,29 +59,16 @@ namespace HAL_Solver
             return true;
         }
 
-        public Map(bool[] newwallMap, int mapwidth, HashSet<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
+        public Map(bool[] newwallMap, int mapwidth, Collection<Actor> newactors, Dictionary<Node, char> newboxes, GoalList newgoals, Dictionary<char, Color> colorDict)
         {
             id = Map.nextId++;
             wallMap = newwallMap;
             mapWidth = mapwidth;
-            HashSet<Color> newactorcolors = new HashSet<Color>(); int i = 0;
-            foreach (Actor a in newactors)
-            {
-                newactorcolors.Add(colorDict[i.ToString()[0]]);
-                i++;
-            }
 
-            actors = new ActorList(newactors, newactorcolors);
+            actors = new ActorList(newactors, colorDict);
             boxes = new BoxList(newboxes, colorDict);
             goals = newgoals;
             steps = 0;
-            /*
-            for (int j = 0; j<wallMap.Count(); j++)
-            {
-                if (j%mapWidth == 0) { Console.Error.WriteLine(""); }
-                if (isWall(j % mapWidth, j / mapwidth)) { Console.Error.Write("+"); }
-                else { Console.Error.Write(" "); }
-            }*/
         }
         public Map(Map oldmap)
         {
@@ -86,6 +77,10 @@ namespace HAL_Solver
             actors = new ActorList(oldmap.actors);
             boxes = new BoxList(oldmap.boxes);
             steps = oldmap.steps + 1;
+            pathOfActor = (Path[])oldmap.pathOfActor.Clone();
+            targetOfActor = (int[])oldmap.targetOfActor.Clone();
+            boxPriority = new Dictionary<int, byte>(oldmap.boxPriority);
+            boxDistance = new Dictionary<int, int>(oldmap.boxDistance);
         }
         public Node getbox(int id)
         {
@@ -103,7 +98,10 @@ namespace HAL_Solver
         {
             return boxes.getColorOfBox(boxID);
         }
-
+        public char getBoxName(int boxID)
+        {
+            return boxes.getBoxName(boxID);
+        }
         public Actor getActor(byte name)
         {
             return actors[name];

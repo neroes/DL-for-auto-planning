@@ -23,7 +23,7 @@ namespace HAL_Solver
             int colcount = 0, rowcount = 0;
             getfilesize(mapLines, out colcount, out rowcount);
             Dictionary<Node, char> newboxes = new Dictionary<Node, char>();
-            HashSet<Actor> newactors = new HashSet<Actor>();
+            Collection<Actor> newactors = new Collection<Actor>();
             GoalList newgoals = new GoalList();
             Dictionary<char, Color> colorDict = new Dictionary<char, Color>();
             bool[] newwallmap = new bool[colcount*rowcount];
@@ -61,7 +61,7 @@ namespace HAL_Solver
                 else if (!pastSetup)
                 {
                     string[] splitline = line.Split(':');
-                    string names = splitline[1].Remove(0, 1);
+                    string names = splitline[1].Replace(" ", ""); ;
                     string[] splitnames = names.Split(',');
                     foreach (string name in splitnames)
                     {
@@ -71,6 +71,7 @@ namespace HAL_Solver
                     //do color devision
                 }
             }
+            
             map = new Map(newwallmap, colcount, newactors, newboxes, newgoals, colorDict);
 
         }

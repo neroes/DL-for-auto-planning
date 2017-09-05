@@ -20,11 +20,35 @@ namespace HAL_Solver
         {
             return (x.x == y.x && x.y == y.y);
         }
+        public static bool operator ==(Actor x, Node y) // Is on top of Actor
+        {
+            return (x.x == y.x && x.y == y.y);
+        }
+        public static bool operator ==(Node x, Actor y) // Ditto
+        {
+            return (x.x == y.x && x.y == y.y);
+        }
         public static bool operator !=(Node x, Node y)
         {
             return !(x.x == y.x && x.y == y.y);
         }
-        public static int operator -(Node x, Node y)
+        public static bool operator !=(Actor x, Node y) // Is not on top of Actor
+        {
+            return !(x.x == y.x && x.y == y.y);
+        }
+        public static bool operator !=(Node x, Actor y) // Ditto
+        {
+            return !(x.x == y.x && x.y == y.y);
+        }
+        public static int operator -(Node x, Node y) // Distance from other node.
+        {
+            return (Math.Abs(x.x - y.x) + Math.Abs(x.y - y.y));
+        }
+        public static int operator -(Actor x, Node y) // Distance from actor as well.
+        {
+            return (Math.Abs(x.x - y.x) + Math.Abs(x.y - y.y));
+        }
+        public static int operator -(Node x, Actor y) // Ditto
         {
             return (Math.Abs(x.x - y.x) + Math.Abs(x.y - y.y));
         }
