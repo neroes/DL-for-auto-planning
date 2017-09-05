@@ -61,6 +61,7 @@
     <Compile Include="Heuristic.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapLoad.cs" />
+    <Compile Include="MLInput.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
