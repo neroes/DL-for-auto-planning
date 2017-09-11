@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAL_Solver", "HAL_Solver\HAL_Solver.csproj", "{6E619E19-7443-4DE6-86E0-72F0686F2622}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonApplication1", "PythonApplication1\PythonApplication1.pyproj", "{46A52877-3DCC-4E9C-B5AF-2D7E3899A635}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MachinelearningPart", "PythonApplication1\MachinelearningPart.pyproj", "{46A52877-3DCC-4E9C-B5AF-2D7E3899A635}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

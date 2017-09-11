@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HAL_Solver
 {
     class MLInput
     {
+        public static ProcessStartInfo myProcessStartInfo;
+        private static string appName;
         cellpoint[] container;
         public MLInput(Map map)
         {
@@ -59,6 +63,46 @@ namespace HAL_Solver
                 }
             }
             return str.ToString();
+        }
+        public static void setup()
+        {
+            // full path of python interpreter  
+            string python = @"C:\Continuum\Anaconda\python.exe";
+
+            // python app to call  
+            appName = "sum.py";
+
+            // Create new process start info 
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python);
+        }
+        public string run()
+        {
+            // make sure we can read the output from stdout 
+            myProcessStartInfo.UseShellExecute = false;
+            myProcessStartInfo.RedirectStandardOutput = true;
+
+            myProcessStartInfo.Arguments = appName + " " + ToString();
+
+
+            Process myProcess = new Process();
+            // assign start information to the process 
+            myProcess.StartInfo = myProcessStartInfo;
+
+            // start process 
+            myProcess.Start();
+
+            // Read the standard output of the app we called.  
+            StreamReader myStreamReader = myProcess.StandardOutput;
+            string myString = myStreamReader.ReadLine();
+
+            // wait exit signal from the app we called 
+            myProcess.WaitForExit();
+
+            // close the process 
+            myProcess.Close();
+
+
+            return myString;
         }
     }
     struct cellpoint
