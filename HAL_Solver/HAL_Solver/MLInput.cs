@@ -45,6 +45,21 @@ namespace HAL_Solver
             
             
         }
+        public override string ToString()
+        {
+            char[] str = new char[70*70*72];
+            int k = 0;
+            for (int i = 0; i < 70*70; i++)
+            {
+                char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 72; j++)
+                {
+                    str[k] = str[j];
+                    k++;
+                }
+            }
+            return str.ToString();
+        }
     }
     struct cellpoint
     {
@@ -62,10 +77,10 @@ namespace HAL_Solver
         {
             return (1 & (row << i));
         }
-        public string toString()
+        public char[] ToCharArray()
         {
-            string str = new string('0', 72);
-            for (int i = 0; i < 64; i++) { str += getintbit(bites[i / 8], i % 8).ToString(); }
+            char[] str = new char[72];
+            for (int i = 0; i < 64; i++) { str[i] = getintbit(bites[i / 8], i % 8).ToString()[0]; }
             return str;
         }
     }

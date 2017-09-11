@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
 
+
 namespace HAL_Solver
 {
     class Program
@@ -16,6 +17,9 @@ namespace HAL_Solver
             Console.Error.WriteLine("HELLO WORLD!");
             Console.Error.WriteLine(args[0]);
 
+            
+
+            
             StreamReader level = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -23,6 +27,12 @@ namespace HAL_Solver
             Map map = null;
 
             MapLoad.loadMap(level, out map);
+
+            MLInput mli = new MLInput(map);
+
+            Console.Error.WriteLine(mli.ToString());
+
+            
 
             Heuristic h;
             switch (args[0].ToLower())
