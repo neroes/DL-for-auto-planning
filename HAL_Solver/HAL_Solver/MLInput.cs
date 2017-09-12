@@ -70,7 +70,7 @@ namespace HAL_Solver
             string python = @"C:\Program Files\Python36\python.exe";
 
             // python app to call  
-            appName = "sum.py";
+            appName = "PythonApplication1.py";
 
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python);
