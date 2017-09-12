@@ -12,6 +12,7 @@ namespace Trainer
     {
         public static ProcessStartInfo myProcessStartInfo;
         private static string appName;
+        private static string path;
         cellpoint[] container;
         public MLInput(Map map)
         {
@@ -64,6 +65,11 @@ namespace Trainer
             }
             return str.ToString();
         }
+        public static void setup(string path)
+        {
+            MLInput.path = path;
+            setup();
+        }
         public static void setup()
         {
             // full path of python interpreter  
@@ -77,6 +83,7 @@ namespace Trainer
         }
         public string run(int shortestRoute)
         {
+            /*
             // make sure we can read the output from stdout 
             myProcessStartInfo.UseShellExecute = false;
             myProcessStartInfo.RedirectStandardOutput = true;
@@ -100,9 +107,35 @@ namespace Trainer
 
             // close the process 
             myProcess.Close();
-
-
+            
             return myString;
+            */
+            Writer(shortestRoute);
+            return "";
+        }
+        public bool Writer(int shortestRoute)
+        {
+
+            try
+            {
+
+                
+
+                // Create the file.
+                File.Create(path);
+                using (StreamWriter fs = new StreamWriter(path))
+                {
+                    Byte[] info = new UTF8Encoding(true).GetBytes("This is some text in the file.");
+                    // Add some information to the file.
+                    fs.WriteLine(ToString() + " " + shortestRoute);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return true;
         }
     }
     struct cellpoint

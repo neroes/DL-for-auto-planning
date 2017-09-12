@@ -14,7 +14,7 @@ namespace Trainer
 {
     public class RecursiveFileProcessor
     {
-        public static void Main(string[] args)
+        public static void RFPMain(string[] args)
         {
             foreach (string path in args)
             {
@@ -54,6 +54,7 @@ namespace Trainer
         // Insert logic for processing found files here.
         public static void ProcessFile(string path)
         {
+            System.Console.WriteLine(path);
             StreamReader sr = new StreamReader(path);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -70,7 +71,7 @@ namespace Trainer
 
             Map finalmap = solver(search, map, stopwatch);
             stopwatch.Stop();
-
+            System.Console.WriteLine("1");
             if (finalmap == null)
             {
                 Console.Error.WriteLine("Frontier was emptied! No solution found. Explored: {0}", search.exploredSize());
