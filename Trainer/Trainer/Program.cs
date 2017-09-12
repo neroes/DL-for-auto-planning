@@ -14,16 +14,7 @@ namespace Trainer
             string path = "data.txt";
             MLInput.setup(path);
 
-            // Delete the file if it exists.
-            if (File.Exists(path))
-            {
-                // Note that no lock is put on the
-                // file and the possibility exists
-                // that another process could do
-                // something with it between
-                // the calls to Exists and Delete.
-                File.Delete(path);
-            }
+            
             RecursiveFileProcessor.RFPMain(args);
         }
     }

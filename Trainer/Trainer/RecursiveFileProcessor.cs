@@ -56,14 +56,19 @@ namespace Trainer
         {
             System.Console.WriteLine(path);
             StreamReader sr = new StreamReader(path);
+            //System.Console.WriteLine("1");
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+            //System.Console.WriteLine("1");
+
             Map map = null;
             MapLoad.loadMap(sr, out map);
+            //System.Console.WriteLine("1");
 
 
 
-            Heuristic h= new BFS(map);
+            Heuristic h = new BFS(map);
 
             Search search = new Search(h);
 
@@ -71,7 +76,7 @@ namespace Trainer
 
             Map finalmap = solver(search, map, stopwatch);
             stopwatch.Stop();
-            System.Console.WriteLine("1");
+            //System.Console.WriteLine("1");
             if (finalmap == null)
             {
                 Console.Error.WriteLine("Frontier was emptied! No solution found. Explored: {0}", search.exploredSize());
@@ -114,7 +119,7 @@ namespace Trainer
                     line = line + actiongroup[actiongroup.Count() - 1].ToString();
                     line = line + "]";
                     // Console.Error.WriteLine(line); // Debug.
-                    System.Console.WriteLine(line);
+                    //System.Console.WriteLine(line);
                 }
             }
         }

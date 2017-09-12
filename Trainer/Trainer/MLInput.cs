@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 
 namespace Trainer
@@ -13,10 +13,16 @@ namespace Trainer
         public static ProcessStartInfo myProcessStartInfo;
         private static string appName;
         private static string path;
+        static StreamWriter fs;
         cellpoint[] container;
+        
         public MLInput(Map map)
         {
             container = new cellpoint[70 * 70];
+            for (int i = 0; i < 70*70; i++)
+            {
+                container[i] = new cellpoint("");
+            }
             Node[] boxes = map.getAllBoxes();
             int j = 0;
             while (j < Map.wallMap.Length)
@@ -24,10 +30,11 @@ namespace Trainer
                 for (int i = 0; i < Map.mapWidth; i++)
                 {
                     container[i + j / Map.mapWidth * 70][1] = Map.wallMap[i + j / Map.mapWidth];
-                    container[i + j / Map.mapWidth * 70][0] = container[i + j / Map.mapWidth * 70][1] != true;
+                    container[i + j / Map.mapWidth * 70][0] = (container[i + j / Map.mapWidth * 70][1] != true);
                     j++;
                 }
             }
+            
             foreach (Actor actor in map.getActors())
             {
                 container[actor.x + actor.y * 70][2 + actor.id]=true;
@@ -35,16 +42,15 @@ namespace Trainer
             }
             for (int i = 0; i<boxes.Length; i++)
             {
-                container[boxes[i].x + boxes[i].y * 70][22 + (byte)map.getBoxName(i)] = true;
+                container[boxes[i].x + boxes[i].y * 70][22 + (byte)map.getBoxName(i)-'a'] = true;
                 container[boxes[i].x + boxes[i].y * 70][60 + (byte)map.getColorOfBox(i)] = true;
                 
             }
-            
             foreach (char name in map.getGoalNames())
             {
                 foreach (Node goal in map.getGoals(name))
                 {
-                    container[goal.x + goal.y * 70][36 + (byte)(name-'0')] = true;
+                    container[goal.x + goal.y * 70][36 + (byte)(name-'a')] = true;
                 }
             }
             
@@ -59,15 +65,28 @@ namespace Trainer
                 char[] str2 = container[i].ToCharArray();
                 for (int j = 0; j < 72; j++)
                 {
-                    str[k] = str[j];
+                    str[k] = str2[j];
                     k++;
                 }
             }
-            return str.ToString();
+            return new string(str);
         }
         public static void setup(string path)
         {
             MLInput.path = path;
+
+            /*// Delete the file if it exists.
+            if (File.Exists(path))
+            {
+                // Note that no lock is put on the
+                // file and the possibility exists
+                // that another process could do
+                // something with it between
+                // the calls to Exists and Delete.
+                File.Delete(path);
+            }*/
+            using (FileStream fs = File.Create(path)) { }
+                fs = new StreamWriter(path);
             setup();
         }
         public static void setup()
@@ -118,17 +137,9 @@ namespace Trainer
 
             try
             {
-
-                
-
-                // Create the file.
-                File.Create(path);
-                using (StreamWriter fs = new StreamWriter(path))
-                {
-                    Byte[] info = new UTF8Encoding(true).GetBytes("This is some text in the file.");
-                    // Add some information to the file.
-                    fs.WriteLine(ToString() + " " + shortestRoute);
-                }
+                // Add some information to the file.
+                fs.WriteLine(this.ToString() + " " + shortestRoute);
+                //System.Console.WriteLine(this.ToString());
             }
 
             catch (Exception ex)
@@ -144,11 +155,12 @@ namespace Trainer
         public cellpoint(string arg)
         {
             bites = new Byte[9];
+            for (int i = 0; i < 9; i++) { bites[i] = 0; }
         }
-        public bool this[int i] { get { return getbit(bites[i / 8],i%8); } set { byte newData =  (byte) (1 << i%8); bites[i/8] = (byte)((bites[i/8] & ~newData) & (value ? 1 : 0) << i); } }
+        public bool this[int i] { get { return getbit(bites[i / 8],i%8); } set { /*byte newData =  (byte) (1 << i%8); bites[i/8] = (byte)((bites[i/8] & ~newData) & (value ? 1 : 0) << i);*/ if (value = !getbit(bites[i / 8], i % 8)) { bites[i / 8] = (byte)(value ? bites[i / 8] + (1 << i % 8) : bites[i / 8] - (1 << i % 8)); } } }
         public bool getbit(Byte row, int i)
         {
-            return (1&(row<<i)) != 0;
+            return (row & (i<<i)) != 0;
         }
         public int getintbit(Byte row, int i)
         {
@@ -157,7 +169,7 @@ namespace Trainer
         public char[] ToCharArray()
         {
             char[] str = new char[72];
-            for (int i = 0; i < 64; i++) { str[i] = getintbit(bites[i / 8], i % 8).ToString()[0]; }
+            for (int i = 0; i < 72; i++) { str[i] = (this[i] ? '1' : '0'); if (this[i]) { System.Console.WriteLine(this[i].ToString()); } }
             return str;
         }
     }

@@ -15,10 +15,13 @@ namespace Trainer
             List<string> mapLines = new List<string>();
 
             string l;
-            do {
-                l = lines.ReadLine();
+            while ((l = lines.ReadLine()) != null && l != "")
+            {
+                
+                System.Console.WriteLine(l);
                 mapLines.Add(l);
-            } while (l != "");
+            }
+            
 
             int colcount = 0, rowcount = 0;
             getfilesize(mapLines, out colcount, out rowcount);
