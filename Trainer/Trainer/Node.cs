@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HAL_Solver
+namespace Trainer
 {
     public struct Node
     {

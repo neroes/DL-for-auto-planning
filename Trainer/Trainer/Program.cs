@@ -10,6 +10,7 @@ namespace Trainer
     {
         static void Main(string[] args)
         {
+            MLInput.setup();
             RecursiveFileProcessor.Main(args);
         }
     }

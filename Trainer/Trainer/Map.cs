@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace HAL_Solver
+namespace Trainer
 {
     public enum Color : Byte
     {

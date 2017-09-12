@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
-namespace HAL_Solver
+namespace Trainer
 {
     class MapLoad
     {

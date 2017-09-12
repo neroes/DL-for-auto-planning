@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HAL_Solver
+namespace Trainer
 {
-    class Search
+    public class Search
     {
         private static Heuristic h;
         private SortedSet<Map> frontier; 

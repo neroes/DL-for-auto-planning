@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace HAL_Solver
+namespace Trainer
 {
     public enum Direction : Byte { N, S, E, W, NONE };
     public enum Interact : Byte { PUSH, PULL, MOVE, WAIT };

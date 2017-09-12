@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace HAL_Solver
+namespace Trainer
 {
     class MLInput
     {
@@ -75,13 +75,13 @@ namespace HAL_Solver
             // Create new process start info 
             ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python);
         }
-        public string run()
+        public string run(int shortestRoute)
         {
             // make sure we can read the output from stdout 
             myProcessStartInfo.UseShellExecute = false;
             myProcessStartInfo.RedirectStandardOutput = true;
 
-            myProcessStartInfo.Arguments = appName + " " + ToString();
+            myProcessStartInfo.Arguments = appName + " " + ToString()+ " " + shortestRoute;
 
 
             Process myProcess = new Process();
