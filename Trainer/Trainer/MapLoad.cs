@@ -18,7 +18,7 @@ namespace Trainer
             while ((l = lines.ReadLine()) != null && l != "")
             {
                 
-                System.Console.WriteLine(l);
+                //System.Console.WriteLine(l);
                 mapLines.Add(l);
             }
             

@@ -140,6 +140,7 @@ namespace Trainer
                 // Add some information to the file.
                 fs.WriteLine(this.ToString() + " " + shortestRoute);
                 //System.Console.WriteLine(this.ToString());
+                fs.Flush();
             }
 
             catch (Exception ex)

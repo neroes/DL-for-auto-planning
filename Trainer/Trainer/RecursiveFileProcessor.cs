@@ -66,7 +66,7 @@ namespace Trainer
             MapLoad.loadMap(sr, out map);
             //System.Console.WriteLine("1");
 
-
+            
 
             Heuristic h = new BFS(map);
 
