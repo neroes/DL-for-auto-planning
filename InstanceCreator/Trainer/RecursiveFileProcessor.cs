@@ -171,6 +171,97 @@ namespace Trainer
         }
         public static Map solver(Search search, Map map, Stopwatch stopwatch)
         {
+            
+            search.addToFrontier(map);
+
+            int i = -1;
+
+            while (search.frontierSize() > 0)
+            {
+                i++;
+                if (i == 10000)
+                {
+                    Console.Error.Write("Time:  {0:0.000}\t Explored: {1}\t Frontier: {2}\n", stopwatch.Elapsed.TotalSeconds, search.exploredSize() - search.frontierSize(), search.frontierSize());
+                    i = 0;
+                }
+                Map smap = search.getFromFrontier();
+                
+                //if (smap.isGoal()) { return smap; }
+
+                Heuristic h = new BFS(smap);
+
+                Search search2 = new Search(h);
+
+                //Console.Error.WriteLine("Initialized after {0:0.000}", stopwatch.Elapsed.TotalSeconds);
+
+                Map finalmap = solver2(search2, smap, stopwatch);
+                if (finalmap == null)
+                {
+                    Console.Error.WriteLine("Frontier was emptied! No solution found. Explored: {0}", search.exploredSize());
+                    return null;
+                }
+                else
+                {
+                    MLInput mlin = new MLInput(map);
+                    mlin.run(finalmap.steps);
+
+                }
+                //if (smap.isGoal()) { return smap; }
+
+                HashSet<act>[] actionlist = smap.getAllActions();
+
+
+                IEnumerator<act>[] enumerators = new IEnumerator<act>[actionlist.Count()];
+                for (int j = 0; j < actionlist.Count(); j++)
+                {
+                    enumerators[j] = actionlist[j].GetEnumerator();
+                    enumerators[j].MoveNext();
+                }
+                bool run = true;
+                while (run)
+                {
+                    act[] actions = new act[enumerators.Count()];
+                    for (int j = 0; j < enumerators.Count(); j++)
+                    {
+                        actions[j] = enumerators[j].Current;
+                    }
+                    int k = 0;
+                    while (!enumerators[k].MoveNext())
+                    {
+                        enumerators[k].Reset();
+                        enumerators[k].MoveNext();
+                        k++;
+                        if (k == enumerators.Count()) { run = false; break; }
+                    }
+                    Map nmap = new Map(smap);
+                    if (nmap.PerformActions(actions))
+                    {
+                        //if (nmap.isGoal()) { return nmap; }
+                        search.addToFrontier(nmap);
+                    }
+                }
+
+
+                /*foreach (HashSet<act> actorlist in actionlist)
+                {
+                    foreach (act action in actorlist)
+                    {
+                        
+                        act[] actions = new act[1];
+                        actions[0] = action;
+                        if (nmap.PerformActions(actions))
+                        {
+                            if (nmap.isGoal()) { return nmap; }
+                            search.addToFrontier(nmap);
+                        }
+                    }
+                }*/
+            }
+            return null;
+        }
+        public static Map solver2(Search search, Map map, Stopwatch stopwatch)
+        {
+            map.steps = 0;
             search.addToFrontier(map);
 
             int i = -1;
