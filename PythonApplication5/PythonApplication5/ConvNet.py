@@ -2,23 +2,24 @@ import io
 import numpy as np
 
 
-xtrain = np.zeros((75,70,70,72), dtype=np.float32)
-xeval = np.zeros((25,70,70,72), dtype=np.float32)
-ytrain = np.zeros(75, dtype=np.float32)
-yeval = np.zeros(25, dtype=np.float32)
+xtrain = np.zeros((387,16,16,16), dtype=np.float32)
+xeval = np.zeros((53,16,16,16), dtype=np.float32)
+ytrain = np.zeros(387, dtype=np.float32)
+yeval = np.zeros(53, dtype=np.float32)
 
 count = 0
 
-f = open('data.txt', 'r')
+
+f = open('TrainingData.txt', 'r')
 
 for line in f:
     print(count)
-    A=np.zeros( (70,70,72) )
+    A=np.zeros( (16,16,16) )
     ## print(A)
     itt=0
-    for i in range(0,70):
-        for j in range(0,70):
-            for k in range(0,72):
+    for i in range(0,16):
+        for j in range(0,16):
+            for k in range(0,16):
                 A[i,j,k] = line[itt]
                 itt = itt + 1
     itt = -2
@@ -31,11 +32,32 @@ for line in f:
         i = i*10
         itt = itt -1
 
+    xtrain[count,:,:,:] = A
+    ytrain[count]=end
+    count = count +1
     
-    if (count<75):
-        xtrain[count,:,:,:] = A
-        ytrain[count]=end
-    else:
-        xeval[count-75,:,:,:] = A
-        yeval[count-75]=end
+f = open('GoalData.txt', 'r')    
+count = 0    
+for line in f:
+    print(count)
+    A=np.zeros( (16,16,16) )
+    ## print(A)
+    itt=0
+    for i in range(0,16):
+        for j in range(0,16):
+            for k in range(0,16):
+                A[i,j,k] = line[itt]
+                itt = itt + 1
+    itt = -2
+    i = 1
+    end = 0
+    while True:
+        if (line[itt] == ' '):
+            break        
+        end = end + int(line[itt])*i
+        i = i*10
+        itt = itt -1
+
+    xeval[count,:,:,:] = A
+    yeval[count]=end
     count = count +1
