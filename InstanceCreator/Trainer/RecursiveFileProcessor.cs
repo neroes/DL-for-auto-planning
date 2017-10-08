@@ -188,9 +188,9 @@ namespace Trainer
                 
                 //if (smap.isGoal()) { return smap; }
 
-                Heuristic h = new BFS(smap);
+                Heuristic h2 = new BFS(smap);
 
-                Search search2 = new Search(h);
+                Search search2 = new Search(h2);
 
                 //Console.Error.WriteLine("Initialized after {0:0.000}", stopwatch.Elapsed.TotalSeconds);
 
@@ -202,7 +202,7 @@ namespace Trainer
                 }
                 else
                 {
-                    MLInput mlin = new MLInput(map);
+                    MLInput mlin = new MLInput(smap);
                     mlin.run(finalmap.steps);
 
                 }
