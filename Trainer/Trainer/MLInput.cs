@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,15 +13,21 @@ namespace Trainer
         public static ProcessStartInfo myProcessStartInfo;
         private static string appName;
         private static string path;
+        private static string path2;
         static StreamWriter fs;
-        cellpoint[] container;
+        static StreamWriter fs2;
+        static Random rand;
+        //cellpoint[] container;
+        BitArray[] container;
         
         public MLInput(Map map)
         {
-            container = new cellpoint[70 * 70];
-            for (int i = 0; i < 70*70; i++)
+            //[Wall,Space,ActorID*4,Boxes*4,goals*4,Color*2]
+            //container = new cellpoint[70 * 70];
+            container = new BitArray[16*16];
+            for (int i = 0; i < 16*16; i++)
             {
-                container[i] = new cellpoint("");
+                container[i] = new BitArray(16);//= new cellpoint("");
             }
             Node[] boxes = map.getAllBoxes();
             int j = 0;
@@ -29,28 +35,28 @@ namespace Trainer
             {
                 for (int i = 0; i < Map.mapWidth; i++)
                 {
-                    container[i + j / Map.mapWidth * 70][1] = Map.wallMap[i + j / Map.mapWidth];
-                    container[i + j / Map.mapWidth * 70][0] = (container[i + j / Map.mapWidth * 70][1] != true);
+                    container[i + j / Map.mapWidth * 16][1] = Map.wallMap[i + j / Map.mapWidth];
+                    container[i + j / Map.mapWidth * 16][0] = (container[i + j / Map.mapWidth * 16][1] != true);
                     j++;
                 }
             }
             
             foreach (Actor actor in map.getActors())
             {
-                container[actor.x + actor.y * 70][2 + actor.id]=true;
-                container[actor.x + actor.y * 70][60 + (byte)actor.getcolor()]=true;
+                container[actor.x + actor.y * 16][2 + actor.id]=true;
+                container[actor.x + actor.y * 16][14 + (byte)actor.getcolor()]=true;
             }
             for (int i = 0; i<boxes.Length; i++)
             {
-                container[boxes[i].x + boxes[i].y * 70][22 + (byte)map.getBoxName(i)-'a'] = true;
-                container[boxes[i].x + boxes[i].y * 70][60 + (byte)map.getColorOfBox(i)] = true;
+                container[boxes[i].x + boxes[i].y * 16][6 + (byte)map.getBoxName(i)-'a'] = true;
+                container[boxes[i].x + boxes[i].y * 16][14 + (byte)map.getColorOfBox(i)] = true;
                 
             }
             foreach (char name in map.getGoalNames())
             {
                 foreach (Node goal in map.getGoals(name))
                 {
-                    container[goal.x + goal.y * 70][36 + (byte)(name-'a')] = true;
+                    container[goal.x + goal.y * 16][10 + (byte)(name-'a')] = true;
                 }
             }
             
@@ -58,23 +64,24 @@ namespace Trainer
         }
         public override string ToString()
         {
-            char[] str = new char[70*70*72];
+            char[] str = new char[16*16*16];
             int k = 0;
-            for (int i = 0; i < 70*70; i++)
+            for (int i = 0; i < 16*16; i++)
             {
-                char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 72; j++)
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
                 {
-                    str[k] = str2[j];
+                    str[k] = (container[i][j] ? '1' : '0');
                     k++;
                 }
             }
             return new string(str);
         }
-        public static void setup(string path)
+        public static void setup(string path, string path2)
         {
+            MLInput.rand = new Random();
             MLInput.path = path;
-
+            MLInput.path2 = path2;
             /*// Delete the file if it exists.
             if (File.Exists(path))
             {
@@ -87,7 +94,9 @@ namespace Trainer
             }*/
             using (FileStream fs = File.Create(path)) { }
                 fs = new StreamWriter(path);
-            setup();
+            using (FileStream fs = File.Create(path2)) { }
+                fs2 = new StreamWriter(path2);
+            //setup();
         }
         public static void setup()
         {
@@ -134,18 +143,35 @@ namespace Trainer
         }
         public bool Writer(int shortestRoute)
         {
-
-            try
+            if (rand.Next() % 4 > 0)
             {
-                // Add some information to the file.
-                fs.WriteLine(this.ToString() + " " + shortestRoute);
-                //System.Console.WriteLine(this.ToString());
-                fs.Flush();
+                try
+                {
+                    // Add some information to the file.
+                    fs.WriteLine(this.ToString() + " " + shortestRoute);
+                    //System.Console.WriteLine(this.ToString());
+                    fs.Flush();
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
-
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.ToString());
+                try
+                {
+                    // Add some information to the file.
+                    fs2.WriteLine(this.ToString() + " " + shortestRoute);
+                    //System.Console.WriteLine(this.ToString());
+                    fs2.Flush();
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
             return true;
         }
