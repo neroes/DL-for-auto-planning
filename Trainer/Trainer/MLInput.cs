@@ -143,7 +143,7 @@ namespace Trainer
         }
         public bool Writer(int shortestRoute)
         {
-            if (rand.Next() % 4 > 0)
+            if (rand.Next() % 10 > 0)
             {
                 try
                 {

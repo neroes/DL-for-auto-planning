@@ -11,10 +11,11 @@ namespace Trainer
     {
         static void Main(string[] args)
         {
-            string path = "data.txt";
-            MLInput.setup(path);
+            string path = "TrainingData.txt";
+            string path2 = "GoalData.txt";
+            MLInput.setup(path, path2);
 
-            
+
             RecursiveFileProcessor.RFPMain(args);
         }
     }
