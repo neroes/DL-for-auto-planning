@@ -124,7 +124,7 @@ def main(unused_argv):
         shuffle=False)
     predict_results = DL_classifier.predict(input_fn=predict_input_fn)
     for i, p in enumerate(predict_results):
-        print("Prediction %s: %s" % (i + 1, predict_results))
+        print("Prediction %s: %s" % (i + 1, p["classes"]))
     input("Press Enter to continue...")
 
 

@@ -2,7 +2,7 @@ import io
 import numpy as np
 
 
-xpredict = np.zeros((1,16,16,16), dtype=np.float32)
+xpredict = np.zeros((2,16,16,16), dtype=np.float32)
 
 
 count = 0
