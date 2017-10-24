@@ -104,7 +104,7 @@ def cnn_model_fn(features, labels, mode):
 def main(unused_argv):
   # Load training and eval data
  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-  predict_data = kage # HER MANGLER DATASÆT
+  predict_data = ConvNet.xpredict
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
@@ -130,4 +130,3 @@ for i, p in enumerate(predict_results):
 
 if __name__ == "__main__":
   tf.app.run()
-
