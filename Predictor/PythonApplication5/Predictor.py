@@ -5,6 +5,7 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 import ConvNet
+import sys 
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -105,7 +106,7 @@ def main(unused_argv):
   # Load training and eval data
  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
     print("kage")    
-    predict_data = ConvNet.xpredict
+    predict_data = ConvNet.reformat(sys.argv[1])
     
     # Create the Estimator
     DL_classifier = tf.estimator.Estimator(
