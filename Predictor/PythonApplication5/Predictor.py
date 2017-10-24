@@ -104,29 +104,31 @@ def cnn_model_fn(features, labels, mode):
 def main(unused_argv):
   # Load training and eval data
  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
+    print("kage")    
     predict_data = ConvNet.xpredict
-
-  # Create the Estimator
+    
+    # Create the Estimator
     DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/DL_convnet_model")
+        model_fn=cnn_model_fn, model_dir="/tmp/DL_convnet_model")
 
-  # Set up logging for predictions
-  # Log the values in the "Softmax" tensor with label "probabilities"
-  # tensors_to_log = {"probabilities": "softmax_tensor"}
-  # logging_hook = tf.train.LoggingTensorHook(
-   #   tensors=tensors_to_log, every_n_iter=50)
+    # Set up logging for predictions
+    # Log the values in the "Softmax" tensor with label "probabilities"
+    # tensors_to_log = {"probabilities": "softmax_tensor"}
+    # logging_hook = tf.train.LoggingTensorHook(
+    #   tensors=tensors_to_log, every_n_iter=50)
 
-  # Print out predictions
+    # Print out predictions
     predict_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": predict_data},
         num_epochs=1,
         shuffle=False)
     predict_results = DL_classifier.predict(input_fn=predict_input_fn)
     for i, p in enumerate(predict_results):
-      print("Prediction %s: %s" % (i + 1, predict_results))
+        print("Prediction %s: %s" % (i + 1, predict_results))
+    input("Press Enter to continue...")
 
 
 
 
-    if __name__ == "__main__":
-      tf.app.run()
+if __name__ == "__main__":
+    tf.app.run()
