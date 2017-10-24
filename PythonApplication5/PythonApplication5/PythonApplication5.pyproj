@@ -22,6 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ConvNet.py" />
+    <Compile Include="Predictor.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PythonApplication5.py" />
   </ItemGroup>
   <ItemGroup>
