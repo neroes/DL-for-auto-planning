@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 import ConvNet
 import sys 
-
+inputdata = sys.argv[1]
 tf.logging.set_verbosity(tf.logging.INFO)
 
 def cnn_model_fn(features, labels, mode):
@@ -105,8 +105,7 @@ def cnn_model_fn(features, labels, mode):
 def main(unused_argv):
   # Load training and eval data
  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-    print("kage")    
-    predict_data = ConvNet.reformat(sys.argv[1])
+    predict_data = ConvNet.reformat(inputdata)
     
     # Create the Estimator
     DL_classifier = tf.estimator.Estimator(
@@ -125,11 +124,11 @@ def main(unused_argv):
         shuffle=False)
     predict_results = DL_classifier.predict(input_fn=predict_input_fn)
     for i, p in enumerate(predict_results):
-        print("Prediction %s: %s" % (i + 1, p["classes"]))
-    input("Press Enter to continue...")
-
+        print(p["classes"])
+        #print("Prediction %s: %s" % (i + 1, p["classes"]))
 
 
 
 if __name__ == "__main__":
     tf.app.run()
+
