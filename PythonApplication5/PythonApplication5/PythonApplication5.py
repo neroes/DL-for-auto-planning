@@ -105,7 +105,7 @@ def cnn_model_fn(features, labels, mode):
 
   # Configure the Training Op (for TRAIN mode)
   if mode == tf.estimator.ModeKeys.TRAIN:
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
     train_op = optimizer.minimize(
         loss=loss,
         global_step=tf.train.get_global_step())
@@ -129,8 +129,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/testDL_convnet_model")
-      #model_fn=cnn_model_fn, model_dir="/tmp/DL_convnet_model")
+      model_fn=cnn_model_fn, model_dir="/tmp/DL_convnet_model")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
