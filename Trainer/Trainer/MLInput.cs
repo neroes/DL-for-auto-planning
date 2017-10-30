@@ -77,6 +77,111 @@ namespace Trainer
             }
             return new string(str);
         }
+        public string ToStringAlt1()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[15-i][j] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
+        public string ToStringAlt2()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[i][15-j] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
+        public string ToStringAlt3()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[15-i][15-j] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
+        public string ToStringAlt4()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[j][i] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
+        public string ToStringAlt5()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[15-j][i] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
+        public string ToStringAlt6()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[j][15-i] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
+        public string ToStringAlt7()
+        {
+            char[] str = new char[16 * 16 * 16];
+            int k = 0;
+            for (int i = 0; i < 16 * 16; i++)
+            {
+                //char[] str2 = container[i].ToCharArray();
+                for (int j = 0; j < 16; j++)
+                {
+                    str[k] = (container[15-j][15-i] ? '1' : '0');
+                    k++;
+                }
+            }
+            return new string(str);
+        }
         public static void setup(string path, string path2)
         {
             MLInput.rand = new Random();
@@ -143,12 +248,24 @@ namespace Trainer
         }
         public bool Writer(int shortestRoute)
         {
+            AddLine(ToString(), shortestRoute);
+            AddLine(ToStringAlt1(), shortestRoute);
+            AddLine(ToStringAlt2(), shortestRoute);
+            AddLine(ToStringAlt3(), shortestRoute);
+            AddLine(ToStringAlt4(), shortestRoute);
+            AddLine(ToStringAlt5(), shortestRoute);
+            AddLine(ToStringAlt6(), shortestRoute);
+            AddLine(ToStringAlt7(), shortestRoute);
+            return true;
+        }
+        public bool AddLine(string input, int shortestRoute)
+        {
             if (rand.Next() % 10 > 0)
             {
                 try
                 {
                     // Add some information to the file.
-                    fs.WriteLine(this.ToString() + " " + shortestRoute);
+                    fs.WriteLine(input + " " + shortestRoute);
                     //System.Console.WriteLine(this.ToString());
                     fs.Flush();
                 }
@@ -156,6 +273,7 @@ namespace Trainer
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
+                    return false;
                 }
             }
             else
@@ -163,7 +281,7 @@ namespace Trainer
                 try
                 {
                     // Add some information to the file.
-                    fs2.WriteLine(this.ToString() + " " + shortestRoute);
+                    fs2.WriteLine(input + " " + shortestRoute);
                     //System.Console.WriteLine(this.ToString());
                     fs2.Flush();
                 }
@@ -171,11 +289,13 @@ namespace Trainer
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
+                    return false;
                 }
             }
             return true;
         }
     }
+    
     struct cellpoint
     {
         Byte[] bites;
