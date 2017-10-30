@@ -85,7 +85,8 @@ def cnn_model_fn(features, labels, mode):
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
-  logits = tf.layers.dense(inputs=dropout, units=16)
+  #units used to be =14
+  logits = tf.layers.dense(inputs=dropout, units=102)
 
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
@@ -98,7 +99,7 @@ def cnn_model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
   # Calculate Loss (for both TRAIN and EVAL modes)
-  onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=16)
+  onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
   loss = tf.losses.softmax_cross_entropy(
       onehot_labels=onehot_labels, logits=logits)
 
@@ -128,7 +129,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/DL_convnet_model")
+      model_fn=cnn_model_fn, model_dir="/tmp/testDL_convnet_model")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
