@@ -18,45 +18,48 @@ namespace Trainer
         static StreamWriter fs2;
         static Random rand;
         //cellpoint[] container;
-        BitArray[] container;
+        BitArray[,] container;
         
         public MLInput(Map map)
         {
             //[Wall,Space,ActorID*4,Boxes*4,goals*4,Color*2]
             //container = new cellpoint[70 * 70];
-            container = new BitArray[16*16];
-            for (int i = 0; i < 16*16; i++)
+            container = new BitArray[16,16];
+            for (int i = 0; i < 16; i++)
             {
-                container[i] = new BitArray(16);//= new cellpoint("");
+                for (int k = 0; k < 16; k++)
+                {
+                    container[i,k] = new BitArray(16);//= new cellpoint("");
+                }
             }
             Node[] boxes = map.getAllBoxes();
-            int j = 0;
-            while (j < Map.wallMap.Length)
+            
+            for (int j = 0; j < Map.mapWidth; j++)
             {
                 for (int i = 0; i < Map.mapWidth; i++)
                 {
-                    container[i + j / Map.mapWidth * 16][1] = Map.wallMap[i + j / Map.mapWidth];
-                    container[i + j / Map.mapWidth * 16][0] = (container[i + j / Map.mapWidth * 16][1] != true);
+                    container[i,j][1] = Map.wallMap[i + j / Map.mapWidth];
+                    container[i,j][0] = (container[i,j][1] != true);
                     j++;
                 }
             }
             
             foreach (Actor actor in map.getActors())
             {
-                container[actor.x + actor.y * 16][2 + actor.id]=true;
-                container[actor.x + actor.y * 16][14 + (byte)actor.getcolor()]=true;
+                container[actor.x, actor.y][2 + actor.id]=true;
+                container[actor.x, actor.y][14 + (byte)actor.getcolor()]=true;
             }
             for (int i = 0; i<boxes.Length; i++)
             {
-                container[boxes[i].x + boxes[i].y * 16][6 + (byte)map.getBoxName(i)-'a'] = true;
-                container[boxes[i].x + boxes[i].y * 16][14 + (byte)map.getColorOfBox(i)] = true;
+                container[boxes[i].x, boxes[i].y][6 + (byte)map.getBoxName(i)-'a'] = true;
+                container[boxes[i].x, boxes[i].y][14 + (byte)map.getColorOfBox(i)] = true;
                 
             }
             foreach (char name in map.getGoalNames())
             {
                 foreach (Node goal in map.getGoals(name))
                 {
-                    container[goal.x + goal.y * 16][10 + (byte)(name-'a')] = true;
+                    container[goal.x, goal.y][10 + (byte)(name-'a')] = true;
                 }
             }
             
@@ -66,14 +69,18 @@ namespace Trainer
         {
             char[] str = new char[16*16*16];
             int k = 0;
-            for (int i = 0; i < 16*16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[i][j] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[i1,i2][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                    //char[] str2 = container[i].ToCharArray();
+                    
             }
             return new string(str);
         }
@@ -81,14 +88,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[15-i][j] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[15-i1, i2][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
@@ -96,14 +107,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[i][15-j] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[i1, 15-i2][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
@@ -111,14 +126,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[15-i][15-j] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[15-i1, 15-i2][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
@@ -126,14 +145,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[j][i] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[i2, i1][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
@@ -141,14 +164,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[15-j][i] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[15-i2, i1][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
@@ -156,14 +183,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[j][15-i] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[i2, 15-i1][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
@@ -171,14 +202,18 @@ namespace Trainer
         {
             char[] str = new char[16 * 16 * 16];
             int k = 0;
-            for (int i = 0; i < 16 * 16; i++)
+            for (int i1 = 0; i1 < 16; i1++)
             {
-                //char[] str2 = container[i].ToCharArray();
-                for (int j = 0; j < 16; j++)
+                for (int i2 = 0; i2 < 16; i2++)
                 {
-                    str[k] = (container[15-j][15-i] ? '1' : '0');
-                    k++;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        str[k] = (container[15-i2, 15-i1][j] ? '1' : '0');
+                        k++;
+                    }
                 }
+                //char[] str2 = container[i].ToCharArray();
+
             }
             return new string(str);
         }
