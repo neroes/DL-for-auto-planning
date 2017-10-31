@@ -2,10 +2,10 @@ import io
 import numpy as np
 
 
-xtrain = np.zeros((449,16,16,16), dtype=np.float32)
-xeval = np.zeros((53,16,16,16), dtype=np.float32)
-ytrain = np.zeros(449, dtype=np.float32)
-yeval = np.zeros(53, dtype=np.float32)
+xtrain = np.zeros((3585,16,16,16), dtype=np.float32)
+xeval = np.zeros((431,16,16,16), dtype=np.float32)
+ytrain = np.zeros(3585, dtype=np.float32)
+yeval = np.zeros(431, dtype=np.float32)
 
 count = 0
 
