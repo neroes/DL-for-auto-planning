@@ -145,7 +145,7 @@ def main(unused_argv):
       x={"x": train_data},
       y=train_labels,
       batch_size=100,
-      num_epochs=None,
+      num_epochs=1,
       shuffle=True)
   DL_classifier.train(
       input_fn=train_input_fn,
