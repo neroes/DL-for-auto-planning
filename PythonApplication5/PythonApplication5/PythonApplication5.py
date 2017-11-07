@@ -144,7 +144,7 @@ def main(unused_argv):
   train_input_fn = tf.estimator.inputs.numpy_input_fn(
       x={"x": train_data},
       y=train_labels,
-      batch_size=100,
+      batch_size=1000,
       num_epochs=None,
       shuffle=True)
   DL_classifier.train(
