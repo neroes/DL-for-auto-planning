@@ -67,10 +67,28 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 7, 7, 64]
   pool2 = tf.layers.max_pooling3d(inputs=conv2, pool_size=[2, 2, 2], strides=2)
 
+    # Convolutional Layer #2
+  # Computes 64 features using a 5x5 filter.
+  # Padding is added to preserve width and height.
+  # Input Tensor Shape: [batch_size, 14, 14, 32]
+  # Output Tensor Shape: [batch_size, 14, 14, 64]
+  conv3 = tf.layers.conv3d(
+      inputs=pool1,
+      filters=128,
+      kernel_size=[5, 5, 5],
+      padding="same",
+      activation=tf.nn.relu)
+
+  # Pooling Layer #2
+  # Second max pooling layer with a 2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 14, 14, 64]
+  # Output Tensor Shape: [batch_size, 7, 7, 64]
+  pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
+
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool2_flat = tf.reshape(pool2, [-1, 4*4*4*64])
+  pool3_flat = tf.reshape(pool3, [-1, 4*4*4*128])
 
   # Dense Layer
   # Densely connected layer with 1024 neurons
@@ -132,7 +150,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/testDL_convnet_model")
+      model_fn=cnn_model_fn, model_dir="/tmp/test2DL_convnet_model")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
