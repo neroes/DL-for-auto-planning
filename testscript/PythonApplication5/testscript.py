@@ -82,33 +82,17 @@ def cnn_model_fn(features, labels, mode):
   # Pooling Layer #3
   pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
 
-     # Convolutional Layer #3
-  # Computes 64 features using a 5x5 filter.
-  # Padding is added to preserve width and height.
-  # Input Tensor Shape: [batch_size, 14, 14, 32]
-  # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv4 = tf.layers.conv3d(
-      inputs=pool1,
-      filters=256,
-      kernel_size=[5, 5, 5],
-      padding="same",
-      activation=tf.nn.relu)
-
-  # Pooling Layer #3
-  pool4 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
-
-
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool4_flat = tf.reshape(pool4, [-1, 4*4*4*256])
+  pool3_flat = tf.reshape(pool3, [-1, 4*4*4*128])
 
 
   # Dense Layer
   # Densely connected layer with 1024 neurons
   # Input Tensor Shape: [batch_size, 7 * 7 * 64]
   # Output Tensor Shape: [batch_size, 1024]
-  dense = tf.layers.dense(inputs=pool4_flat, units=2048, activation=tf.nn.relu)
+  dense = tf.layers.dense(inputs=pool3_flat, units=2048, activation=tf.nn.relu)
 
   # Add dropout operation; 0.6 probability that element will be kept
   dropout = tf.layers.dropout(
