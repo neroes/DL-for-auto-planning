@@ -165,7 +165,7 @@ def main(unused_argv):
       shuffle=True)
   DL_classifier.train(
       input_fn=train_input_fn,
-      steps=20000,
+      steps=240000,
       hooks=[logging_hook])
 
   # Evaluate the model and print results
