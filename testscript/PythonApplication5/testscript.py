@@ -29,17 +29,17 @@ def cnn_model_fn(features, labels, mode):
   # Input Layer
   # Reshape X to 4-D tensor: [batch_size, width, height, channels]
   # MNIST images are 28x28 pixels, and have one color channel
-  input_layer = tf.reshape(features["x"], [-1, 16, 16, 16, 1])
+  input_layer = tf.reshape(features["x"], [-1, 16, 16, 16])
 
   # Convolutional Layer #1
   # Computes 32 features using a 5x5 filter with ReLU activation.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 28, 28, 1]
   # Output Tensor Shape: [batch_size, 28, 28, 32]
-  conv1 = tf.layers.conv3d(
+  conv1 = tf.layers.conv2d(
       inputs=input_layer,
       filters=32,
-      kernel_size=[5, 5, 5],
+      kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
 
@@ -47,17 +47,17 @@ def cnn_model_fn(features, labels, mode):
   # First max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 28, 28, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 32]
-  pool1 = tf.layers.max_pooling3d(inputs=conv1, pool_size=[2, 2, 2], strides=2)
+  pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
   # Convolutional Layer #2
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv2 = tf.layers.conv3d(
+  conv2 = tf.layers.conv2d(
       inputs=pool1,
       filters=64,
-      kernel_size=[5, 5, 5],
+      kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
 
@@ -65,27 +65,27 @@ def cnn_model_fn(features, labels, mode):
   # Second max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 14, 14, 64]
   # Output Tensor Shape: [batch_size, 7, 7, 64]
-  pool2 = tf.layers.max_pooling3d(inputs=conv2, pool_size=[2, 2, 2], strides=2)
+  pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
     # Convolutional Layer #3
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv3 = tf.layers.conv3d(
+  conv3 = tf.layers.conv2d(
       inputs=pool2,
       filters=128,
-      kernel_size=[5, 5, 5],
+      kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
 
   # Pooling Layer #3
-  pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
+  pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
 
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool3_flat = tf.reshape(pool3, [-1, 2*2*2*128])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*128])
 
 
   # Dense Layer
