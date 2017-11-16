@@ -57,7 +57,7 @@ def cnn_model_fn(features, labels, mode):
   conv2 = tf.layers.conv2d(
       inputs=pool1,
       filters=64,
-      kernel_size=[7, 7],
+      kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
 
