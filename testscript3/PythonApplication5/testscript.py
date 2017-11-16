@@ -57,7 +57,7 @@ def cnn_model_fn(features, labels, mode):
   conv2 = tf.layers.conv2d(
       inputs=pool1,
       filters=64,
-      kernel_size=[3, 3],
+      kernel_size=[7, 7],
       padding="same",
       activation=tf.nn.relu)
 
@@ -148,7 +148,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/test2DL_convnet_model")
+      model_fn=cnn_model_fn, model_dir="/tmp/test2DL_convnet_model3")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
@@ -165,7 +165,7 @@ def main(unused_argv):
       shuffle=True)
   DL_classifier.train(
       input_fn=train_input_fn,
-      steps=20000,
+      steps=200000,
       hooks=[logging_hook])
 
   # Evaluate the model and print results
