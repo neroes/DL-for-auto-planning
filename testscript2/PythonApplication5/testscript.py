@@ -38,8 +38,8 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 28, 28, 32]
   conv1 = tf.layers.conv2d(
       inputs=input_layer,
-      filters=512,
-      kernel_size=[5, 5],
+      filters=32,
+      kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
 
@@ -56,8 +56,8 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 14, 14, 64]
   conv2 = tf.layers.conv2d(
       inputs=pool1,
-      filters=1024,
-      kernel_size=[5, 5],
+      filters=64,
+      kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
 
@@ -74,8 +74,8 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 14, 14, 64]
   conv3 = tf.layers.conv2d(
       inputs=pool2,
-      filters=2048,
-      kernel_size=[5, 5],
+      filters=128,
+      kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
 
@@ -85,7 +85,7 @@ def cnn_model_fn(features, labels, mode):
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool3_flat = tf.reshape(pool3, [-1, 2*2*2048])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*128])
 
 
   # Dense Layer
@@ -148,7 +148,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/test2DL_convnet_model2")
+      model_fn=cnn_model_fn, model_dir="/tmp/test2DL_convnet_model")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
