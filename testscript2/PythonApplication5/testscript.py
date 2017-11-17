@@ -38,7 +38,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 28, 28, 32]
   conv1 = tf.layers.conv2d(
       inputs=input_layer,
-      filters=16,
+      filters=32,
       kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
@@ -56,7 +56,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 14, 14, 64]
   conv2 = tf.layers.conv2d(
       inputs=pool1,
-      filters=32,
+      filters=64,
       kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
@@ -74,7 +74,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 14, 14, 64]
   conv3 = tf.layers.conv2d(
       inputs=pool2,
-      filters=64,
+      filters=256,
       kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
