@@ -38,7 +38,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 28, 28, 32]
   conv1 = tf.layers.conv2d(
       inputs=input_layer,
-      filters=32,
+      filters=16,
       kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
@@ -56,7 +56,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 14, 14, 64]
   conv2 = tf.layers.conv2d(
       inputs=pool1,
-      filters=64,
+      filters=32,
       kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
@@ -74,7 +74,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 14, 14, 64]
   conv3 = tf.layers.conv2d(
       inputs=pool2,
-      filters=128,
+      filters=64,
       kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
@@ -85,7 +85,7 @@ def cnn_model_fn(features, labels, mode):
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool3_flat = tf.reshape(pool3, [-1, 2*2*128])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*64])
 
 
   # Dense Layer
