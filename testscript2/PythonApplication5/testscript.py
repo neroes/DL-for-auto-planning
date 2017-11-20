@@ -184,11 +184,11 @@ def main(unused_argv):
   prediction = np.zeros(390, dtype=np.float32)
   l = 0
   for i, p in enumerate(predict_results):
-    prediction[l]=p
+    prediction[l]=p['classes']
     l=l+1
   result=tf.equal(prediction,eval_labels)  
   f = open("results.txt",'w')
-  f.write(result)
+  f.write(tf.as_string(result))
   f.close()
 
 
