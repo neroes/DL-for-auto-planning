@@ -14,6 +14,7 @@ namespace Trainer
         private static string appName;
         private static string path;
         private static string path2;
+        public static string mapName;
         static StreamWriter fs;
         static StreamWriter fs2;
         static Random rand;
@@ -278,6 +279,7 @@ namespace Trainer
             
             return myString;
             */
+            
             Writer(shortestRoute);
             return "";
         }
@@ -300,7 +302,7 @@ namespace Trainer
                 try
                 {
                     // Add some information to the file.
-                    fs.WriteLine(input + " " + shortestRoute);
+                    fs.WriteLine(input + " " + mapName + " " + shortestRoute);
                     //System.Console.WriteLine(this.ToString());
                     fs.Flush();
                 }
@@ -316,7 +318,7 @@ namespace Trainer
                 try
                 {
                     // Add some information to the file.
-                    fs2.WriteLine(input + " " + shortestRoute);
+                    fs2.WriteLine(input + " " + mapName + " " + shortestRoute);
                     //System.Console.WriteLine(this.ToString());
                     fs2.Flush();
                 }
