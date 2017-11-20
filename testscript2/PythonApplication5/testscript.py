@@ -165,7 +165,7 @@ def main(unused_argv):
       shuffle=True)
   DL_classifier.train(
       input_fn=train_input_fn,
-      steps=200000,
+      steps=1,
       hooks=[logging_hook])
 
   # Evaluate the model and print results
@@ -175,7 +175,21 @@ def main(unused_argv):
       num_epochs=1,
       shuffle=False)
   eval_results = DL_classifier.evaluate(input_fn=eval_input_fn)
+  predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": eval_data},
+        num_epochs=1,
+        shuffle=False)
+  predict_results = DL_classifier.predict(input_fn=predict_input_fn)
   print(eval_results)
+  prediction = np.zeros(390, dtype=np.float32)
+  l = 0
+  for i, p in enumerate(predict_results):
+    prediction[l]=p
+    l=l+1
+  result=tf.equal(prediction,eval_labels)  
+  f = open("results.txt",'w')
+  f.write(result)
+  f.close()
 
 
 if __name__ == "__main__":
