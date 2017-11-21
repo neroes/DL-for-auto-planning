@@ -183,12 +183,13 @@ def main(unused_argv):
   print(eval_results)
   prediction = np.zeros(390, dtype=np.float32)
   l = 0
-  for i, p in enumerate(predict_results):
-    prediction[l]=p['classes']
-    l=l+1
-  result=tf.equal(prediction,eval_labels)  
   f = open("results.txt",'w')
-  f.write(tf.as_string(result))
+  for i, p in enumerate(predict_results):
+    if (eval_labels[l]==p['classes']):
+      f.write("1")
+    else:
+      f.write("0")
+    l=l+1
   f.close()
 
 
