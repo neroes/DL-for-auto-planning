@@ -187,6 +187,23 @@ def main(unused_argv):
   eval_results = DL_classifier.evaluate(input_fn=eval_input_fn)
   print(eval_results)
 
+  predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": eval_data},
+        num_epochs=1,
+        shuffle=False)
+  predict_results = DL_classifier.predict(input_fn=predict_input_fn)
+  print(eval_results)
+  prediction = np.zeros(390, dtype=np.float32)
+  l = 0
+  f = open("results.txt",'w')
+  for i, p in enumerate(predict_results):
+    if (eval_labels[l]==p['classes']):
+      f.write("1")
+    else:
+      f.write("0")
+    l=l+1
+  f.close()
+
 
 if __name__ == "__main__":
   tf.app.run()
