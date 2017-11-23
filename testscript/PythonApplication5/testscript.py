@@ -72,30 +72,30 @@ def cnn_model_fn(features, labels, mode):
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv3 = tf.layers.conv2d(
-      inputs=pool2,
-      filters=128,
-      kernel_size=[5, 5],
-      padding="same",
-      activation=tf.nn.relu)
+  #conv3 = tf.layers.conv2d(
+  #    inputs=pool2,
+  #    filters=128,
+  #    kernel_size=[5, 5],
+  #    padding="same",
+  #    activation=tf.nn.relu)
 
   # Pooling Layer #3
-  pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
+  #pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
 
-  conv4 = tf.layers.conv2d(
-      inputs=pool3,
-      filters=256,
-      kernel_size=[5, 5],
-      padding="same",
-      activation=tf.nn.relu)
+  #conv4 = tf.layers.conv2d(
+  #    inputs=pool3,
+  #    filters=256,
+  #    kernel_size=[5, 5],
+  #    padding="same",
+  #    activation=tf.nn.relu)
 
   # Pooling Layer #3
-  pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=[2, 2], strides=2)
+  #pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=[2, 2], strides=2)
 
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool4_flat = tf.reshape(pool4, [-1, 1*1*256])
+  pool2_flat = tf.reshape(pool2, [-1, 4*4*64])
 
 
   # Dense Layer
