@@ -39,7 +39,7 @@ def cnn_model_fn(features, labels, mode):
   conv1 = tf.layers.conv2d(
       inputs=input_layer,
       filters=32,
-      kernel_size=[5, 5],
+      kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
 
@@ -57,7 +57,7 @@ def cnn_model_fn(features, labels, mode):
   conv2 = tf.layers.conv2d(
       inputs=pool1,
       filters=64,
-      kernel_size=[5, 5],
+      kernel_size=[3, 3],
       padding="same",
       activation=tf.nn.relu)
 
@@ -72,37 +72,28 @@ def cnn_model_fn(features, labels, mode):
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  #conv3 = tf.layers.conv2d(
-  #    inputs=pool2,
-  #    filters=128,
-  #    kernel_size=[5, 5],
-  #    padding="same",
-  #    activation=tf.nn.relu)
+  conv3 = tf.layers.conv2d(
+      inputs=pool2,
+      filters=128,
+      kernel_size=[3, 3],
+      padding="same",
+      activation=tf.nn.relu)
 
   # Pooling Layer #3
-  #pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
+  pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
 
-  #conv4 = tf.layers.conv2d(
-  #    inputs=pool3,
-  #    filters=256,
-  #    kernel_size=[5, 5],
-  #    padding="same",
-  #    activation=tf.nn.relu)
-
-  # Pooling Layer #3
-  #pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=[2, 2], strides=2)
-
+  
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool2_flat = tf.reshape(pool2, [-1, 4*4*64])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*128])
 
 
   # Dense Layer
   # Densely connected layer with 1024 neurons
   # Input Tensor Shape: [batch_size, 7 * 7 * 64]
   # Output Tensor Shape: [batch_size, 1024]
-  dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
+  dense = tf.layers.dense(inputs=pool3_flat, units=1024, activation=tf.nn.relu)
 
   # Add dropout operation; 0.6 probability that element will be kept
   dropout = tf.layers.dropout(
@@ -131,7 +122,7 @@ def cnn_model_fn(features, labels, mode):
   global_step = tf.Variable(0, trainable=False)
   starter_learning_rate = 0.001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
-                                           100000, 0.96, staircase=True)
+                                           100000, 0.5, staircase=True)
   # Configure the Training Op (for TRAIN mode)
   if mode == tf.estimator.ModeKeys.TRAIN:
     optimizer = tf.train.GradientDescentOptimizer(learning_rate)
