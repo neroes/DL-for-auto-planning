@@ -20,6 +20,7 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 import ConvNet
+import sys
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -166,7 +167,7 @@ def main(unused_argv):
       shuffle=True)
   DL_classifier.train(
       input_fn=train_input_fn,
-      steps=20000,
+      steps=numOfSteps,
       hooks=[logging_hook])
 
   # Evaluate the model and print results
@@ -198,4 +199,8 @@ def main(unused_argv):
 
 
 if __name__ == "__main__":
+  if len(sys.argv)==1:
+        numOfSteps=20000
+  else:
+        numOfSteps=int(sys.argv[1])
   tf.app.run()
