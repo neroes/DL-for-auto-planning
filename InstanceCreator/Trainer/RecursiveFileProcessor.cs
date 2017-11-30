@@ -54,6 +54,7 @@ namespace Trainer
         // Insert logic for processing found files here.
         public static void ProcessFile(string path)
         {
+            MLInput.mapName = path;
             System.Console.WriteLine(path);
             StreamReader sr = new StreamReader(path);
             //System.Console.WriteLine("1");
