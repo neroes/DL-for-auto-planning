@@ -39,8 +39,8 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 28, 28, 32]
   conv1 = tf.layers.conv2d(
       inputs=input_layer,
-      filters=64,
-      kernel_size=[3, 3],
+      filters=32,
+      kernel_size=[5, 5],
       padding="same",
       activation=tf.nn.relu)
 
@@ -49,16 +49,17 @@ def cnn_model_fn(features, labels, mode):
   # Input Tensor Shape: [batch_size, 28, 28, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 32]
   pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
-
+  
+  layer3d = tf.reshape(pool1,[-1,8,8,8,4])
   # Convolutional Layer #2
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv2 = tf.layers.conv2d(
-      inputs=pool1,
-      filters=128,
-      kernel_size=[7, 7],
+  conv2 = tf.layers.conv3d(
+      inputs=layer3d,
+      filters=64,
+      kernel_size=[5, 5, 5],
       padding="same",
       activation=tf.nn.relu)
 
@@ -66,27 +67,28 @@ def cnn_model_fn(features, labels, mode):
   # Second max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 14, 14, 64]
   # Output Tensor Shape: [batch_size, 7, 7, 64]
-  pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
+  pool2 = tf.layers.max_pooling3d(inputs=conv2, pool_size=[2, 2, 2], strides=2)
 
     # Convolutional Layer #3
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv3 = tf.layers.conv2d(
+  conv3 = tf.layers.conv3d(
       inputs=pool2,
-      filters=256,
-      kernel_size=[7, 7],
+      filters=128,
+      kernel_size=[5, 5, 5],
       padding="same",
       activation=tf.nn.relu)
 
   # Pooling Layer #3
-  pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
+  pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
 
+  
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool3_flat = tf.reshape(pool3, [-1, 2*2*64])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*2*128])
 
 
   # Dense Layer
@@ -122,7 +124,7 @@ def cnn_model_fn(features, labels, mode):
   global_step = tf.Variable(0, trainable=False)
   starter_learning_rate = 0.001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
-                                           100000, 0.8, staircase=True)
+                                           100000, 0.96, staircase=True)
   # Configure the Training Op (for TRAIN mode)
   if mode == tf.estimator.ModeKeys.TRAIN:
     optimizer = tf.train.GradientDescentOptimizer(learning_rate)
@@ -177,6 +179,24 @@ def main(unused_argv):
       shuffle=False)
   eval_results = DL_classifier.evaluate(input_fn=eval_input_fn)
   print(eval_results)
+
+  predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": eval_data},
+        num_epochs=1,
+        shuffle=False)
+  predict_results = DL_classifier.predict(input_fn=predict_input_fn)
+  print(eval_results)
+  prediction = np.zeros(390, dtype=np.float32)
+  l = 0
+  f = open("results.txt",'w')
+  for i, p in enumerate(predict_results):
+    if (eval_labels[l]==p['classes']):
+      f.write("1")
+    else:
+      f.write("0")
+    f.write(" "+str(p['classes'])+ " "+ str(eval_labels[l])+"\n")
+    l=l+1
+  f.close()
 
 
 if __name__ == "__main__":
