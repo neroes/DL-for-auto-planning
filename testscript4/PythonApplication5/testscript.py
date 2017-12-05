@@ -108,7 +108,7 @@ def cnn_model_fn(features, labels, mode):
 
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
-      "classes": tf.reduce_sum(tf.sqrt(tf.abs(logits)), axis=1),
+      "classes": tf.reduce_sum(logits, axis=1),
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
       "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
