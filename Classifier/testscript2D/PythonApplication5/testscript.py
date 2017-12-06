@@ -105,7 +105,6 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 10]
   #units used to be =14
   logits = tf.layers.dense(inputs=dropout, units=102)
-
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
       "classes": tf.argmax(input=logits, axis=1),
