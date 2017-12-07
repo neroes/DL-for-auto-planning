@@ -13,7 +13,7 @@
     <Name>testscript</Name>
     <RootNamespace>PythonApplication5</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>2</CommandLineArguments>
+    <CommandLineArguments>200</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
