@@ -104,12 +104,11 @@ def cnn_model_fn(features, labels, mode):
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   #units used to be =14
-  logits = tf.layers.dense(inputs=dropout, units=unitsSize)
-  multiplier = tf.range(1, unitsSize+1, delta=1, dtype='float', name='range')
-  final = tf.reduce_sum(tf.multiply(logits,multiplier), axis=1)
+  logits = tf.layers.dense(inputs=dropout, units=1)*102
+
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
-      "classes": final,
+      "classes": logits,
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
       "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
@@ -118,10 +117,10 @@ def cnn_model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
   # Calculate Loss (for both TRAIN and EVAL modes)
-  onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
-  loss = tf.losses.mean_squared_error(labels, final)
+  # onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
+  loss = tf.losses.mean_squared_error(labels, tf.reshape(logits,[-1]))
   global_step = tf.Variable(0, trainable=False)
-  starter_learning_rate = 0.001
+  starter_learning_rate = 0.00001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
                                            100000, 0.96, staircase=True)
   # Configure the Training Op (for TRAIN mode)
@@ -155,8 +154,8 @@ def main(unused_argv):
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
   tensors_to_log = {"probabilities": "softmax_tensor"}
-  logging_hook = tf.train.LoggingTensorHook(
-      tensors=tensors_to_log, every_n_iter=50)
+  # logging_hook = tf.train.LoggingTensorHook(
+  #     tensors=tensors_to_log, every_n_iter=50)
 
   # Train the model
   train_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -168,7 +167,7 @@ def main(unused_argv):
   DL_classifier.train(
       input_fn=train_input_fn,
       steps=numOfSteps,
-      hooks=[logging_hook])
+      hooks=[])
 
   # Evaluate the model and print results
   eval_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -203,6 +202,5 @@ if __name__ == "__main__":
         numOfSteps=20000
   else:
         numOfSteps=int(sys.argv[1])
-  unitsSize=102
   tf.app.run()
-  
+  time.sleep(10)

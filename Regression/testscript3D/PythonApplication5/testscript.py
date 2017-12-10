@@ -30,17 +30,17 @@ def cnn_model_fn(features, labels, mode):
   # Input Layer
   # Reshape X to 4-D tensor: [batch_size, width, height, channels]
   # MNIST images are 28x28 pixels, and have one color channel
-  input_layer = tf.reshape(features["x"], [-1, 16, 16, 16])
+  input_layer = tf.reshape(features["x"], [-1, 16, 16, 16, 1])
 
   # Convolutional Layer #1
   # Computes 32 features using a 5x5 filter with ReLU activation.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 28, 28, 1]
   # Output Tensor Shape: [batch_size, 28, 28, 32]
-  conv1 = tf.layers.conv2d(
+  conv1 = tf.layers.conv3d(
       inputs=input_layer,
       filters=32,
-      kernel_size=[5, 5],
+      kernel_size=[5, 5, 5],
       padding="same",
       activation=tf.nn.relu)
 
@@ -48,17 +48,17 @@ def cnn_model_fn(features, labels, mode):
   # First max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 28, 28, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 32]
-  pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
+  pool1 = tf.layers.max_pooling3d(inputs=conv1, pool_size=[2, 2, 2], strides=2)
 
   # Convolutional Layer #2
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv2 = tf.layers.conv2d(
+  conv2 = tf.layers.conv3d(
       inputs=pool1,
       filters=64,
-      kernel_size=[5, 5],
+      kernel_size=[5, 5, 5],
       padding="same",
       activation=tf.nn.relu)
 
@@ -66,28 +66,28 @@ def cnn_model_fn(features, labels, mode):
   # Second max pooling layer with a 2x2 filter and stride of 2
   # Input Tensor Shape: [batch_size, 14, 14, 64]
   # Output Tensor Shape: [batch_size, 7, 7, 64]
-  pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
+  pool2 = tf.layers.max_pooling3d(inputs=conv2, pool_size=[2, 2, 2], strides=2)
 
     # Convolutional Layer #3
   # Computes 64 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 14, 14, 32]
   # Output Tensor Shape: [batch_size, 14, 14, 64]
-  conv3 = tf.layers.conv2d(
+  conv3 = tf.layers.conv3d(
       inputs=pool2,
       filters=128,
-      kernel_size=[5, 5],
+      kernel_size=[5, 5, 5],
       padding="same",
       activation=tf.nn.relu)
 
   # Pooling Layer #3
-  pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2, 2], strides=2)
+  pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
 
   
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool3_flat = tf.reshape(pool3, [-1, 2*2*128])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*2*128])
 
 
   # Dense Layer
@@ -104,11 +104,11 @@ def cnn_model_fn(features, labels, mode):
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
   #units used to be =14
-  logits = tf.layers.dense(inputs=dropout, units=102)
+  logits = tf.layers.dense(inputs=dropout, units=1)*102
 
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
-      "classes": tf.reduce_sum(tf.sqrt(tf.abs(logits)), axis=1),
+      "classes": logits,
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
       "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
@@ -117,10 +117,10 @@ def cnn_model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
   # Calculate Loss (for both TRAIN and EVAL modes)
-  onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
-  loss = tf.losses.mean_squared_error(onehot_labels, logits)
+  # onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
+  loss = tf.losses.mean_squared_error(labels, tf.reshape(logits,[-1]))
   global_step = tf.Variable(0, trainable=False)
-  starter_learning_rate = 0.001
+  starter_learning_rate = 0.00001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
                                            100000, 0.96, staircase=True)
   # Configure the Training Op (for TRAIN mode)
@@ -149,7 +149,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp/Regression/3D")
+      model_fn=cnn_model_fn, model_dir="/tmp//Classifier/3D")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
@@ -202,5 +202,5 @@ if __name__ == "__main__":
         numOfSteps=20000
   else:
         numOfSteps=int(sys.argv[1])
+  unitsSize=102
   tf.app.run()
-  time.sleep(10)
