@@ -1,15 +1,19 @@
-﻿using System;
+﻿// For Directory.GetFiles and Directory.GetDirectories
+// For File.Exists, Directory.Exists
+using System;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-namespace Combiner
+
+namespace Counter
 {
-    class RecursiveFileProcessor
+    public class RecursiveFileProcessor
     {
-        public static StreamWriter writerTraining = new StreamWriter("TrainingData.txt");
-        public static StreamWriter writerGoal = new StreamWriter("GoalData.txt");
         public static void RFPMain(string[] args)
         {
             foreach (string path in args)
@@ -50,23 +54,14 @@ namespace Combiner
         // Insert logic for processing found files here.
         public static void ProcessFile(string path)
         {
-            string line;
             StreamReader reader = new StreamReader(path);
-            if (path.Contains("TrainingData.txt"))
+            string line;
+            while ((line = reader.ReadLine()) != null)
             {
-                while((line = reader.ReadLine()) != null){
-                    writerTraining.WriteLine(line);
-                }
-                writerTraining.Flush();
+                string[] splitstring = line.Split(' ');
+                OutputClass.countingArray[Convert.ToInt32(splitstring[2])]++;
             }
-            else if (path.Contains("GoalData.txt"))
-            {
-                while ((line = reader.ReadLine()) != null)
-                {
-                    writerGoal.WriteLine(line);
-                }
-                writerGoal.Flush();
-            }
+
         }
     }
 }

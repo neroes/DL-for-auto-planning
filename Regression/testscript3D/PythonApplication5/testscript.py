@@ -167,7 +167,7 @@ def main(unused_argv):
   DL_classifier.train(
       input_fn=train_input_fn,
       steps=numOfSteps,
-      hooks=[logging_hook])
+      hooks=[])
 
   # Evaluate the model and print results
   eval_input_fn = tf.estimator.inputs.numpy_input_fn(
