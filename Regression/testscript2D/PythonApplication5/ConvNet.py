@@ -2,10 +2,10 @@ import io
 import numpy as np
 
 
-xtrain = np.zeros((3626,16,16,16), dtype=np.float32)
-xeval = np.zeros((390,16,16,16), dtype=np.float32)
-ytrain = np.zeros(3626, dtype=np.float32)
-yeval = np.zeros(390, dtype=np.float32)
+xtrain = np.zeros((42178,16,16,16), dtype=np.float32)
+xeval = np.zeros((4686,16,16,16), dtype=np.float32)
+ytrain = np.zeros(42178, dtype=np.float32)
+yeval = np.zeros(4686, dtype=np.float32)
 
 count = 0
 
@@ -13,7 +13,8 @@ count = 0
 f = open('TrainingData.txt', 'r')
 
 for line in f:
-    print(count)
+    if count%100==0:
+        print(count)
     A=np.zeros( (16,16,16) )
     ## print(A)
     itt=0
@@ -39,7 +40,8 @@ for line in f:
 f = open('GoalData.txt', 'r')    
 count = 0    
 for line in f:
-    print(count)
+    if count%100==0:
+        print(count)
     A=np.zeros( (16,16,16) )
     ## print(A)
     itt=0
