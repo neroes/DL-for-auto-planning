@@ -13,6 +13,7 @@ count = 0
 f = open('TrainingData.txt', 'r')
 
 for line in f:
+    print(line)
     if count%100==0:
         print(count)
     A=np.zeros( (16,16,16) )
