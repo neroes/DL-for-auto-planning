@@ -5,7 +5,7 @@
     <ProjectGuid>7dc1470e-c31a-499d-8587-4b45658e78e8</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>testscript.py</StartupFile>
+    <StartupFile>Repeater.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -14,8 +14,9 @@
     <RootNamespace>PythonApplication5</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>2</CommandLineArguments>
+    <CommandLineArguments>2 10</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <InterpreterId>Global|PythonCore|3.6</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,12 +28,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ConvNet.py" />
+    <Compile Include="Repeater.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="testscript.py" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="data.txt">
       <Publish>True</Publish>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.6" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

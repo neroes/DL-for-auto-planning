@@ -203,4 +203,4 @@ if __name__ == "__main__":
   else:
         numOfSteps=int(sys.argv[1])
   tf.app.run()
-  time.sleep(10)
+  ## time.sleep(10)
