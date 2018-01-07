@@ -1,22 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-namespace Trainer
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string path = "TrainingData.txt";
-            string path2 = "GoalData.txt";
-            MLInput.setup(path,path2);
-
-            
-            RecursiveFileProcessor.RFPMain(args);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:38e3ceec23ca21f0e8ab4a25108cec58e15cec4696e0d4b95e01bd65b32b69f3
+size 441
