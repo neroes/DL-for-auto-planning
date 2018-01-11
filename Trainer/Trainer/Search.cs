@@ -37,7 +37,10 @@ namespace Trainer
             
             return first;
         }
-
+        public int currentSteps()
+        {
+            return frontier.First().steps;
+        }
         public bool inFrontier(Map map)
         {
             return frontier.Contains(map);

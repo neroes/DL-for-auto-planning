@@ -361,7 +361,7 @@ namespace Trainer
                     Node box = allBoxes[boxID];
 
                     Path p = m.pathOfActor[actor.id];
-                    if (p != null) // Use path if there is one, else manhattan distance.
+                    /*if (p != null) // Use path if there is one, else manhattan distance.
                     {
                         bool found = false;
                         int maxSteps = p.steps;
@@ -398,7 +398,7 @@ namespace Trainer
                         }
                     }
                     else // Manhattan distance
-                    {
+                    {*/
                         if (m.parent != null && m.boxPriority.ContainsKey(boxID)) // If the box priority is lowered.
                         {
                             if (m.parent.boxPriority.ContainsKey(boxID) ? m.boxPriority[boxID] < m.parent.boxPriority[boxID] : false)
@@ -410,7 +410,7 @@ namespace Trainer
                         {
                             dist += box - actor - 1; // Just to prioritise staying near the box.
                         }
-                    }
+                    /*}*/
                 }
             }
 
@@ -504,7 +504,7 @@ namespace Trainer
         public int h(Map m) // This is the heuristic.
         {
             if (m.parent != null) { CheckMovedBoxes(m); }
-            return DistFromGoals(m) + AgentDist(m) + BoxBlocking(m);
+            return DistFromGoals(m) + AgentDist(m);
         } 
 
         public int g(Map m) { return gmult * m.steps; } // Multiply g instead of dividing h for precision and speed.

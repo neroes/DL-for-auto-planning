@@ -5,7 +5,7 @@
     <ProjectGuid>7dc1470e-c31a-499d-8587-4b45658e78e8</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>testscript.py</StartupFile>
+    <StartupFile>Repeater.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,7 +13,7 @@
     <Name>testscript</Name>
     <RootNamespace>PythonApplication5</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>200</CommandLineArguments>
+    <CommandLineArguments>5 200</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -26,6 +26,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ConvNet.py" />
+    <Compile Include="Repeater.py" />
     <Compile Include="testscript.py" />
   </ItemGroup>
   <ItemGroup>

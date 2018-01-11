@@ -4,8 +4,8 @@ import shutil
 
 
 if __name__ == "__main__":
-    x = int(sys.argv[1])
-    y = int(sys.argv[2])
+    x = int(sys.argv[1]) # number of rounds
+    y = int(sys.argv[2]) # number of steps in each round
     call = "python testscript.py " + str(y)
     storage_location = os.environ['HOME']+"/storage/Regression/2D/"
     for i in range(0,x):

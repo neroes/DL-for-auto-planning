@@ -69,7 +69,7 @@ namespace Trainer
 
             
 
-            Heuristic h = new BFS(map);
+            Heuristic h = new Astar(map);
 
             Search search = new Search(h);
 
@@ -181,7 +181,7 @@ namespace Trainer
                 i++;
                 if (i == 10000)
                 {
-                    Console.Error.Write("Time:  {0:0.000}\t Explored: {1}\t Frontier: {2}\n", stopwatch.Elapsed.TotalSeconds, search.exploredSize() - search.frontierSize(), search.frontierSize());
+                    Console.Error.Write("Time:  {0:0.000}\t Explored: {1}\t Frontier: {2}\t Current steps: {3}\n", stopwatch.Elapsed.TotalSeconds, search.exploredSize() - search.frontierSize(), search.frontierSize(), search.currentSteps());
                     i = 0;
                 }
                 Map smap = search.getFromFrontier();

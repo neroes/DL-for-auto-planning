@@ -297,7 +297,7 @@ namespace Trainer
         }
         public bool AddLine(string input, int shortestRoute)
         {
-            if (rand.Next() % 10 > 0)
+            if (true)/*rand.Next() % 10 > 0)*/
             {
                 try
                 {
