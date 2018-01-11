@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:01ffa9a7b8c069077e18ac5f5266db9fad939eb39c11ac1178e5563bab0e3c88
-size 718
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Counter
+{
+    static class OutputClass
+    {
+        public static int[] countingArray = new int[103];
+        public static void setup()
+        {
+            for (int i = 0; i < 103; i++)
+            {
+                countingArray[i] = 0;
+            }
+        }
+        public static void printer()
+        {
+            StreamWriter counting = new StreamWriter("count.txt");
+            for (int i = 0; i < 103; i++)
+            {
+                counting.WriteLine(i+" "+countingArray[i]);
+            }
+            counting.Flush();
+        }
+            
+    }
+}

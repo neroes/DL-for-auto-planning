@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:29199a88ce74dff668af4b571bf474d00e1f9a1f5e48ab915d96c94a94023df1
-size 138
+red: A,B,0,1
+blue: C,D,2,3
++++++++++++++++
++a    b+c    d+
++      +      +
++      +      +
++ A  B + C  D +
++ 0  1 + 2  3 +
++++++++++++++++

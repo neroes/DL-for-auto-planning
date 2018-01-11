@@ -1,3 +1,57 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f13a317b9230c0c77d9f9e4664d0450cf72fa935230d4151f9a67e34dba5dcf1
-size 2147
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
+namespace Runner
+{
+    class Communicator
+    {
+        // full path of python interpreter  
+        private static string python = @"C:\Program Files\Python36\python.exe";
+
+        // python app to call  
+        private static string appName = @"C:\Users\soren\Source\Repos\DL-for-auto-planning\Runner\PythonPart\PythonPart.py";
+
+        // Create new process start info // is needed for the pipe we may later create
+        // public static ProcessStartInfo  StartInfo = new ProcessStartInfo(python);
+
+        public static int singlerunner(string input)
+        {
+            // Create new process start info 
+            ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(python);
+
+            // make sure we can read the output from stdout 
+            myProcessStartInfo.UseShellExecute = false;
+            myProcessStartInfo.RedirectStandardOutput = true;
+
+            // start python app with 3 arguments  
+            // 1st arguments is pointer to itself,  
+            // 2nd and 3rd are actual arguments we want to send 
+            myProcessStartInfo.Arguments = appName + " " + input;
+
+            Process myProcess = new Process();
+            // assign start information to the process 
+            myProcess.StartInfo = myProcessStartInfo;
+
+            Console.WriteLine("Calling Python script");
+            // start the process 
+            myProcess.Start();
+            StreamReader myStreamReader = myProcess.StandardOutput;
+            string myString = myStreamReader.ReadLine();
+
+            /*if you need to read multiple lines, you might use: 
+                string myString = myStreamReader.ReadToEnd() */
+
+            // wait exit signal from the app we called and then close it. 
+            myProcess.WaitForExit();
+            myProcess.Close();
+
+            // write the output we got from python app 
+            Console.WriteLine("Value received from script: " + myString);
+            return Convert.ToInt32(myString);
+        }
+    }
+}
