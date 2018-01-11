@@ -13,10 +13,11 @@ evalName = ["" for x in range(evalSize)]
 count = 0
 
 
-f = open('TrainingData.txt', 'r')
+f = open('../../../Data/TrainingData.txt', 'r')
 
 for line in f:
-    print(count)
+    if count%100 == 0:
+        print(count)
     A=np.zeros( (16,16,16) )
     ## print(A)
     itt=0
@@ -39,10 +40,11 @@ for line in f:
     ytrain[count]=end
     count = count +1
     
-f = open('GoalData.txt', 'r')    
+f = open('../../../Data/GoalData.txt', 'r')    
 count = 0    
 for line in f:
-    print(count)
+    if count%100 == 0:
+        print(count)
     A=np.zeros( (16,16,16) )
     ## print(A)
     itt=0
