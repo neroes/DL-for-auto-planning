@@ -189,11 +189,11 @@ def main(unused_argv):
   l = 0
   f = open("results.txt",'w')
   for i, p in enumerate(predict_results):
-    if (eval_labels[l]==p['classes']):
+    if (eval_labels[l]==round(p['classes'])):
       f.write("1")
     else:
       f.write("0")
-    f.write(" "+str(p['classes'])+ " "+ str(eval_labels[l])+"\n")
+    f.write(" "+str(p['classes'])+ " "+ str(eval_labels[l])+ " " + ConvNet.evalName[l]+"\n")
     l=l+1
   f.close()
 

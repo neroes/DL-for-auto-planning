@@ -39,6 +39,8 @@ for line in f:
     xtrain[count,:,:,:] = A
     ytrain[count]=end
     count = count +1
+    if count >= trainSize:
+        break
     
 f = open('../../../Data/GoalData.txt', 'r')    
 count = 0    
@@ -66,3 +68,5 @@ for line in f:
     xeval[count,:,:,:] = A
     yeval[count]=end
     count = count +1
+    if count >= evalSize:
+        break
