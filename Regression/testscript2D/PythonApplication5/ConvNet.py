@@ -1,8 +1,8 @@
 import io
 import numpy as np
 
-trainSize = 3626
-evalSize = 390
+trainSize = 400
+evalSize = 100
 xtrain = np.zeros((trainSize,16,16,16), dtype=np.float32)
 xeval = np.zeros((evalSize,16,16,16), dtype=np.float32)
 ytrain = np.zeros(trainSize, dtype=np.float32)
