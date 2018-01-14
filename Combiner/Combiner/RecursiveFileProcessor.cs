@@ -52,14 +52,14 @@ namespace Combiner
         {
             string line;
             StreamReader reader = new StreamReader(path);
-            if (path.Contains("TrainingData.txt"))
+            if (path.Contains("TrainingData"))
             {
                 while((line = reader.ReadLine()) != null){
                     writerTraining.WriteLine(line);
                 }
                 writerTraining.Flush();
             }
-            else if (path.Contains("GoalData.txt"))
+            else if (path.Contains("GoalData"))
             {
                 while ((line = reader.ReadLine()) != null)
                 {

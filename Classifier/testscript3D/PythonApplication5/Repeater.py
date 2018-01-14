@@ -11,3 +11,4 @@ if __name__ == "__main__":
     for i in range(0,x):
         os.system(call)
         shutil.copytree("/tmp/Classifier/3D", storage_location+str(y*(i+1)), ignore=None)
+        shutil.copy("./results.txt",storage_location+str(y*(i+1)))

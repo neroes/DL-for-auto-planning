@@ -112,7 +112,7 @@ def cnn_model_fn(features, labels, mode):
       "classes": logits,
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
-      "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
+      "probabilities": tf.nn.softmax(tf.round(logits), name="softmax_tensor")
   }
   if mode == tf.estimator.ModeKeys.PREDICT:
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
@@ -189,7 +189,7 @@ def main(unused_argv):
   l = 0
   f = open("results.txt",'w')
   for i, p in enumerate(predict_results):
-    if (eval_labels[l]==round(p['classes'])):
+    if (eval_labels[l]==round(p['classes'][0])):
       f.write("1")
     else:
       f.write("0")

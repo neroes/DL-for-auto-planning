@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ConvNet.py" />
+    <Compile Include="Repeater.py" />
     <Compile Include="testscript.py" />
   </ItemGroup>
   <ItemGroup>
