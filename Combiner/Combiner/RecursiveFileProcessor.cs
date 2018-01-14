@@ -10,6 +10,9 @@ namespace Combiner
     {
         public static StreamWriter writerTraining = new StreamWriter("TrainingData.txt");
         public static StreamWriter writerGoal = new StreamWriter("GoalData.txt");
+        public static StreamWriter properties = new StreamWriter("properties.txt");
+        public static int trainingcount = 0;
+        public static int evalcount = 0;
         public static void RFPMain(string[] args)
         {
             foreach (string path in args)
@@ -29,6 +32,9 @@ namespace Combiner
                     Console.WriteLine("{0} is not a valid file or directory.", path);
                 }
             }
+            properties.WriteLine(trainingcount);
+            properties.WriteLine(evalcount);
+            properties.Flush();
         }
 
 
@@ -56,6 +62,7 @@ namespace Combiner
             {
                 while((line = reader.ReadLine()) != null){
                     writerTraining.WriteLine(line);
+                    trainingcount++;
                 }
                 writerTraining.Flush();
             }
@@ -64,6 +71,7 @@ namespace Combiner
                 while ((line = reader.ReadLine()) != null)
                 {
                     writerGoal.WriteLine(line);
+                    evalcount++;
                 }
                 writerGoal.Flush();
             }

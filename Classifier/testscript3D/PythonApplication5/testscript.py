@@ -151,7 +151,7 @@ def main(unused_argv):
 
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
-      model_fn=cnn_model_fn, model_dir="/tmp//Classifier/3D")
+      model_fn=cnn_model_fn, model_dir="/tmp/Classifier/3D")
 
   # Set up logging for predictions
   # Log the values in the "Softmax" tensor with label "probabilities"
