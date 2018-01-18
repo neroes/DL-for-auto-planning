@@ -69,7 +69,7 @@ namespace Trainer
 
             
 
-            Heuristic h = new Astar(map);
+            Heuristic h = new BFS(map);
 
             Search search = new Search(h);
 
