@@ -1,0 +1,7 @@
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\bin\Debug\ResultReader.exe.config
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\bin\Debug\ResultReader.exe
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\bin\Debug\ResultReader.pdb
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\obj\Debug\ResultReader.csprojResolveAssemblyReference.cache
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\obj\Debug\ResultReader.csproj.CoreCompileInputs.cache
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\obj\Debug\ResultReader.exe
+C:\Users\Louisa\source\repos\ResultReader\ResultReader\obj\Debug\ResultReader.pdb
