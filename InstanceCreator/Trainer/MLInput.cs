@@ -296,7 +296,7 @@ namespace Trainer
         }
         public bool AddLine(string input, int shortestRoute)
         {
-            if (rand.Next() % 10 > 0)
+            if (rand.Next() % 100 < 4)
             {
                 try
                 {
@@ -312,7 +312,7 @@ namespace Trainer
                     return false;
                 }
             }
-            else
+            else if (false)
             {
                 try
                 {

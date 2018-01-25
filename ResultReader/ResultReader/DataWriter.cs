@@ -16,19 +16,19 @@ namespace ResultReader
         }
         public void Write(List<String>[] final)
         {
-            IEnumerator<string>[] enumerator = new IEnumerator<string>[20];
-            for (int i = 0; i < 20; i++)
+            IEnumerator<string>[] enumerator = new IEnumerator<string>[120];
+            for (int i = 0; i < 120; i++)
             {
                 enumerator[i] = final[i].GetEnumerator();
             }
             while (enumerator[0].MoveNext())
             {
                 sr.Write(enumerator[0].Current);
-                for (int i = 1; i < 20; i++){
+                for (int i = 1; i < 120; i++){
                     enumerator[i].MoveNext();
                     sr.Write(","+enumerator[i].Current);
                 }
-                sr.WriteLine(";");
+                sr.WriteLine("");
             }
             sr.Flush();
                 

@@ -16,7 +16,7 @@ namespace ResultReader
     {
         public static void RFPMain(string[] args)
         {
-            List<string>[] finalData = new List<string>[20];
+            List<string>[] finalData = new List<string>[120];
             foreach (string path in args)
             {
                 
@@ -81,13 +81,17 @@ namespace ResultReader
                 List<string> DataList = new List<string>();
                 StreamReader sr = new StreamReader(path);
                 String line;
-                DataList.Add(path.Substring(0, path.Length - 13));
+                DataList.Add(path.Substring(0, path.Length - 12));
                 while ((line = sr.ReadLine()) != null && line != "")
                 {
                     String[] substrings = line.Split(' ');
                     String linedata = substrings[1]; // for classifier networks
-                    /*String linedata = substrings[2]; // for regression networks
-                    linedata = linedata.Substring(0,linedata.Length - 1);*/
+                    if (linedata == "[")
+                    {
+                        linedata = substrings[2]; // for regression networks
+                        linedata = linedata.Substring(0, linedata.Length - 1);
+                    }
+                        
                     DataList.Add(linedata);
                 }
                 return DataList;
