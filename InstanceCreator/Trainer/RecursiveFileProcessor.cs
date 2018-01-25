@@ -203,8 +203,12 @@ namespace Trainer
                 }
                 else
                 {
-                    MLInput mlin = new MLInput(smap);
-                    mlin.run(finalmap.steps);
+                    if (finalmap.steps>0)
+                    {
+                        MLInput mlin = new MLInput(smap);
+                        mlin.run(finalmap.steps);
+                    }
+                    
 
                 }
                 //if (smap.isGoal()) { return smap; }
