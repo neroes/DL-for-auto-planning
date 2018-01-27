@@ -14,6 +14,8 @@ namespace Trainer
 {
     public class RecursiveFileProcessor
     {
+        public static int count = 0;
+        public static String outputname;
         public static void RFPMain(string[] args)
         {
             foreach (string path in args)
@@ -54,6 +56,12 @@ namespace Trainer
         // Insert logic for processing found files here.
         public static void ProcessFile(string path)
         {
+            if (count % 10 == 0)
+            {
+                outputname = "batch " + count / 10 + " trainingdata.txt";
+                MLInput.setup(outputname, "goaldata.txt");
+            }
+            count++;
             MLInput.mapName = path;
             System.Console.WriteLine(path);
             StreamReader sr = new StreamReader(path);

@@ -235,8 +235,8 @@ namespace Trainer
             }*/
             using (FileStream fs = File.Create(path)) { }
             fs = new StreamWriter(path);
-            using (FileStream fs = File.Create(path2)) { }
-            fs2 = new StreamWriter(path2);
+            //using (FileStream fs = File.Create(path2)) { }
+            //fs2 = new StreamWriter(path2);
             //setup();
         }
         public static void setup()
@@ -296,7 +296,7 @@ namespace Trainer
         }
         public bool AddLine(string input, int shortestRoute)
         {
-            if (rand.Next() % 100 < 4)
+            if (rand.Next() % 100 < 1)
             {
                 try
                 {
