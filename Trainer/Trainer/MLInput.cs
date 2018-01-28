@@ -35,13 +35,12 @@ namespace Trainer
             }
             Node[] boxes = map.getAllBoxes();
             
-            for (int j = 0; j < Map.mapWidth; j++)
+            for (int j = 0; j < (Map.wallMap.Length / Map.mapWidth); j++)
             {
                 for (int i = 0; i < Map.mapWidth; i++)
                 {
-                    container[i,j][1] = Map.wallMap[i + j / Map.mapWidth];
-                    container[i,j][0] = (container[i,j][1] != true);
-                    j++;
+                    container[i, j][1] = Map.wallMap[i + j * Map.mapWidth];
+                    container[i, j][0] = (container[i, j][1] != true);
                 }
             }
             
