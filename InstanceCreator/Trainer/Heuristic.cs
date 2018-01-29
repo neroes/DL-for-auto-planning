@@ -145,10 +145,10 @@ namespace Trainer
 
                 // Print which boxes connect to which goal with which priority.
                 
-                Console.Error.WriteLine("Goal {0},{1} connected to box {2} at {3},{4} with priority (permanent) {5} and (blocking) {6}",
+                /* Console.Error.WriteLine("Goal {0},{1} connected to box {2} at {3},{4} with priority (permanent) {5} and (blocking) {6}",
                                         goalBox.Key.x, goalBox.Key.y, m.getBoxName(goalBox.Value), m.getbox(goalBox.Value).x,
                                         m.getbox(goalBox.Value).y, this.permBoxPrio[goalBox.Value],
-                                        m.boxPriority.ContainsKey(goalBox.Value) ? m.boxPriority[goalBox.Value] : 0);
+                                        m.boxPriority.ContainsKey(goalBox.Value) ? m.boxPriority[goalBox.Value] : 0);*/
                                         
             }
 
