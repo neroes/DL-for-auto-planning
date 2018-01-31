@@ -105,22 +105,32 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 10]
   #units used to be =14
   logits = tf.layers.dense(inputs=dropout, units=102)
+  maxlayer = tf.nn.softmax(logits)
+  I = tf.linspace(1.0,102.0, 102)
+  I = tf.expand_dims(I,1)
+  logits1 = tf.matmul(maxlayer,I)
+  logits2 = tf.layers.dense(inputs=dropout, units=1)*102
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
-      "classes": tf.argmax(input=logits, axis=1),
+      "classes1": logits1,
+      "classes2": logits2,
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
       "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
   }
+  
+  
   if mode == tf.estimator.ModeKeys.PREDICT:
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
   # Calculate Loss (for both TRAIN and EVAL modes)
   onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
-  loss = tf.losses.softmax_cross_entropy(
-      onehot_labels=onehot_labels, logits=logits)
+  loss1 = tf.log(tf.losses.softmax_cross_entropy(
+      onehot_labels=onehot_labels, logits=logits))
+  loss2 = tf.losses.mean_squared_error(labels, tf.reshape(logits2,[-1]))
+  loss = loss1*0.5+loss2*0.5
   global_step = tf.Variable(0, trainable=False)
-  starter_learning_rate = 0.001
+  starter_learning_rate = 0.00001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
                                            100000, 0.96, staircase=True)
   # Configure the Training Op (for TRAIN mode)
@@ -133,8 +143,10 @@ def cnn_model_fn(features, labels, mode):
 
   # Add evaluation metrics (for EVAL mode)
   eval_metric_ops = {
-      "accuracy": tf.metrics.accuracy(
-          labels=labels, predictions=predictions["classes"])}
+      "accuracy1": tf.metrics.accuracy(
+          labels=labels, predictions=predictions["classes1"]),
+      "accuracy2": tf.metrics.accuracy(
+          labels=labels, predictions=predictions["classes2"])}
   return tf.estimator.EstimatorSpec(
       mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
@@ -188,11 +200,16 @@ def main(unused_argv):
   l = 0
   f = open("results.txt",'w')
   for i, p in enumerate(predict_results):
-    if (eval_labels[l]==p['classes']):
+    if (eval_labels[l]==p['classes1']):
       f.write("1")
     else:
       f.write("0")
-    f.write(" "+str(p['classes'])+ " "+ str(eval_labels[l])+"\n")
+    f.write(" ")
+    if (eval_labels[l]==p['classes2']):
+      f.write("1")
+    else:
+      f.write("0")
+    f.write(" "+str(p['classes1'])+ " "+str(p['classes2'])+ " "+ str(eval_labels[l])+"\n")
     l=l+1
   f.close()
 

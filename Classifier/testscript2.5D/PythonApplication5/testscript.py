@@ -106,21 +106,30 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 10]
   #units used to be =14
   logits = tf.layers.dense(inputs=dropout, units=102)
-
+  maxlayer = tf.nn.softmax(logits)
+  I = tf.linspace(1.0,102.0, 102)
+  I = tf.expand_dims(I,1)
+  logits1 = tf.matmul(maxlayer,I)
+  logits2 = tf.layers.dense(inputs=dropout, units=1)*102
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
-      "classes": tf.argmax(input=logits, axis=1),
+      "classes1": logits1,
+      "classes2": logits2,
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
       "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
   }
+  
+  
   if mode == tf.estimator.ModeKeys.PREDICT:
     return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
   # Calculate Loss (for both TRAIN and EVAL modes)
   onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
-  loss = tf.losses.softmax_cross_entropy(
-      onehot_labels=onehot_labels, logits=logits)
+  loss1 = tf.log(tf.losses.softmax_cross_entropy(
+      onehot_labels=onehot_labels, logits=logits))
+  loss2 = tf.losses.mean_squared_error(labels, tf.reshape(logits2,[-1]))
+  loss = loss1*0.5+loss2*0.5
   global_step = tf.Variable(0, trainable=False)
   starter_learning_rate = 0.001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,

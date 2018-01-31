@@ -57,8 +57,9 @@ namespace Combiner
         public static void ProcessFile(string path)
         {
             string line;
+            path = path.ToLower();
             StreamReader reader = new StreamReader(path);
-            if (path.Contains("TrainingData"))
+            if (path.Contains("TrainingData".ToLower()))
             {
                 while((line = reader.ReadLine()) != null){
                     writerTraining.WriteLine(line);
@@ -66,7 +67,7 @@ namespace Combiner
                 }
                 writerTraining.Flush();
             }
-            else if (path.Contains("GoalData"))
+            else if (path.Contains("GoalData".ToLower()))
             {
                 while ((line = reader.ReadLine()) != null)
                 {
