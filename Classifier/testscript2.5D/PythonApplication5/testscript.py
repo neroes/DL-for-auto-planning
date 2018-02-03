@@ -110,7 +110,7 @@ def cnn_model_fn(features, labels, mode):
   I = tf.linspace(1.0,102.0, 102)
   I = tf.expand_dims(I,1)
   logits1 = tf.matmul(maxlayer,I)
-  logits2 = tf.layers.dense(inputs=dropout, units=1)*102
+  logits2 = tf.layers.dense(inputs=dropout, units=1)
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
       "classes1": logits1,
@@ -131,7 +131,7 @@ def cnn_model_fn(features, labels, mode):
   loss2 = tf.losses.mean_squared_error(labels, tf.reshape(logits2,[-1]))
   loss = loss1*0.5+loss2*0.5
   global_step = tf.Variable(0, trainable=False)
-  starter_learning_rate = 0.00001
+  starter_learning_rate = 0.001
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
                                            100000, 0.96, staircase=True)
   # Configure the Training Op (for TRAIN mode)
