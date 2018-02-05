@@ -15,4 +15,6 @@ if __name__ == "__main__":
         testscript.main()
         if (i%z == z-1 or i == x):
             shutil.copytree("/tmp/Classifier/2.5D", storage_location+str(y*(i+1)), ignore=None)
+        else:
+            os.makedirs(storage_location+str(y*(i+1)))
         shutil.copy("./results.txt",storage_location+str(y*(i+1)))
