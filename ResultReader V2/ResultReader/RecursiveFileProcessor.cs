@@ -16,7 +16,7 @@ namespace ResultReader
     {
         public static void RFPMain(string[] args)
         {
-            List<string>[] finalData = new List<string>[120];
+            List<List<string>> finalData = new List<List<string>>();
             foreach (string path in args)
             {
                 
@@ -43,7 +43,7 @@ namespace ResultReader
 
         // Process all files in the directory passed in, recurse on any directories 
         // that are found, and process the files they contain.
-        public static void ProcessDirectory(string targetDirectory, List<string>[] finalData)
+        public static void ProcessDirectory(string targetDirectory, List<List<string>> finalData)
         {
             // Process the list of files found in the directory.
             string[] fileEntries = Directory.GetFiles(targetDirectory);
@@ -57,11 +57,7 @@ namespace ResultReader
                 if (result != null)
                 {
                     int i = 0;
-                    while (finalData[i] != null)
-                    {
-                        i++;
-                    }
-                    finalData[i] = result;
+                    finalData.Add(result);
                 }
             }
             
@@ -93,6 +89,7 @@ namespace ResultReader
                     DataList.Add(substrings[2]);
                     DataList2.Add(substrings[3]);
                 }
+                DataList.Add("");
                 DataList.AddRange(DataList2);
                 return DataList;
             }
