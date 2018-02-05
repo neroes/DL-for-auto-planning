@@ -5,13 +5,19 @@
     <ProjectGuid>7dc1470e-c31a-499d-8587-4b45658e78e8</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>testscript.py</StartupFile>
+    <StartupFile>Repeater.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>testscript</Name>
     <RootNamespace>PythonApplication5</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <Environment>
+    </Environment>
+    <CommandLineArguments>2 2</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

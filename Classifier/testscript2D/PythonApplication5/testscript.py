@@ -151,7 +151,7 @@ def cnn_model_fn(features, labels, mode):
       mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
 
-def main(unused_argv):
+def main():
   # Load training and eval data
  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
   train_data = ConvNet.xtrain 
@@ -209,7 +209,7 @@ def main(unused_argv):
       f.write("1")
     else:
       f.write("0")
-    f.write(" "+str(p['classes1'])+ " "+str(p['classes2'])+ " "+ str(eval_labels[l])+"\n")
+    f.write(" "+str(p['classes1'])+ " "+str(p['classes2'])+ " "+ str(eval_labels[l])+ " " + ConvNet.evalName[l] + "\n")
     l=l+1
   f.close()
 
