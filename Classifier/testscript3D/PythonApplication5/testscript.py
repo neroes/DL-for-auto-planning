@@ -130,9 +130,9 @@ def cnn_model_fn(features, labels, mode):
   loss2 = tf.losses.mean_squared_error(labels, tf.reshape(logits2,[-1]))
   loss = loss1*0.5+loss2*0.5
   global_step = tf.Variable(0, trainable=False)
-  starter_learning_rate = 0.001
+  starter_learning_rate = 0.0005
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
-                                           100000, 0.96, staircase=True)
+                                           100000, 0.90, staircase=True)
   # Configure the Training Op (for TRAIN mode)
   if mode == tf.estimator.ModeKeys.TRAIN:
     optimizer = tf.train.GradientDescentOptimizer(learning_rate)
