@@ -126,7 +126,7 @@ def cnn_model_fn(features, labels, mode):
   # Calculate Loss (for both TRAIN and EVAL modes)
   onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=102)
   loss1 = tf.log(tf.losses.softmax_cross_entropy(
-      onehot_labels=onehot_labels, logits=logits))
+      onehot_labels=onehot_labels, logits=logits))+0.0000001
   loss2 = tf.losses.mean_squared_error(labels, tf.reshape(logits2,[-1]))
   loss = loss1*0.5+loss2*0.5
   global_step = tf.Variable(0, trainable=False)
