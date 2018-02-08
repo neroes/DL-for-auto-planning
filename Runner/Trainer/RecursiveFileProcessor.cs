@@ -107,6 +107,9 @@ namespace Runner
                     if (printmap.parent == null) { break; }
                     else { printmap = printmap.parent; }
                 }*/
+                StreamWriter sw = new StreamWriter("path.txt");
+                sw.WriteLine(path);
+                sw.WriteLine(search.exploredSize() + " " + search.frontierSize() + " " + finalmap.steps + " ");
                 LinkedList<act[]> actionlist = restoreactions(finalmap);
                 foreach (act[] actiongroup in actionlist)
                 {
@@ -118,9 +121,13 @@ namespace Runner
                     }
                     line = line + actiongroup[actiongroup.Count() - 1].ToString();
                     line = line + "]";
+                    sw.WriteLine(line);
+                    sw.Flush();
                     // Console.Error.WriteLine(line); // Debug.
                     //System.Console.WriteLine(line);
                 }
+                
+                
             }
         }
         public static LinkedList<act[]> restoreactions(Map map)
@@ -257,6 +264,7 @@ namespace Runner
                     }
                 }*/
             }
+
             return null;
         }
         public static Map solver2(Search search, Map map, Stopwatch stopwatch)

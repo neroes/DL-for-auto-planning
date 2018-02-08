@@ -51,7 +51,7 @@ namespace Runner
 
             // write the output we got from python app 
             Console.WriteLine("Value received from script: " + myString);
-            return Convert.ToInt32(myString);
+            return Convert.ToInt32(Convert.ToSingle(myString));
         }
     }
 }

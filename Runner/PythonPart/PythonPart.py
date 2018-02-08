@@ -52,16 +52,33 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 7, 7, 64]
   pool2 = tf.layers.max_pooling3d(inputs=conv2, pool_size=[2, 2, 2], strides=2)
 
+    # Convolutional Layer #3
+  # Computes 64 features using a 5x5 filter.
+  # Padding is added to preserve width and height.
+  # Input Tensor Shape: [batch_size, 14, 14, 32]
+  # Output Tensor Shape: [batch_size, 14, 14, 64]
+  conv3 = tf.layers.conv3d(
+      inputs=pool2,
+      filters=128,
+      kernel_size=[5, 5, 5],
+      padding="same",
+      activation=tf.nn.relu)
+
+  # Pooling Layer #3
+  pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
+
+  
   # Flatten tensor into a batch of vectors
   # Input Tensor Shape: [batch_size, 7, 7, 64]
   # Output Tensor Shape: [batch_size, 7 * 7 * 64]
-  pool2_flat = tf.reshape(pool2, [-1, 4*4*4*64])
+  pool3_flat = tf.reshape(pool3, [-1, 2*2*2*128])
+
 
   # Dense Layer
   # Densely connected layer with 1024 neurons
   # Input Tensor Shape: [batch_size, 7 * 7 * 64]
   # Output Tensor Shape: [batch_size, 1024]
-  dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
+  dense = tf.layers.dense(inputs=pool3_flat, units=1024, activation=tf.nn.relu)
 
   # Add dropout operation; 0.6 probability that element will be kept
   dropout = tf.layers.dropout(
@@ -70,11 +87,18 @@ def cnn_model_fn(features, labels, mode):
   # Logits layer
   # Input Tensor Shape: [batch_size, 1024]
   # Output Tensor Shape: [batch_size, 10]
-  logits = tf.layers.dense(inputs=dropout, units=16)
+  #units used to be =14
+  logits = tf.layers.dense(inputs=dropout, units=102)
+  maxlayer = tf.nn.softmax(logits)
+  I = tf.linspace(1.0,102.0, 102)
+  I = tf.expand_dims(I,1)
+  logits1 = tf.matmul(maxlayer,I)
+  logits2 = tf.layers.dense(inputs=dropout, units=1)
 
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)
-      "classes": tf.argmax(input=logits, axis=1),
+      "classes1": logits1,
+      "classes2": logits2,
       # Add `softmax_tensor` to the graph. It is used for PREDICT and by the
       # `logging_hook`.
       "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
@@ -124,7 +148,7 @@ def main(unused_argv):
         shuffle=False)
     predict_results = DL_classifier.predict(input_fn=predict_input_fn)
     for i, p in enumerate(predict_results):
-        print(p["classes"])
+        print(round(p["classes1"][0]*0.5+p["classes2"][0]*0.5))
         #print("Prediction %s: %s" % (i + 1, p["classes"]))
 
 
