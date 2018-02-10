@@ -16,8 +16,8 @@ xlargeeval = np.zeros((evalLargeSize,16,16,16), dtype=np.float32)
 ylargeeval = np.zeros(evalLargeSize, dtype=np.float32)
 trainName = np.chararray(trainSize)
 evalName = np.chararray(evalSize)
-evalLargeName = np.chararray(evalSmallSize)
-evalSmallName = np.chararray(evalLargeSize)
+evalLargeName = np.chararray(evalLargeSize)
+evalSmallName = np.chararray(evalSmallSize)
 #trainName = ["" for x in range(trainSize)]
 #evalName = ["" for x in range(evalSize)]
 
