@@ -1,7 +1,7 @@
 import io
 import numpy as np
 
-f = open('../../../Data2/properties.txt');
+f = open('../../../Data/properties.txt');
 trainSize = int(f.readline())
 evalSize = int(f.readline())
 evalSmallSize = int(f.readline())
