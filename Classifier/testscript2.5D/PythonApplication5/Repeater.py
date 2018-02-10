@@ -12,7 +12,7 @@ if __name__ == "__main__":
     testscript.numOfSteps=y
     for i in range(0,x):
         # os.system(call)
-        testscript.main()
+        testscript.main([]  )
         if (i%z == z-1 or i == x-1):
             shutil.copytree("/tmp/Classifier/2.5D", storage_location+str(y*(i+1)), ignore=None)
         else:

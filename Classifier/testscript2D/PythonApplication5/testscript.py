@@ -151,14 +151,17 @@ def cnn_model_fn(features, labels, mode):
       mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
 
-def main():
+def main(unused_args):
   # Load training and eval data
  # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
   train_data = ConvNet.xtrain 
   train_labels = ConvNet.ytrain
   eval_data = ConvNet.xeval
   eval_labels = ConvNet.yeval
-
+  eval_small = ConvNet.xsmalleval
+  eval_small_labels = ConvNet.ysmalleval
+  eval_large = ConvNet.xlargeeval
+  eval_large_labels = ConvNet.ylargeeval
   # Create the Estimator
   DL_classifier = tf.estimator.Estimator(
       model_fn=cnn_model_fn, model_dir="/tmp/Classifier/2D")
@@ -182,21 +185,49 @@ def main():
       hooks=[logging_hook])
 
   # Evaluate the model and print results
-  eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+  eval_dissim = tf.estimator.inputs.numpy_input_fn(
       x={"x": eval_data},
       y=eval_labels,
       num_epochs=1,
       shuffle=False)
-  eval_results = DL_classifier.evaluate(input_fn=eval_input_fn)
+  eval_results = DL_classifier.evaluate(input_fn=eval_dissim)
   print(eval_results)
+
+  # Evaluate the model and print results
+  eval_smalllvl = tf.estimator.inputs.numpy_input_fn(
+      x={"x": eval_small},
+      y=eval_small_labels,
+      num_epochs=1,
+      shuffle=False)
+  eval_small_results = DL_classifier.evaluate(input_fn=eval_smalllvl)
+  print(eval_small_results)
+
+  # Evaluate the model and print results
+  eval_largelvl = tf.estimator.inputs.numpy_input_fn(
+      x={"x": eval_large},
+      y=eval_large_labels,
+      num_epochs=1,
+      shuffle=False)
+  eval_large_results = DL_classifier.evaluate(input_fn=eval_largelvl)
+  print(eval_large_results)
 
   predict_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": eval_data},
         num_epochs=1,
         shuffle=False)
   predict_results = DL_classifier.predict(input_fn=predict_input_fn)
-  print(eval_results)
-  prediction = np.zeros(390, dtype=np.float32)
+  
+  predict_small_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": eval_small},
+        num_epochs=1,
+        shuffle=False)
+  predict_small_results = DL_classifier.predict(input_fn=predict_small_input_fn)
+
+  predict_large_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": eval_large},
+        num_epochs=1,
+        shuffle=False)
+  predict_large_results = DL_classifier.predict(input_fn=predict_large_input_fn)
   l = 0
   f = open("results.txt",'w')
   for i, p in enumerate(predict_results):
@@ -213,6 +244,37 @@ def main():
     l=l+1
   f.close()
 
+  l = 0
+  f = open("smallresults.txt",'w')
+  for i, p in enumerate(predict_small_results):
+    if (eval_labels[l]==p['classes1']):
+      f.write("1")
+    else:
+      f.write("0")
+    f.write(" ")
+    if (eval_labels[l]==p['classes2']):
+      f.write("1")
+    else:
+      f.write("0")
+    f.write(" "+str(p['classes1'])+ " "+str(p['classes2'])+ " "+ str(eval_labels[l])+ " " + ConvNet.evalName[l] + "\n")
+    l=l+1
+  f.close()
+
+  l = 0
+  f = open("largeresults.txt",'w')
+  for i, p in enumerate(predict_large_results):
+    if (eval_labels[l]==p['classes1']):
+      f.write("1")
+    else:
+      f.write("0")
+    f.write(" ")
+    if (eval_labels[l]==p['classes2']):
+      f.write("1")
+    else:
+      f.write("0")
+    f.write(" "+str(p['classes1'])+ " "+str(p['classes2'])+ " "+ str(eval_labels[l])+ " " + ConvNet.evalName[l] + "\n")
+    l=l+1
+  f.close()
 
 if __name__ == "__main__":
   if len(sys.argv)==1:

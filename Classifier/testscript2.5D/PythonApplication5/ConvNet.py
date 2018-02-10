@@ -1,15 +1,25 @@
 import io
 import numpy as np
 
-f = open('../../../Data/properties.txt');
+f = open('../../../Data2/properties.txt');
 trainSize = int(f.readline())
 evalSize = int(f.readline())
+evalSmallSize = int(f.readline())
+evalLargeSize = int(f.readline())
 xtrain = np.zeros((trainSize,16,16,16), dtype=np.float32)
-xeval = np.zeros((evalSize,16,16,16), dtype=np.float32)
 ytrain = np.zeros(trainSize, dtype=np.float32)
+xeval = np.zeros((evalSize,16,16,16), dtype=np.float32)
 yeval = np.zeros(evalSize, dtype=np.float32)
-trainName = ["" for x in range(trainSize)]
-evalName = ["" for x in range(evalSize)]
+xsmalleval = np.zeros((evalSmallSize,16,16,16), dtype=np.float32)
+ysmalleval = np.zeros(evalSmallSize, dtype=np.float32)
+xlargeeval = np.zeros((evalLargeSize,16,16,16), dtype=np.float32)
+ylargeeval = np.zeros(evalLargeSize, dtype=np.float32)
+trainName = np.chararray(trainSize)
+evalName = np.chararray(evalSize)
+evalLargeName = np.chararray(evalSmallSize)
+evalSmallName = np.chararray(evalLargeSize)
+#trainName = ["" for x in range(trainSize)]
+#evalName = ["" for x in range(evalSize)]
 
 count = 0
 
@@ -70,4 +80,62 @@ for line in f:
     yeval[count]=end
     count = count +1
     if count >= evalSize:
+        break
+
+f = open('../../../Data/SmallGoalData.txt', 'r')    
+count = 0    
+for line in f:
+    if count%100 == 0:
+        print(count)
+    A=np.zeros( (16,16,16) )
+    ## print(A)
+    itt=0
+    for i in range(0,16):
+        for j in range(0,16):
+            for k in range(0,16):
+                A[i,j,k] = line[itt]
+                itt = itt + 1
+    itt2 = -2
+    i = 1
+    end = 0
+    while True:
+        if (line[itt2] == ' '):
+            break        
+        end = end + int(line[itt2])*i
+        i = i*10
+        itt2 = itt2 -1
+    evalSmallName[count]=line[itt:itt2]
+    xsmalleval[count,:,:,:] = A
+    ysmalleval[count]=end
+    count = count +1
+    if count >= evalSize:
+        break
+
+f = open('../../../Data/LargeGoalData.txt', 'r')    
+count = 0    
+for line in f:
+    if count%100 == 0:
+        print(count)
+    A=np.zeros( (16,16,16) )
+    ## print(A)
+    itt=0
+    for i in range(0,16):
+        for j in range(0,16):
+            for k in range(0,16):
+                A[i,j,k] = line[itt]
+                itt = itt + 1
+    itt2 = -2
+    i = 1
+    end = 0
+    while True:
+        if (line[itt2] == ' '):
+            break        
+        end = end + int(line[itt2])*i
+        i = i*10
+        itt2 = itt2 -1
+    evalLargeName[count]=line[itt:itt2]
+    xlargeeval[count,:,:,:] = A
+    ylargeeval[count]=end
+    count = count +1
+    if count >= evalLargeSize:
         break
