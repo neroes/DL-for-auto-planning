@@ -1,1 +1,1 @@
-ResultReader.exe test
+ResultReader.exe "F:\storage\ILO\2.5D"

@@ -18,3 +18,5 @@ if __name__ == "__main__":
         else:
             os.makedirs(storage_location+str(y*(i+1)))
         shutil.copy("./results.txt",storage_location+str(y*(i+1)))
+        shutil.copy("./smallresults.txt",storage_location+str(y*(i+1)))
+        shutil.copy("./largeresults.txt",storage_location+str(y*(i+1)))
