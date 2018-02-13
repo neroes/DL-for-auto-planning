@@ -1,6 +1,6 @@
 import io
 import numpy as np
-f = open("networklocation.txt")
+f = open("Settings.nfo")
 networkLocation = f.readline()
 f.close()
 def reformat(text):
@@ -34,8 +34,6 @@ def reformat(text):
         #    itt = itt -1
 
         #xpredict[count,:,:,:] = A
-        #count = count +1
-    f = open("networklocation.txt")
-    networkLocation = f.readline()
+        #count = count +1    
     xpredict[count,:,:,:] = A
     return xpredict

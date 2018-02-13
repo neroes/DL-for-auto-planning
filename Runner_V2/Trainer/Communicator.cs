@@ -13,7 +13,7 @@ namespace Runner
         private static string python = @"C:\Program Files\Python36\python.exe";
 
         // python app to call  
-        private static string appName = @"C:\Users\soren\Source\Repos\DL-for-auto-planning\Runner_V2\PythonPart\PythonPart.py";
+        private static string appName = @"..\..\..\PythonPart\PythonPart.py";
 
         // Create new process start info // is needed for the pipe we may later create
         // public static ProcessStartInfo  StartInfo = new ProcessStartInfo(python);
