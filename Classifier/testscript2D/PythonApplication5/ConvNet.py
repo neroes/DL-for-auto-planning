@@ -14,10 +14,10 @@ xsmalleval = np.zeros((evalSmallSize,16,16,16), dtype=np.float32)
 ysmalleval = np.zeros(evalSmallSize, dtype=np.float32)
 xlargeeval = np.zeros((evalLargeSize,16,16,16), dtype=np.float32)
 ylargeeval = np.zeros(evalLargeSize, dtype=np.float32)
-trainName = np.chararray(trainSize)
-evalName = np.chararray(evalSize)
-evalLargeName = np.chararray(evalLargeSize)
-evalSmallName = np.chararray(evalSmallSize)
+#trainName = np.chararray(trainSize)
+evalName = np.chararray(evalSize,itemsize=64)
+evalLargeName = np.chararray(evalLargeSize,itemsize=64)
+evalSmallName = np.chararray(evalSmallSize,itemsize=64)
 #trainName = ["" for x in range(trainSize)]
 #evalName = ["" for x in range(evalSize)]
 
@@ -46,7 +46,7 @@ for line in f:
         end = end + int(line[itt2])*i
         i = i*10
         itt2 = itt2 -1
-    trainName[count]=line[itt:itt2]
+ #   trainName[count]=line[itt:itt2]
     xtrain[count,:,:,:] = A
     ytrain[count]=end
     count = count +1
