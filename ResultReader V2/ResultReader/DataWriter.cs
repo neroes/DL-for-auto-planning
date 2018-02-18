@@ -9,6 +9,7 @@ namespace ResultReader
 {
     class DataWriter
     {
+        // takes in the list of lists and then prints them where columns are the files
         private StreamWriter sr;
         public DataWriter(String filename)
         {

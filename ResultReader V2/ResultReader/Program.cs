@@ -10,7 +10,7 @@ namespace ResultReader
     {
         static void Main(string[] args)
         {
-            RecursiveFileProcessor.RFPMain(args);
+            RecursiveFileProcessor.RFPMain(args);// simply activates the recursive file processor with our arguments
         }
     }
 }

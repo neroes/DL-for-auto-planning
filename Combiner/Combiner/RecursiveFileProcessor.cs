@@ -8,6 +8,7 @@ namespace Combiner
 {
     class RecursiveFileProcessor
     {
+        // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
         public static StreamWriter writerTraining = new StreamWriter("TrainingData.txt");
         public static StreamWriter writerGoal = new StreamWriter("GoalData.txt");
         public static StreamWriter properties = new StreamWriter("properties.txt");

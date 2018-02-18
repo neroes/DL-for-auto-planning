@@ -14,6 +14,7 @@ namespace ResultReader
 {
     public class RecursiveFileProcessor
     {
+        // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
         public static void RFPMain(string[] args)
         {
             List<List<string>> finalData = new List<List<string>>();
@@ -56,7 +57,6 @@ namespace ResultReader
                 
                 if (result != null)
                 {
-                    int i = 0;
                     finalData.Add(result);
                 }
             }
@@ -72,7 +72,7 @@ namespace ResultReader
         // Insert logic for processing found files here.
         public static List<string> ProcessFile(string path)
         {
-            if (path.Contains("results.txt"))
+            if (path.Contains("results.txt"))// reads all result.txt files, splits the data into classifier and regression and then returns a list where we first have classifier and then regression below
             {
                 List<string> DataList = new List<string>();
                 List<string> DataList2 = new List<string>();

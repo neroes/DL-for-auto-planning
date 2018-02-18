@@ -9,6 +9,9 @@ namespace instancecounter
 {
     class Program
     {
+        // Takes in a training file for training the network and counts the number of instances for each level
+        // and counts the number of each solution length
+
         static void Main(string[] args)
         {
             Dictionary<string, int> count = new Dictionary<string, int>();
