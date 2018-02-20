@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Classifier2",
+    "\\Classifier2\\testscript2.5D",
     "\\HAL_Solver"
   ],
-  "SelectedNode": "\\HAL_Solver\\HAL_Solver.sln",
+  "SelectedNode": "\\Classifier2\\testscript2.5D\\testscript.sln",
   "PreviewInSolutionExplorer": false
 }

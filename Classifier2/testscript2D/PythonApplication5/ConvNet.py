@@ -1,7 +1,9 @@
+#ConvNet.py takes the dataset of levels and converts it to the 16x16x16 datastructure used for the neural network.
+
 import io
 import numpy as np
 
-f = open('../../../Data2/properties.txt');
+f = open('../../../Data2/properties.txt'); #properties contains the values for how many training/test levels are present.
 trainSize = int(f.readline())
 evalSize = int(f.readline())
 evalSmallSize = int(f.readline())
@@ -24,7 +26,7 @@ evalSmallName = np.chararray(evalSmallSize,itemsize=64)
 count = 0
 
 
-f = open('../../../Data2/TrainingData.txt', 'r')
+f = open('../../../Data2/TrainingData.txt', 'r') #The training data file is converted in this section
 
 for line in f:
     if count%100 == 0:
@@ -53,7 +55,7 @@ for line in f:
     if count >= trainSize:
         break
     
-f = open('../../../Data2/GoalData.txt', 'r')    
+f = open('../../../Data2/GoalData.txt', 'r') #The goal data file is converted from this point onwards
 count = 0    
 for line in f:
     if count%100 == 0:
@@ -82,7 +84,7 @@ for line in f:
     if count >= evalSize:
         break
 
-f = open('../../../Data2/SmallGoalData.txt', 'r')    
+f = open('../../../Data2/SmallGoalData.txt', 'r') #For the results section, a smaller dataset is also created for small sized levels.
 count = 0    
 for line in f:
     if count%100 == 0:
@@ -111,7 +113,7 @@ for line in f:
     if count >= evalSize:
         break
 
-f = open('../../../Data2/LargeGoalData.txt', 'r')    
+f = open('../../../Data2/LargeGoalData.txt', 'r')    #For the results section, a smaller dataset is also created for larger sized levels. 
 count = 0    
 for line in f:
     if count%100 == 0:
