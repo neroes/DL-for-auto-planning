@@ -9,6 +9,7 @@ namespace Combiner
     class RecursiveFileProcessor
     {
         // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
+        // Combines all files called trainingdata into a final TrainingData.txt and all called goaldata in a final GoalData.txt along with a count of the number of properties
         public static StreamWriter writerTraining = new StreamWriter("TrainingData.txt");
         public static StreamWriter writerGoal = new StreamWriter("GoalData.txt");
         public static StreamWriter properties = new StreamWriter("properties.txt");

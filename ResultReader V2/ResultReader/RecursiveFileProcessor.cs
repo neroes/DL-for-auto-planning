@@ -15,6 +15,7 @@ namespace ResultReader
     public class RecursiveFileProcessor
     {
         // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
+        // Reads the results in each result file and then stores the data in a combined csv file
         public static void RFPMain(string[] args)
         {
             List<List<string>> finalData = new List<List<string>>();

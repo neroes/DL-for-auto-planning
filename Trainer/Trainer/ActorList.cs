@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 namespace Trainer
 {
+    // List of actors along with comparison and move functions and legality checks
     class ActorList
     {
         public Actor[] actors;

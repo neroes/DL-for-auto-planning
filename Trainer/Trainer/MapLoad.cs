@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Trainer
 {
+    //Finds the size and location of all the boxes, agents, walls and goals, and then store this into groups of static and mutable containers
     class MapLoad
     {
         public static void loadMap(StreamReader lines, out Map map)

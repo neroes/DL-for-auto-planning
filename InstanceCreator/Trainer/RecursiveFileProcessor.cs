@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace Trainer
 {
     // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
+    // It finds all files and for each case it runs a 2 Tier search, the first finds all accessable states and the secound uses this as a starting state to find a goal
     public class RecursiveFileProcessor
     {
         public static int count = 0;

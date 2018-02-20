@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trainer
 {
+    // BoxSearch is essentially for finding the distance for each box to goal helping find the solution, it is however not used in this version as it utilizes BFS inorder to be sure of an exact solution
     class BoxSearch
     {
         private SortedSet<Path> frontier;

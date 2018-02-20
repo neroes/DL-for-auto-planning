@@ -8,6 +8,7 @@ using System.IO;
 
 namespace Trainer
 {
+    // Simple structure for converting the current state into a single string in a 16x16 structure of what is in the structure [Walkable, Wall, 4xActor, 4xBox, 4xGoal, 2xColor]
     class MLInput
     {
         public static ProcessStartInfo myProcessStartInfo;

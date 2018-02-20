@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace Trainer
 {
+    // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
+    // It finds all files and for each case it runs a search to find the goal state
     public class RecursiveFileProcessor
     {
         public static void RFPMain(string[] args)
