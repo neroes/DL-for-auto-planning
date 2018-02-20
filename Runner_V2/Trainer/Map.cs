@@ -8,6 +8,8 @@ using System.Collections.Specialized;
 
 namespace Runner
 {
+    // The structure of the Map containing all the properties of any current state along with the static properties such as walls
+    // along with a series of basic function to demontate properties of the current state and an Equal function to determine if to states are the same
     public enum Color : Byte
     {
         blue, red, green, cyan, magenta, orange, pink, yellow

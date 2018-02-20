@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Trainer
 {
+    // Based on recusiveFileProecessor found at https://msdn.microsoft.com/en-us/library/c1sez4sc(v=vs.110).aspx
     public class RecursiveFileProcessor
     {
         public static int count = 0;

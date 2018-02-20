@@ -4,6 +4,6 @@
     <StartArguments>C:\Users\soren\Source\Repos\DL-for-auto-planning\Data</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <StartArguments>C:\Users\soren\Source\Repos\DL-for-auto-planning\Data</StartArguments>
+    <StartArguments>C:\Users\soren\Source\Repos\DL-for-auto-planning\Data2</StartArguments>
   </PropertyGroup>
 </Project>

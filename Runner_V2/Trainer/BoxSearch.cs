@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Runner
 {
+    // BoxSearch is essentially for finding the distance for each box to goal helping find the solution, it is however not used in this version
     class BoxSearch
     {
         private SortedSet<Path> frontier;

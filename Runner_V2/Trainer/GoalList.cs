@@ -5,6 +5,7 @@ namespace Runner
 {
     public class GoalList
     {
+        // The container for our goals along with the check to see if all goals are meet
         Dictionary<char,GoalGroup> goalgroups;
         HashSet<char> names;
         

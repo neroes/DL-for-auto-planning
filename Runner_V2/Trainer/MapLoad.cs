@@ -10,6 +10,7 @@ namespace Runner
 {
     class MapLoad
     {
+        //Finds the size and location of all the boxes, agents, walls and goals, and then store this into groups of static and mutable containers
         public static void loadMap(StreamReader lines, out Map map)
         {
             List<string> mapLines = new List<string>();

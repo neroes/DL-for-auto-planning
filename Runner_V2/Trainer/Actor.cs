@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Runner
 {
+    // the actor contains the position of an actor and can gernerate the list of possible moves of the current actor
     public enum Direction : Byte { N, S, E, W, NONE };
     public enum Interact : Byte { PUSH, PULL, MOVE, WAIT };
     public class Actor

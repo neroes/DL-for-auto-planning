@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Runner
 {
+    // Container for all the boxes allowing lookup and comparison of all the current boxes
     public class BoxList
     {
         public static Dictionary<char, HashSet<int>> boxNameGroups;// for looking up boxes by name

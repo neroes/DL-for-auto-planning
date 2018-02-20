@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trainer
 {
+    // The Heuristic has many functions that allows it to find the Heuristic of the current state
     public abstract class Heuristic : IComparer<Map>
     {
         private Dictionary<Node, int> boxOfGoal; // int being index of the box.

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Runner
 {
+    // The Heuristic has many functions that allows it to find the Heuristic of the current state but is fairly computational heavy there for it has been almost completely disabled and returns the result of the python network instead
     public abstract class Heuristic : IComparer<Map>
     {
         private Dictionary<Node, int> boxOfGoal; // int being index of the box.

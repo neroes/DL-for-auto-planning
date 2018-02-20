@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 namespace Runner
 {
+    // List of actors along with comparison and move functions and legality checks
     class ActorList
     {
         public Actor[] actors;
@@ -86,7 +87,7 @@ namespace Runner
                 }
                 return returnHashSet;
             } }
-        public void performMove() { }
+        
 
         internal bool PerformActions(act[] actions, ref BoxList boxes)
         {

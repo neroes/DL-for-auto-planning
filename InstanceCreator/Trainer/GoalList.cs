@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Trainer
 {
+    // The container for our goals along with the check to see if all goals are meet
     public class GoalList
     {
         Dictionary<char,GoalGroup> goalgroups;

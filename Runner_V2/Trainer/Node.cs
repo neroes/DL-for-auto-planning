@@ -2,6 +2,7 @@
 
 namespace Runner
 {
+    // A structure for discribing an object such as the goal or the box's location with a series of basic operators
     public struct Node
     {
         public Byte x;

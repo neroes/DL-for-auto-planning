@@ -9,6 +9,7 @@ namespace Runner
 {
     public class Search
     {
+        // our search tree data (which has been visited and which has yet to be checked around)
         private static Heuristic h;
         private SortedSet<Map> frontier; 
         private HashSet<Map> explored = new HashSet<Map>();

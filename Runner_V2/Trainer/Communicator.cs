@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 namespace Runner
 {
+    // The Communication interface between the Main application and the python script
     class Communicator
     {
         // full path of python interpreter  

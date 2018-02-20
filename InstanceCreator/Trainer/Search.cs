@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trainer
 {
+    // our search tree data (which has been visited and which has yet to be checked around)
     public class Search
     {
         private static Heuristic h;
