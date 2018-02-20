@@ -56,7 +56,7 @@ def cnn_model_fn(features, labels, mode):
   # Output Tensor Shape: [batch_size, 4, 4, 64]
   pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
-    # Convolutional Layer #3
+  # Convolutional Layer #3
   # Computes 128 features using a 5x5 filter.
   # Padding is added to preserve width and height.
   # Input Tensor Shape: [batch_size, 8, 8, 64]
