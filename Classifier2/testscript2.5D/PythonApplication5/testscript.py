@@ -43,10 +43,10 @@ def cnn_model_fn(features, labels, mode):
   layer3d = tf.reshape(pool1,[-1,8,8,8,4])
 
   # Convolutional Layer #2
-  # Computes 64 features using a 5x5 filter.
+  # Computes 64 features using a 5x5x5 filter.
   # Padding is added to preserve width and height.
-  # Input Tensor Shape: [batch_size, 8, 8, 32]
-  # Output Tensor Shape: [batch_size, 8, 8, 64]
+  # Input Tensor Shape: [batch_size, 8, 8, 8, 32]
+  # Output Tensor Shape: [batch_size, 8, 8, 8, 64]
   conv2 = tf.layers.conv3d(
       inputs=layer3d,
       filters=64,
@@ -55,16 +55,16 @@ def cnn_model_fn(features, labels, mode):
       activation=tf.nn.relu)
 
   # Pooling Layer #2
-  # Second max pooling layer with a 2x2 filter and stride of 2
-  # Input Tensor Shape: [batch_size, 8, 8, 64]
-  # Output Tensor Shape: [batch_size, 4, 4, 64]
+  # Second max pooling layer with a 2x2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 8, 8, 8, 64]
+  # Output Tensor Shape: [batch_size, 4, 4, 4, 64]
   pool2 = tf.layers.max_pooling3d(inputs=conv2, pool_size=[2, 2, 2], strides=2)
 
   # Convolutional Layer #3
-  # Computes 128 features using a 5x5 filter.
+  # Computes 128 features using a 5x5x5 filter.
   # Padding is added to preserve width and height.
-  # Input Tensor Shape: [batch_size, 4, 4, 64]
-  # Output Tensor Shape: [batch_size, 4, 4, 128]
+  # Input Tensor Shape: [batch_size, 4, 4, 4, 64]
+  # Output Tensor Shape: [batch_size, 4, 4, 4, 128]
   conv3 = tf.layers.conv3d(
       inputs=pool2,
       filters=128,
@@ -73,9 +73,9 @@ def cnn_model_fn(features, labels, mode):
       activation=tf.nn.relu)
 
   # Pooling Layer #3
-  # Third max pooling layer with a 2x2 filter and stride of 2
-  # Input Tensor Shape: [batch_size, 4, 4, 128]
-  # Output Tensor Shape: [batch_size, 2, 2, 128]
+  # Third max pooling layer with a 2x2x2 filter and stride of 2
+  # Input Tensor Shape: [batch_size, 4, 4, 4, 128]
+  # Output Tensor Shape: [batch_size, 2, 2, 2, 128]
   pool3 = tf.layers.max_pooling3d(inputs=conv3, pool_size=[2, 2, 2], strides=2)
 
   
