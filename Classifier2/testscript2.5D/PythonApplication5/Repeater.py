@@ -1,8 +1,9 @@
+#Repeater.py runs the network x times with y steps and saves it every z runs.
 import sys
 import os
 import shutil
 import testscript
-# this function runs the network x times with y steps and saves it every z runs
+
 if __name__ == "__main__":
     x = int(sys.argv[1])
     y = int(sys.argv[2])
