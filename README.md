@@ -11,4 +11,5 @@
    Levels used for training, consists of four different level types explained in the implementation section of the report.
 ## [MLConverter](MLConverter)
 ## [Manhattan Calculator](Manhattan Calculator)
+   calculates the manhattan distance for any convnet formattet level at any of the paths set by the program argument
 ## [RunnerV2](RunnerV2)
