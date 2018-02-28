@@ -12,7 +12,7 @@
    Levels used for training, consists of four different level types explained in the implementation section of the report.
 ## [MLConverter](MLConverter)
    Restores a level from it's convnet structure to it's original form
-## [Manhattan Calculator](Manhattan Calculator)
+## [Manhattan Calculator](Manhattan_Calculator)
    calculates the manhattan distance for any convnet formattet level at any of the paths set by the program argument
 ## [RunnerV2](RunnerV2)
    tries to solve a level using the 3D network trained by classifier
